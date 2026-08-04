@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-sand-50 text-ink-900 font-body antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+  ::selection {
+    @apply bg-terracotta-500 text-sand-50;
+  }
+  :focus-visible {
+    outline: 2px solid theme("colors.terracotta.500");
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Faint chart-grid texture used behind dark sections — a nod to nautical
+     survey charts without leaning on a literal compass/map cliché. */
+  .chart-grid {
+    background-image:
+      linear-gradient(rgba(246, 241, 228, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(246, 241, 228, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-wider2 text-brass-500;
+  }
+
+  .container-content {
+    @apply mx-auto w-full max-w-content px-6 md:px-10;
+  }
+}
