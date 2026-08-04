@@ -5,6 +5,7 @@ import { pressLogos } from "@/lib/mockData";
 import CruiseCard from "@/components/CruiseCard";
 import CategoryTiles from "@/components/CategoryTiles";
 import SectionHeading from "@/components/SectionHeading";
+import HeroSearch from "@/components/HeroSearch";
 
 const REGIONS = [
   {
@@ -52,7 +53,12 @@ export default async function HomePage() {
             We book directly with a short list of small-ship operators across northern Vietnam's bays —
             no resale markup, no call centre, real availability.
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
+
+          <div className="mt-8">
+            <HeroSearch />
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center gap-4">
             <Link
               href="/cruises"
               className="rounded-full bg-terracotta-500 px-7 py-3 font-mono text-xs uppercase tracking-wideish text-sand-50 transition hover:bg-terracotta-600"

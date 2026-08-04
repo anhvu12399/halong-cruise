@@ -20,35 +20,50 @@ const TAG_LABELS: Record<string, string> = {
 export default async function CruisesPage({
   searchParams,
 }: {
-  searchParams: { region?: string; days?: string; tag?: string };
+  searchParams: { region?: string; days?: string; tag?: string; q?: string };
 }) {
   const cruises = await getAllCruises();
+  const q = searchParams.q?.trim().toLowerCase();
 
   const filtered = cruises.filter((c) => {
     const regionMatch = searchParams.region ? c.region.includes(searchParams.region) : true;
     const daysMatch = searchParams.days ? c.durationDays >= Number(searchParams.days) : true;
     const tagMatch = searchParams.tag ? c.tags.includes(searchParams.tag) : true;
-    return regionMatch && daysMatch && tagMatch;
+    const qMatch = q
+      ? [c.name, c.tagline, c.region, c.breadcrumbLabel, ...c.tags, ...c.highlights]
+          .join(" ")
+          .toLowerCase()
+          .includes(q)
+      : true;
+    return regionMatch && daysMatch && tagMatch && qMatch;
   });
 
   return (
     <div className="bg-sand-50">
       <div className="chart-grid bg-teal-950 py-20 text-sand-100">
         <div className="container-content">
-          <p className="eyebrow mb-3">Home / Cruises{searchParams.tag ? ` / ${TAG_LABELS[searchParams.tag] ?? searchParams.tag}` : ""}</p>
+          <p className="eyebrow mb-3">
+            Home / Cruises
+            {searchParams.tag ? ` / ${TAG_LABELS[searchParams.tag] ?? searchParams.tag}` : ""}
+            {searchParams.q ? ` / "${searchParams.q}"` : ""}
+          </p>
           <h1 className="max-w-2xl font-display text-5xl text-sand-50">
-            {searchParams.tag ? TAG_LABELS[searchParams.tag] ?? "All sailings" : "All sailings"}
+            {searchParams.q
+              ? `Results for "${searchParams.q}"`
+              : searchParams.tag
+              ? TAG_LABELS[searchParams.tag] ?? "All sailings"
+              : "All sailings"}
           </h1>
           <p className="mt-4 max-w-xl text-sand-100/70">
-            {cruises.length} small-ship cruises across Ha Long, Lan Ha and Bai Tu Long Bay — filter by
-            region, category or minimum length to narrow it down.
+            {filtered.length} of {cruises.length} small-ship cruises across Ha Long, Lan Ha and Bai Tu
+            Long Bay match this search — adjust the filters below to widen it.
           </p>
-          {searchParams.tag && (
+          {(searchParams.tag || searchParams.q || searchParams.region) && (
             <Link
               href="/cruises"
               className="mt-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wideish text-brass-300 hover:text-brass-200"
             >
-              Clear filter ×
+              Clear filters ×
             </Link>
           )}
         </div>
