@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllCruises, getCruiseBySlug, getRelatedCruises } from "@/lib/wp";
 import CruiseCard from "@/components/CruiseCard";
+import SocialAreasGallery from "@/components/SocialAreasGallery";
 
 export async function generateStaticParams() {
   const cruises = await getAllCruises();
@@ -42,11 +43,19 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
       {/* Sticky booking bar */}
       <div className="sticky top-20 z-30 border-b border-ink-300/20 bg-sand-50/95 backdrop-blur">
         <div className="container-content flex flex-wrap items-center justify-between gap-4 py-4">
-          <div className="flex flex-wrap gap-x-8 gap-y-1 font-mono text-xs uppercase tracking-wideish text-ink-500">
-            <span>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-1 font-mono text-xs uppercase tracking-wideish text-ink-500">
+            <span className="flex items-center gap-2">
+              <svg className="h-4 w-4 text-terracotta-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M3 11l18-7-7 18-2-8-9-3z" strokeLinejoin="round" />
+              </svg>
               <span className="text-terracotta-600">{cruise.durationDays} Days</span> / {cruise.durationNights} Nights
             </span>
-            <span>Up to {cruise.guestsMax} guests</span>
+            <span className="flex items-center gap-2">
+              <svg className="h-4 w-4 text-terracotta-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M3 17h18M4 17l1-7h14l1 7M8 10V6h8v4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Up to {cruise.guestsMax} guests
+            </span>
             <span>{cruise.cabinCount} cabins</span>
           </div>
           <div className="flex items-center gap-4">
@@ -77,9 +86,18 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
         <div>
           <p className="eyebrow mb-4">Overview</p>
           <div className="space-y-5 text-lg leading-relaxed text-ink-700">
-            {cruise.overview.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
+            {cruise.overview.map((p, i) =>
+              i === 0 ? (
+                <p key={i}>
+                  <span className="float-left mr-3 mt-1 flex h-12 w-12 items-center justify-center border border-terracotta-500/40 font-display text-3xl italic text-terracotta-600">
+                    {p.charAt(0)}
+                  </span>
+                  {p.slice(1)}
+                </p>
+              ) : (
+                <p key={i}>{p}</p>
+              )
+            )}
           </div>
 
           {cruise.lifeOnBoard.length > 0 && (
@@ -94,14 +112,25 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
           )}
 
           {cruise.highlights.length > 0 && (
-            <ul className="mt-10 space-y-3 border-t border-ink-300/20 pt-8">
-              {cruise.highlights.map((h) => (
-                <li key={h} className="flex items-start gap-3 text-ink-700">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta-500" />
-                  {h}
-                </li>
-              ))}
-            </ul>
+            <>
+              <p className="eyebrow mb-4 mt-12">Highlights</p>
+              <ul className="space-y-3 border-t border-ink-300/20 pt-6">
+                {cruise.highlights.map((h) => (
+                  <li key={h} className="flex items-start gap-3 text-ink-700">
+                    <svg
+                      className="mt-1 h-3.5 w-3.5 shrink-0 text-terracotta-500"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </div>
       </section>
@@ -165,21 +194,9 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
           </h2>
 
           {cruise.socialAreas.length > 0 && (
-            <div className="mb-20 grid grid-cols-2 gap-4 md:grid-cols-3">
-              {cruise.socialAreas.map((area) => (
-                <div key={area.name} className="group relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <Image
-                    src={area.image}
-                    alt={area.name}
-                    fill
-                    className="object-cover transition duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-950/80 to-transparent" />
-                  <span className="absolute bottom-3 left-4 font-mono text-xs uppercase tracking-wideish text-sand-50">
-                    {area.name}
-                  </span>
-                </div>
-              ))}
+            <div className="mb-20">
+              <p className="eyebrow mb-6">Social areas</p>
+              <SocialAreasGallery areas={cruise.socialAreas} />
             </div>
           )}
 

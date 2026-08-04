@@ -73,6 +73,9 @@ add_action('acf/init', function () {
                 'instructions' => 'One paragraph per line.', 'rows' => 6],
             ['key' => 'field_highlights', 'name' => 'highlights', 'label' => 'Highlights', 'type' => 'textarea',
                 'instructions' => 'One bullet per line.', 'rows' => 4],
+            ['key' => 'field_tags', 'name' => 'tags', 'label' => 'Category tags', 'type' => 'textarea',
+                'instructions' => 'One per line. Used by the homepage category tiles — recognized values: luxury, deluxe, budget, newest, best, honeymoon, family, group.',
+                'rows' => 3],
 
             ['key' => 'field_gallery', 'name' => 'gallery', 'label' => 'Gallery', 'type' => 'gallery',
                 'return_format' => 'array', 'preview_size' => 'medium'],

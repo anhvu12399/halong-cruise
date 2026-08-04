@@ -32,6 +32,8 @@ export type Cruise = {
   tagline: string;
   region: string;
   breadcrumbLabel: string;
+  /** Free-form category tags: "luxury" | "deluxe" | "budget" | "newest" | "best" | "honeymoon" | "family" | "group" ... */
+  tags: string[];
   durationDays: number;
   durationNights: number;
   guestsMax: number;

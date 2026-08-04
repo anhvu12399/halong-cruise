@@ -6,29 +6,51 @@ export const metadata = { title: "All Cruises" };
 
 const REGION_FILTERS = ["Ha Long Bay", "Lan Ha Bay", "Bai Tu Long Bay"];
 
+const TAG_LABELS: Record<string, string> = {
+  luxury: "Luxury",
+  deluxe: "Deluxe",
+  budget: "Budget",
+  newest: "Newest",
+  best: "Best Cruises",
+  honeymoon: "Honeymoon",
+  family: "Family",
+  group: "Group",
+};
+
 export default async function CruisesPage({
   searchParams,
 }: {
-  searchParams: { region?: string; days?: string };
+  searchParams: { region?: string; days?: string; tag?: string };
 }) {
   const cruises = await getAllCruises();
 
   const filtered = cruises.filter((c) => {
     const regionMatch = searchParams.region ? c.region.includes(searchParams.region) : true;
     const daysMatch = searchParams.days ? c.durationDays >= Number(searchParams.days) : true;
-    return regionMatch && daysMatch;
+    const tagMatch = searchParams.tag ? c.tags.includes(searchParams.tag) : true;
+    return regionMatch && daysMatch && tagMatch;
   });
 
   return (
     <div className="bg-sand-50">
       <div className="chart-grid bg-teal-950 py-20 text-sand-100">
         <div className="container-content">
-          <p className="eyebrow mb-3">Home / Cruises</p>
-          <h1 className="max-w-2xl font-display text-5xl italic text-sand-50">All sailings</h1>
+          <p className="eyebrow mb-3">Home / Cruises{searchParams.tag ? ` / ${TAG_LABELS[searchParams.tag] ?? searchParams.tag}` : ""}</p>
+          <h1 className="max-w-2xl font-display text-5xl text-sand-50">
+            {searchParams.tag ? TAG_LABELS[searchParams.tag] ?? "All sailings" : "All sailings"}
+          </h1>
           <p className="mt-4 max-w-xl text-sand-100/70">
-            {cruises.length} small-ship cruises across Ha Long, Lan Ha and Bai Tu Long Bay, sorted by
-            nothing in particular — filter by region or minimum length to narrow it down.
+            {cruises.length} small-ship cruises across Ha Long, Lan Ha and Bai Tu Long Bay — filter by
+            region, category or minimum length to narrow it down.
           </p>
+          {searchParams.tag && (
+            <Link
+              href="/cruises"
+              className="mt-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wideish text-brass-300 hover:text-brass-200"
+            >
+              Clear filter ×
+            </Link>
+          )}
         </div>
       </div>
 

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getAllCruises } from "@/lib/wp";
 import { pressLogos } from "@/lib/mockData";
 import CruiseCard from "@/components/CruiseCard";
+import CategoryTiles from "@/components/CategoryTiles";
+import SectionHeading from "@/components/SectionHeading";
 
 const REGIONS = [
   {
@@ -42,8 +44,9 @@ export default async function HomePage() {
 
         <div className="container-content relative z-10 pb-20 pt-40">
           <p className="eyebrow mb-5">Small-Ship Sailing · Ha Long, Lan Ha &amp; Bai Tu Long Bay</p>
-          <h1 className="max-w-3xl font-display text-5xl italic leading-[1.05] text-sand-50 md:text-7xl">
-            Three days of water, karst, and not much of a schedule.
+          <h1 className="max-w-3xl font-display text-5xl font-normal leading-[1.08] tracking-tight text-sand-50 md:text-7xl">
+            Three days on the water,{" "}
+            <span className="italic text-terracotta-400">not much of a schedule.</span>
           </h1>
           <p className="mt-6 max-w-xl text-sand-100/80">
             We book directly with a short list of small-ship operators across northern Vietnam's bays —
@@ -82,6 +85,16 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Choose your cruise — category tiles */}
+      <section className="container-content py-24 md:py-28">
+        <SectionHeading
+          eyebrow="Start here"
+          title="Choose your cruise."
+          description="Same fleet, sorted by what matters to you — budget, occasion, or party size."
+        />
+        <CategoryTiles />
+      </section>
+
       {/* Thesis */}
       <section className="container-content py-24 md:py-32">
         <div className="grid gap-10 md:grid-cols-[0.9fr,1.1fr] md:gap-16">
@@ -103,18 +116,11 @@ export default async function HomePage() {
       {/* Featured fleet */}
       <section className="bg-sand-100/70 py-24 md:py-32">
         <div className="container-content">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p className="eyebrow mb-3">The fleet</p>
-              <h2 className="font-display text-4xl italic text-ink-900 md:text-5xl">Four ships, four routes.</h2>
-            </div>
-            <Link
-              href="/cruises"
-              className="font-mono text-xs uppercase tracking-wideish text-terracotta-600 underline decoration-terracotta-500/40 underline-offset-4 hover:text-terracotta-700"
-            >
-              View all cruises →
-            </Link>
-          </div>
+          <SectionHeading
+            eyebrow="The fleet"
+            title="Four ships, four routes."
+            cta={{ label: "View all cruises", href: "/cruises" }}
+          />
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {featured.map((cruise) => (
               <CruiseCard key={cruise.slug} cruise={cruise} />
@@ -125,10 +131,7 @@ export default async function HomePage() {
 
       {/* Regions */}
       <section id="regions" className="container-content py-24 md:py-32">
-        <p className="eyebrow mb-3">Where the boats go</p>
-        <h2 className="mb-14 max-w-2xl font-display text-4xl italic text-ink-900 md:text-5xl">
-          Three bays, each with a different temper.
-        </h2>
+        <SectionHeading eyebrow="Where the boats go" title="Three bays, each with a different temper." />
         <div className="grid gap-8 md:grid-cols-3">
           {REGIONS.map((region) => (
             <div key={region.name} className="overflow-hidden rounded-2xl bg-teal-950">

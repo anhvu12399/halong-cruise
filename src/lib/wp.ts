@@ -28,6 +28,7 @@ type WpCruisePost = {
     overview: string; // rich text, one paragraph per line
     life_on_board: string;
     highlights: string; // one per line
+    tags: string; // one per line, e.g. "luxury\nbest\nfamily"
     gallery: { url: string }[];
     itinerary: {
       title: string;
@@ -99,6 +100,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     tagline: a.tagline,
     region: a.region,
     breadcrumbLabel: a.breadcrumb_label,
+    tags: splitLines(a.tags).map((t) => t.toLowerCase()),
     durationDays: a.duration_days,
     durationNights: a.duration_nights,
     guestsMax: a.guests_max,
