@@ -26,11 +26,23 @@ const GROUP_TILE: Tile = {
   seed: "cat-group",
 };
 
+const BOOKING_TILES: Record<string, string> = {
+  "cat-luxury": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.webp?k=9d3aefd241f0c12537840e57970e2567330167d4a516f3746826967a5bb54164&o=",
+  "cat-deluxe": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.webp?k=332fd8224c34a103fadc0be18c2fd4fd3cc281dc81ca0777a453eacede034e92&o=",
+  "cat-budget": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.webp?k=9580531eb28c9c8e634700d2a64b6adbf3e920885c2bd5a97ead535c5b191cf5&o=",
+  "cat-newest": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/895524639.webp?k=ad1836bbd6de1032a92737816e5a95038c5d8fd9e649979d98a9f722afb4acdd&o=",
+  "cat-honeymoon": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/411409062.webp?k=dd0f7b9297bb345b5350265a4466db99778914c17805d5a46a25ab5db2f8df33&o=",
+  "cat-family": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.webp?k=e7bdebdef0306a9d17bac45171c99ae969f974aff2911f37248e3e2ca570f025&o=",
+  "cat-best": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/695679661.webp?k=916cf4caa19f160df7cf7e259a58c22f09bc4afb464e07e9c65ab1a9fe051eea&o=",
+  "cat-group": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/540224451.webp?k=9275ad9f8fdad3bc9867f4f78fce11784317bb543b6539c8255cb7f4bd1ff16d&o="
+};
+
 function TileCard({ tile, badge }: { tile: Tile; badge?: string }) {
+  const imgSrc = BOOKING_TILES[tile.seed] || BOOKING_TILES["cat-luxury"];
   return (
     <Link href={tile.href} className={`group relative overflow-hidden rounded-2xl ${tile.className ?? ""}`}>
       <Image
-        src={`https://picsum.photos/seed/${tile.seed}/700/700`}
+        src={imgSrc}
         alt=""
         fill
         sizes="(max-width: 768px) 50vw, 25vw"

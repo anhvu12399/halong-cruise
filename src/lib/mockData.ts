@@ -1,7 +1,29 @@
 import { Cruise } from "./types";
 
-const img = (seed: string, w = 1200, h = 800) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
+const BOOKING_IMAGES = [
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.webp?k=9d3aefd241f0c12537840e57970e2567330167d4a516f3746826967a5bb54164&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.webp?k=332fd8224c34a103fadc0be18c2fd4fd3cc281dc81ca0777a453eacede034e92&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.webp?k=9580531eb28c9c8e634700d2a64b6adbf3e920885c2bd5a97ead535c5b191cf5&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/895524639.webp?k=ad1836bbd6de1032a92737816e5a95038c5d8fd9e649979d98a9f722afb4acdd&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/411409062.webp?k=dd0f7b9297bb345b5350265a4466db99778914c17805d5a46a25ab5db2f8df33&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.webp?k=e7bdebdef0306a9d17bac45171c99ae969f974aff2911f37248e3e2ca570f025&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/695679661.webp?k=916cf4caa19f160df7cf7e259a58c22f09bc4afb464e07e9c65ab1a9fe051eea&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/540224451.webp?k=9275ad9f8fdad3bc9867f4f78fce11784317bb543b6539c8255cb7f4bd1ff16d&o=",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/372163736.jpg?k=2ee4b3beaacbf560619940ef3ed9fdb268d80310ab6cebea72e12b164cd4a2d4",
+  "https://aw-d.tripcdn.com/images/1mc3d12000dq6s641C4EE.jpg",
+  "https://cf.bstatic.com/xdata/images/hotel/max1280x900/372191245.jpg?k=bb6d2a9750e797d466a6d8cc1ddf56b7378189bb9dfdbfb0707408e1bd93b0a0",
+  "https://aw-d.tripcdn.com/images/0222512000kyffcwo5D55.jpg"
+];
+
+const img = (seed: string, _w = 1200, _h = 800) => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  const idx = Math.abs(hash) % BOOKING_IMAGES.length;
+  return BOOKING_IMAGES[idx];
+};
 
 export const cruises: Cruise[] = [
   {

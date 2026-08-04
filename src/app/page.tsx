@@ -9,17 +9,17 @@ import SectionHeading from "@/components/SectionHeading";
 const REGIONS = [
   {
     name: "Ha Long Bay",
-    seed: "region-halong",
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.webp?k=332fd8224c34a103fadc0be18c2fd4fd3cc281dc81ca0777a453eacede034e92&o=",
     copy: "The UNESCO-listed original: nearly 2,000 limestone karsts rising out of a single bay, and the busiest water in the north.",
   },
   {
     name: "Lan Ha Bay",
-    seed: "region-lanha",
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.webp?k=9580531eb28c9c8e634700d2a64b6adbf3e920885c2bd5a97ead535c5b191cf5&o=",
     copy: "The same geology, a fraction of the traffic. Most of our two- and three-day sailings favour this route.",
   },
   {
     name: "Bai Tu Long Bay",
-    seed: "region-baitulong",
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.webp?k=e7bdebdef0306a9d17bac45171c99ae969f974aff2911f37248e3e2ca570f025&o=",
     copy: "The quiet north. National park coastline, mangrove lagoons, and boats that go days without seeing another ship.",
   },
 ];
@@ -33,7 +33,7 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-teal-950">
         <Image
-          src="https://picsum.photos/seed/halong-hero/2000/1200"
+          src="https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.webp?k=9d3aefd241f0c12537840e57970e2567330167d4a516f3746826967a5bb54164&o="
           alt="Junk boats at anchor among the karsts of Ha Long Bay at dusk"
           fill
           priority
@@ -137,7 +137,7 @@ export default async function HomePage() {
             <div key={region.name} className="overflow-hidden rounded-2xl bg-teal-950">
               <div className="relative aspect-[4/3]">
                 <Image
-                  src={`https://picsum.photos/seed/${region.seed}/900/700`}
+                  src={region.image}
                   alt={region.name}
                   fill
                   className="object-cover"
