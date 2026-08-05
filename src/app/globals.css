@@ -12,40 +12,40 @@
     font-size: 16px;
     line-height: 1.65;
     letter-spacing: -0.01em;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   /* ── Cormorant Garamond display headings ─────────────────────────────────── */
   h1 {
-    @apply font-display font-light;
+    @apply font-display font-medium;
     font-size: clamp(2.8rem, 7vw, 5.5rem);
-    line-height: 1.04;
+    line-height: 1.05;
     letter-spacing: -0.02em;
   }
   h2 {
-    @apply font-display font-light;
+    @apply font-display font-medium;
     font-size: clamp(2rem, 4.5vw, 3.5rem);
-    line-height: 1.1;
+    line-height: 1.12;
     letter-spacing: -0.015em;
   }
   h3 {
-    @apply font-display;
+    @apply font-display font-medium;
     font-size: clamp(1.4rem, 2.5vw, 2rem);
-    line-height: 1.2;
+    line-height: 1.25;
     letter-spacing: -0.01em;
   }
   h4 {
-    @apply font-display font-medium;
+    @apply font-display font-semibold;
     font-size: 1.25rem;
     line-height: 1.3;
   }
 
   p {
-    font-weight: 300;
+    font-weight: 400;
   }
 
   strong, b {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   ::selection {
@@ -53,8 +53,8 @@
   }
 
   :focus-visible {
-    outline: 1px solid theme("colors.brass.300");
-    outline-offset: 4px;
+    outline: 2px solid theme("colors.brass.400");
+    outline-offset: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -69,36 +69,30 @@
 
 @layer components {
 
-  /* ── Nautical chart grid — subtle texture ─────────────────────────────────── */
+  /* ── Nautical chart grid ─────────────────────────────────────────────────── */
   .chart-grid {
     background-image:
-      linear-gradient(rgba(246, 241, 228, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(246, 241, 228, 0.04) 1px, transparent 1px);
+      linear-gradient(rgba(246, 241, 228, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(246, 241, 228, 0.06) 1px, transparent 1px);
     background-size: 56px 56px;
   }
 
-  /* ── Eyebrow / Label — Cinzel Roman caps ──────────────────────────────────── */
-  /* Used for section labels, badges, price labels, nav links */
+  /* ── Eyebrow / Label ──────────────────────────────────────────────────────── */
   .eyebrow {
     font-family: var(--font-label), "Cinzel", serif;
-    @apply text-[10px] uppercase text-brass-500;
-    letter-spacing: 0.2em;
-    font-weight: 500;
+    @apply text-xs uppercase text-brass-400 font-bold tracking-widest;
   }
 
-  /* ── Nav labels — slightly larger Cinzel ─────────────────────────────────── */
+  /* ── Nav labels ──────────────────────────────────────────────────────────── */
   .nav-label {
     font-family: var(--font-label), "Cinzel", serif;
-    @apply text-[11px] uppercase text-sand-100/80;
-    letter-spacing: 0.18em;
-    font-weight: 400;
+    @apply text-xs uppercase text-sand-50 font-bold tracking-widest;
   }
 
   /* ── Price display ────────────────────────────────────────────────────────── */
   .price-label {
     font-family: var(--font-label), "Cinzel", serif;
-    letter-spacing: 0.06em;
-    font-weight: 500;
+    @apply font-bold tracking-wider;
   }
 
   /* ── Section divider rule ─────────────────────────────────────────────────── */
@@ -106,8 +100,8 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: theme("colors.brass.500");
-    opacity: 0.5;
+    color: theme("colors.brass.400");
+    opacity: 0.7;
   }
   .rule-ornament::before,
   .rule-ornament::after {
