@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Ha Long Cruise CMS (Visual Editor Pro v3.0)
+ * Plugin Name: Ha Long Cruise CMS
  * Description: Quản lý toàn bộ nội dung Du Thuyền & Các Trang Tours / Trang Chủ cho Headless Next.js. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
  * Version: 3.0.0
  * Author: Ha Long Best Cruises
@@ -190,7 +190,6 @@ add_action('acf/init', function () {
 /* 4. REST API Endpoints & Order Handlers                             */
 /* ------------------------------------------------------------------ */
 add_action('rest_api_init', function () {
-    // REST API Endpoint gửi Đơn Đặt Tàu về Admin WordPress
     register_rest_route('halong/v1', '/inquiries', [
         'methods' => 'POST',
         'permission_callback' => '__return_true',
@@ -216,7 +215,6 @@ add_action('rest_api_init', function () {
         },
     ]);
     
-    // REST API Endpoint lấy Cấu Hình Website / Homepage Options
     register_rest_route('halong/v1', '/site-options', [
         'methods' => 'GET',
         'permission_callback' => '__return_true',
