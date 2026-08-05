@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Ha Long Cruise CMS (Visual Editor Pro v2.1)
+ * Plugin Name: Ha Long Cruise CMS (Visual Editor Pro v3.0)
  * Description: Quản lý toàn bộ nội dung Du Thuyền & Các Trang Tours / Trang Chủ cho Headless Next.js. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
- * Version: 2.1.0
+ * Version: 3.0.0
  * Author: Ha Long Best Cruises
  */
 
