@@ -6,6 +6,7 @@ const COLUMNS = [
     title: "Company",
     links: [
       { label: "About", href: "/#about" },
+      { label: "Planning Hub", href: "/planning" },
       { label: "Reviews", href: "/#reviews" },
       { label: "Responsible Travel", href: "/#responsible-travel" },
       { label: "Contact", href: "/inquire" },
