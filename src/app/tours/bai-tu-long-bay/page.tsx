@@ -1,43 +1,57 @@
+import type { Metadata } from "next";
 import { getAllCruises } from "@/lib/wp";
 import CategoryListingPage from "@/components/CategoryListingPage";
 
-export const metadata = {
-  title: "Bai Tu Long Bay Cruises | Off-the-Beaten-Path & Wild Karsts",
+export const metadata: Metadata = {
+  title: "Bai Tu Long Bay Cruises 2025 — Vietnam's Most Remote Bay",
   description:
-    "Explore off-the-beaten-track Bai Tu Long Bay cruises. Secluded limestone wilderness, Thien Canh Son cave, Cap La island & untouched natural beauty.",
+    "Bai Tu Long Bay cruises 2025. The quietest, least-visited bay in northern Vietnam — national park coastline, mangrove lagoons, no crowds. From $249/person.",
+  alternates: { canonical: "https://www.halongbestcruises.com/tours/bai-tu-long-bay" },
 };
 
-export default async function BaiTuLongBayToursPage() {
+export default async function BaiTuLongPage() {
   const cruises = await getAllCruises();
 
   return (
     <CategoryListingPage
       title="Bai Tu Long Bay Cruises"
-      eyebrow="Off-the-Beaten-Track Wilderness"
-      subtitle="Located northeast of Ha Long, Bai Tu Long Bay represents the untouched, peaceful frontier of Tonkin Gulf — featuring hidden caves, floating fishing hamlets, and zero crowds."
-      heroImage="https://cf.bstatic.com/xdata/images/hotel/max1280x900/372191245.jpg?k=bb6d2a9750e797d466a6d8cc1ddf56b7378189bb9dfdbfb0707408e1bd93b0a0"
+      eyebrow="Vietnam's Most Remote Bay · National Park"
+      subtitle="Further north. Fewer boats. Mangrove lagoons, pristine beaches, and days without seeing another ship."
+      heroImage="https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.webp?k=e7bdebdef0306a9d17bac45171c99ae969f974aff2911f37248e3e2ca570f025&o="
       descriptionParagraphs={[
-        "According to local legend, Bai Tu Long Bay is where the child dragon descended to protect Vietnam's coast. Today, it remains the most tranquil and wild sector of the World Heritage region.",
-        "Strict environmental quotas limit the number of commercial cruise licenses in Bai Tu Long Bay, guaranteeing that when your ship anchors at Cap La or Cong Dam, you will likely be the only vessel in sight.",
-        "Highlights include exploring Thien Canh Son Cave, kayaking around Vung Vieng floating village, and swimming off wild coral beaches."
+        "Bai Tu Long Bay lies immediately northeast of Ha Long Bay, separated by a narrow channel. It covers a similarly vast area of limestone karst islands but receives a tiny fraction of the visitors — in part because day trips can't reach it, and in part because most cruise operators haven't shifted their routes this far north yet.",
+        "For travellers who want the remoteness of northern Vietnam's bay scenery without the crowds, Bai Tu Long is the answer. Some ships anchor here for a full night in complete silence, with mangrove forests on one side and open Gulf of Tonkin on the other. It requires at least a 3-night itinerary.",
       ]}
       keyHighlights={[
-        "Maximum privacy & zero tourist boat congestion",
-        "Thien Canh Son Cave with panoramic bay overlooks",
-        "Vung Vieng floating fishing village cultural visit",
-        "Kayaking around Cap La island & geological rock arches",
-        "Untouched marine biodiversity & peaceful anchorages"
+        "The quietest bay in northern Vietnam",
+        "National park coastline and mangrove forests",
+        "Cai Beo and Van Don floating village visits",
+        "Deserted beach anchorages",
+        "Requires 3D2N minimum itinerary to reach",
+        "Some ships anchor 2+ nights with no other boats in sight",
       ]}
-      filterFn={(c) => c.region.toLowerCase().includes("bai tu long") || c.slug.includes("dragon") || c.slug.includes("emperor")}
+      filterFn={(c) =>
+        c.region === "Bai Tu Long Bay" ||
+        c.tags.includes("bai-tu-long") ||
+        c.name.toLowerCase().includes("bai tu long")
+      }
       allCruises={cruises}
-      priceRangeText="$280 – $600 / person"
-      bestMonthsText="Nov – Apr"
-      expertAdvice="Bai Tu Long Bay is ideal for nature purists, photographers, and repeat travelers to Vietnam who want a serene, raw nature experience without commercial crowds."
+      priceRangeText="$249–$900+ per person (minimum 3D2N)"
+      bestMonthsText="October–April. Avoid June–August when northeast winds can be strong."
+      expertAdvice="Bai Tu Long requires at least 3 nights — ships need an extra half-day of sailing to reach it. If you're going this far, go luxury. The silence and scenery justify the extra spend."
       faqs={[
         {
-          q: "Why are there fewer cruises in Bai Tu Long Bay?",
-          a: "The government strictly limits cruise permits in Bai Tu Long Bay to protect its pristine ecosystem and coral reefs."
-        }
+          q: "Is Bai Tu Long Bay better than Ha Long Bay?",
+          a: "It's a matter of preference. Bai Tu Long has fewer crowds, more raw natural scenery, and a much wilder feeling. Ha Long Bay has more famous karst formations and easier access. Many experienced travellers prefer Bai Tu Long.",
+        },
+        {
+          q: "How far is Bai Tu Long Bay from Hanoi?",
+          a: "The drive to Tuan Chau Harbour is roughly 3 hours from Hanoi, and then approximately 3–4 hours of sailing northeast to reach Bai Tu Long Bay. This is why a minimum 3D2N cruise is required.",
+        },
+        {
+          q: "Which cruises go to Bai Tu Long Bay?",
+          a: "Most 3D2N and longer itineraries reach Bai Tu Long Bay on the second night. Confirm with your operator — not all 3-night cruises go this far north. We can filter ships by those that include Bai Tu Long in our shortlist.",
+        },
       ]}
     />
   );

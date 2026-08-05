@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import InquiryForm from "@/components/InquiryForm";
+import { getAllCruises } from "@/lib/wp";
 
 export const metadata = {
   title: "Contact Us & Support | Ha Long Bay Cruise Desk",
@@ -8,7 +9,8 @@ export const metadata = {
     "Contact our local Hanoi cruise support desk. 24/7 WhatsApp assistance, email inquiries, office location, and instant trip planning help.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const cruises = await getAllCruises();
   return (
     <div className="bg-sand-50">
       {/* Hero */}
@@ -85,7 +87,7 @@ export default function ContactPage() {
           {/* Form */}
           <div className="rounded-3xl border border-ink-300/20 bg-sand-100/50 p-6 md:p-8">
             <h3 className="font-display text-2xl italic text-ink-900 mb-6">Send an Inquiry</h3>
-            <InquiryForm />
+            <InquiryForm cruises={cruises} />
           </div>
         </div>
       </section>
