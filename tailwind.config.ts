@@ -24,6 +24,7 @@ const config: Config = {
         // Aged brass — deck fittings, lantern light
         brass: {
           300: "#D9BE85",
+          400: "#C4A55A",
           500: "#A9873F",
           600: "#8B6E30",
         },
@@ -36,24 +37,43 @@ const config: Config = {
         ink: {
           900: "#161F1D",
           700: "#2B3733",
+          600: "#3D4E49",
           500: "#57645F",
+          400: "#748078",
           300: "#8C968F",
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
-        body: ["var(--font-body)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        // Cormorant Garamond — ultra-luxury editorial serif
+        display: ["var(--font-display)", "\"Cormorant Garamond\"", "Georgia", "serif"],
+        // Inter — premium, neutral body type
+        body: ["var(--font-body)", "Inter", "system-ui", "sans-serif"],
+        // Cinzel — Roman imperial label caps (eyebrows, nav, badges)
+        label: ["var(--font-label)", "Cinzel", "Georgia", "serif"],
+        // Keep mono alias for backward-compat — maps to label (Cinzel)
+        mono: ["var(--font-label)", "Cinzel", "Georgia", "serif"],
       },
       letterSpacing: {
-        wideish: "0.08em",
-        wider2: "0.16em",
+        // Label tracking — Cinzel needs wide tracking
+        wideish: "0.12em",
+        wider2: "0.20em",
+        widest2: "0.28em",
       },
       maxWidth: {
-        content: "1180px",
+        content: "1200px",
       },
       boxShadow: {
-        card: "0 24px 48px -24px rgba(11, 34, 36, 0.35)",
+        card: "0 24px 48px -24px rgba(11, 34, 36, 0.30)",
+        "card-lg": "0 40px 80px -32px rgba(11, 34, 36, 0.45)",
+      },
+      fontSize: {
+        // Fluid display sizes
+        "display-xl": ["clamp(3.5rem, 8vw, 6.5rem)", { lineHeight: "1.02", letterSpacing: "-0.025em" }],
+        "display-lg": ["clamp(2.5rem, 5vw, 4.5rem)", { lineHeight: "1.06", letterSpacing: "-0.02em" }],
+        "display-md": ["clamp(1.8rem, 3vw, 2.8rem)", { lineHeight: "1.12", letterSpacing: "-0.015em" }],
+      },
+      transitionTimingFunction: {
+        spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
       },
     },
   },

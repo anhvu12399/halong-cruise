@@ -30,6 +30,42 @@ export const metadata: Metadata = {
   },
 };
 
+// ── SVG trip-type icons (thin stroke, 24×24) ──────────────────────────────────
+const IconSun = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4A55A" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <circle cx="12" cy="12" r="4" />
+    <line x1="12" y1="2" x2="12" y2="4" />
+    <line x1="12" y1="20" x2="12" y2="22" />
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+    <line x1="2" y1="12" x2="4" y2="12" />
+    <line x1="20" y1="12" x2="22" y2="12" />
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+  </svg>
+);
+const IconMoon = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4A55A" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+  </svg>
+);
+const IconAnchor = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4A55A" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <circle cx="12" cy="5" r="3" />
+    <line x1="12" y1="8" x2="12" y2="22" />
+    <path d="M5 15H2a10 10 0 007 7" />
+    <path d="M19 15h3a10 10 0 01-7 7" />
+  </svg>
+);
+const IconShip = () => (
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4A55A" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M2 20a2 2 0 002 2h16a2 2 0 002-2" />
+    <path d="M6 16l2-8h8l2 8" />
+    <path d="M12 2v6" />
+    <path d="M8 8h8" />
+  </svg>
+);
+
 const TRIP_TYPES = [
   {
     id: "day-trip",
@@ -38,8 +74,7 @@ const TRIP_TYPES = [
     from: "From $39",
     desc: "Explore the karsts, kayak the caves, be back in Hanoi by evening.",
     href: "/tours/day-cruises",
-    icon: "☀️",
-    color: "from-amber-600/80",
+    Icon: IconSun,
   },
   {
     id: "2d1n",
@@ -48,8 +83,7 @@ const TRIP_TYPES = [
     from: "From $149",
     desc: "The sweet spot. Sleep under the stars, wake up on the water.",
     href: "/tours/2-days-1-night",
-    icon: "🌙",
-    color: "from-teal-700/80",
+    Icon: IconMoon,
   },
   {
     id: "3d2n",
@@ -58,8 +92,7 @@ const TRIP_TYPES = [
     from: "From $249",
     desc: "Reach the quiet bays, visit villages, see Ha Long at its best.",
     href: "/tours/3-days-2-nights",
-    icon: "⚓",
-    color: "from-indigo-700/80",
+    Icon: IconAnchor,
   },
   {
     id: "private",
@@ -68,8 +101,7 @@ const TRIP_TYPES = [
     from: "On request",
     desc: "Whole ship, your crew, your itinerary. Groups from 4 to 60.",
     href: "/tours/private-cruises",
-    icon: "🛥️",
-    color: "from-terracotta-700/80",
+    Icon: IconShip,
   },
 ];
 
@@ -235,7 +267,7 @@ export default async function HomePage() {
                 data-trip={trip.id}
                 className="group relative overflow-hidden rounded-2xl border border-teal-800/60 bg-teal-900/50 p-6 transition hover:border-brass-500/50 hover:bg-teal-800/50"
               >
-                <div className="text-3xl">{trip.icon}</div>
+                <trip.Icon />
                 <h3 className="mt-3 font-display text-2xl italic text-sand-50">{trip.label}</h3>
                 <p className="mt-1 font-mono text-[10px] uppercase tracking-wideish text-brass-400">{trip.duration}</p>
                 <p className="mt-3 text-sm text-sand-100/70 leading-relaxed">{trip.desc}</p>
@@ -363,29 +395,66 @@ export default async function HomePage() {
           title="Plan smarter, sail better."
           description="Free expert guides on the best cruises, prices, when to go, and what to pack."
         />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {[
-            { title: "Best Ha Long Bay Cruises", href: "/guides/best-cruises", icon: "⭐" },
-            { title: "Ha Long Bay Cruise Prices", href: "/guides/cruise-prices", icon: "💰" },
-            { title: "Ha Long vs Lan Ha vs Bai Tu Long", href: "/guides/bay-comparison", icon: "🗺️" },
-            { title: "Best Time to Visit Ha Long Bay", href: "/guides/best-time-to-visit", icon: "📅" },
-            { title: "How to Choose a Cruise", href: "/guides/how-to-choose", icon: "🧭" },
-            { title: "Hanoi to Ha Long Bay", href: "/guides/hanoi-to-halong", icon: "🚌" },
-            { title: "What to Pack for a Cruise", href: "/guides/what-to-pack", icon: "🎒" },
-            { title: "Is Ha Long Bay Worth It?", href: "/guides/is-halong-worth-it", icon: "✅" },
+            {
+              title: "Best Ha Long Bay Cruises",
+              href: "/guides/best-cruises",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>,
+            },
+            {
+              title: "Ha Long Bay Cruise Prices",
+              href: "/guides/cruise-prices",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>,
+            },
+            {
+              title: "Ha Long vs Lan Ha vs Bai Tu Long",
+              href: "/guides/bay-comparison",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>,
+            },
+            {
+              title: "Best Time to Visit Ha Long Bay",
+              href: "/guides/best-time-to-visit",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>,
+            },
+            {
+              title: "How to Choose a Cruise",
+              href: "/guides/how-to-choose",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" /></svg>,
+            },
+            {
+              title: "Hanoi to Ha Long Bay",
+              href: "/guides/hanoi-to-halong",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="1" y="3" width="15" height="13" rx="2" /><path d="M16 8h4l3 3v5h-7V8z" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>,
+            },
+            {
+              title: "What to Pack for a Cruise",
+              href: "/guides/what-to-pack",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 01-8 0" /></svg>,
+            },
+            {
+              title: "Is Ha Long Bay Worth It?",
+              href: "/guides/is-halong-worth-it",
+              icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9873F" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>,
+            },
           ].map((g) => (
             <Link
               key={g.href}
               href={g.href}
-              className="group flex items-start gap-4 rounded-2xl border border-sand-200 bg-sand-50 p-5 transition hover:border-teal-700/40 hover:shadow-md"
+              className="group flex items-center gap-4 rounded-xl border border-sand-200 bg-sand-50 p-4 transition hover:border-brass-500/40 hover:shadow-md"
             >
-              <span className="text-2xl">{g.icon}</span>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-sand-200 bg-white">
+                {g.icon}
+              </span>
               <div>
-                <p className="font-semibold text-ink-900 text-sm leading-snug group-hover:text-teal-800 transition">
+                <p className="text-sm font-medium text-ink-900 leading-snug group-hover:text-teal-800 transition">
                   {g.title}
                 </p>
-                <p className="mt-1 font-mono text-[10px] uppercase tracking-wideish text-ink-400">
-                  Read guide →
+                <p
+                  className="mt-0.5 text-[9px] uppercase text-brass-500 transition group-hover:text-brass-400"
+                  style={{ fontFamily: "var(--font-label)", letterSpacing: "0.16em" }}
+                >
+                  Read guide
                 </p>
               </div>
             </Link>

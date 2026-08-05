@@ -1,30 +1,36 @@
 import type { Metadata } from "next";
-import { Fraunces, Work_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyCta from "@/components/StickyCta";
 import Analytics from "@/components/Analytics";
 
-const display = Fraunces({
+// ─── Luxury font stack ────────────────────────────────────────────────────────
+// Display: Cormorant Garamond — ultra-high contrast serif, used in Hermès, Celine,
+//   luxury hotel branding. The italic is extraordinarily refined.
+const display = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Work_Sans({
+// Body: Inter — optically neutral, premium legibility at all sizes (Apple, Notion).
+const body = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-body",
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
+// Labels: Cinzel — Roman imperial capitals. Wide tracking, sophisticated.
+// Used for eyebrows, nav links, badges, price labels.
+const label = Cinzel({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
+  weight: ["400", "500", "600"],
+  variable: "--font-label",
   display: "swap",
 });
 
@@ -81,7 +87,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${body.variable} ${mono.variable}`}>
+      <body className={`${display.variable} ${body.variable} ${label.variable}`}>
         <Analytics />
         <Header />
         <main>{children}</main>
