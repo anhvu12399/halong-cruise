@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Quản lý toàn bộ nội dung Du Thuyền & Các Trang Tours / Trang Chủ cho Headless Next.js. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
- * Version: 4.0.0
+ * Version: 4.1.0
  * Author: Ha Long Best Cruises
  */
 
 if (!defined('ABSPATH')) exit;
 
 /* ------------------------------------------------------------------ */
-/* 1. Đăng ký Custom Post Type: Cruises (Du Thuyền) & Inquiries       */
+/* 1. Đăng ký Custom Post Type: Cruises, Inquiries & Page Settings    */
 /* ------------------------------------------------------------------ */
 add_action('init', function () {
     register_post_type('cruise', [
@@ -47,29 +47,125 @@ add_action('init', function () {
 });
 
 /* ------------------------------------------------------------------ */
-/* 2. Đăng ký Trang Cấu Hình Website & Homepage                      */
+/* 2. Đăng Ký Menu "🌐 Cấu Hình Trang Chủ" Trên WordPress Admin Menu   */
+/*    (Tương thích 100% với cả ACF Free lẫn ACF PRO)                  */
 /* ------------------------------------------------------------------ */
-add_action('acf/init', function () {
-    if (function_exists('acf_add_options_page')) {
-        acf_add_options_page([
-            'page_title' => '🌐 Cấu Hình Trang Chủ & Các Trang Tours',
-            'menu_title' => '🌐 Cấu Hình Website',
-            'menu_slug'  => 'site-homepage-settings',
-            'capability' => 'edit_posts',
-            'redirect'   => false,
-            'icon_url'   => 'dashicons-admin-site-alt3',
-            'show_in_rest' => true,
-        ]);
-    }
+add_action('admin_menu', function () {
+    add_menu_page(
+        'Cấu Hình Trang Chủ & Website',
+        '🌐 Cấu Hình Trang Chủ',
+        'edit_posts',
+        'site-homepage-settings',
+        'render_halong_cms_homepage_settings',
+        'dashicons-admin-home',
+        6
+    );
 });
 
+function render_halong_cms_homepage_settings() {
+    if (isset($_POST['save_halong_options'])) {
+        check_admin_referer('halong_options_verify');
+        $fields = [
+            'home_hero_title', 'home_hero_subtitle', 'home_hero_image',
+            'site_whatsapp', 'site_email', 'tour_day_title',
+            'tour_2d1n_title', 'tour_3d2n_title', 'tour_halong_title',
+            'tour_lanha_title', 'tour_baitulong_title'
+        ];
+        foreach ($fields as $field) {
+            if (isset($_POST[$field])) {
+                update_option($field, sanitize_text_field($_POST[$field]));
+            }
+        }
+        echo '<div class="notice notice-success is-dismissible"><p><strong>✅ Đã lưu cấu hình Trang Chủ & Các Trang Tour thành công!</strong></p></div>';
+    }
+
+    $hero_title = get_option('home_hero_title', 'Every budget. Every travel style. One bay you\'ll never forget.');
+    $hero_sub   = get_option('home_hero_subtitle', '64 handpicked cruises — day trips to 3-night voyages — across Ha Long, Lan Ha & Bai Tu Long Bay.');
+    $hero_img   = get_option('home_hero_image', 'https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg');
+    $whatsapp   = get_option('site_whatsapp', '+84905999888');
+    $email      = get_option('site_email', 'hello@halongbestcruises.com');
+    
+    $tour_day   = get_option('tour_day_title', 'Ha Long Bay Day Cruises');
+    $tour_2d1n  = get_option('tour_2d1n_title', '2 Day 1 Night Ha Long Bay Cruises');
+    $tour_3d2n  = get_option('tour_3d2n_title', '3 Day 2 Night Ha Long Bay Cruises');
+    $tour_hl    = get_option('tour_halong_title', 'Ha Long Bay Cruises');
+    $tour_lh    = get_option('tour_lanha_title', 'Lan Ha Bay Cruises');
+    $tour_btl   = get_option('tour_baitulong_title', 'Bai Tu Long Bay Cruises');
+    ?>
+    <div class="wrap">
+        <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 20px;">🌐 Quản Lý Nội Dung Trang Chủ & Các Trang Tour</h1>
+        <form method="post" action="">
+            <?php wp_nonce_field('halong_options_verify'); ?>
+            <div style="background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #ccd0d4; max-w: 900px;">
+                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 0;">🏠 1. Cấu Hình Banner Trang Chủ (Homepage Hero)</h2>
+                
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="home_hero_title">Tiêu Đề Banner Chính (H1)</label></th>
+                        <td><input name="home_hero_title" type="text" id="home_hero_title" value="<?php echo esc_attr($hero_title); ?>" class="regular-text" style="width: 100%;"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="home_hero_subtitle">Mô Tả Phụ Giới Thiệu</label></th>
+                        <td><textarea name="home_hero_subtitle" id="home_hero_subtitle" rows="3" class="large-text" style="width: 100%;"><?php echo esc_textarea($hero_sub); ?></textarea></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="home_hero_image">Link Ảnh Banner Nền Trang Chủ</label></th>
+                        <td><input name="home_hero_image" type="text" id="home_hero_image" value="<?php echo esc_attr($hero_img); ?>" class="regular-text" style="width: 100%;"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="site_whatsapp">Số WhatsApp Tư Vấn</label></th>
+                        <td><input name="site_whatsapp" type="text" id="site_whatsapp" value="<?php echo esc_attr($whatsapp); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="site_email">Email Liên Hệ</label></th>
+                        <td><input name="site_email" type="text" id="site_email" value="<?php echo esc_attr($email); ?>" class="regular-text"></td>
+                    </tr>
+                </table>
+
+                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 30px;">🚢 2. Tiêu Đề Các Trang Tour & Điểm Đến</h2>
+                
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="tour_day_title">Trang Day Cruises</label></th>
+                        <td><input name="tour_day_title" type="text" id="tour_day_title" value="<?php echo esc_attr($tour_day); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_2d1n_title">Trang 2 Days 1 Night</label></th>
+                        <td><input name="tour_2d1n_title" type="text" id="tour_2d1n_title" value="<?php echo esc_attr($tour_2d1n); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_3d2n_title">Trang 3 Days 2 Nights</label></th>
+                        <td><input name="tour_3d2n_title" type="text" id="tour_3d2n_title" value="<?php echo esc_attr($tour_3d2n); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_halong_title">Trang Vịnh Hạ Long</label></th>
+                        <td><input name="tour_halong_title" type="text" id="tour_halong_title" value="<?php echo esc_attr($tour_hl); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_lanha_title">Trang Vịnh Lan Hạ</label></th>
+                        <td><input name="tour_lanha_title" type="text" id="tour_lanha_title" value="<?php echo esc_attr($tour_lh); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_baitulong_title">Trang Vịnh Bái Tử Long</label></th>
+                        <td><input name="tour_baitulong_title" type="text" id="tour_baitulong_title" value="<?php echo esc_attr($tour_btl); ?>" class="regular-text"></td>
+                    </tr>
+                </table>
+
+                <p class="submit" style="margin-top: 25px;">
+                    <input type="submit" name="save_halong_options" id="submit" class="button button-primary button-large" value="💾 Lưu Cấu Hình Website">
+                </p>
+            </div>
+        </form>
+    </div>
+    <?php
+}
+
 /* ------------------------------------------------------------------ */
-/* 3. Cấu hình Trường Dữ Liệu ACF Trực Quan Cho Du Thuyền             */
+/* 3. Cấu hình Trường Dữ Liệu ACF Trực Quan Cho Bài Viết Du Thuyền    */
 /* ------------------------------------------------------------------ */
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field_group')) return;
 
-    /* A. FIELDS CHO BÀI VIẾT DU THUYỀN */
     acf_add_local_field_group([
         'key' => 'group_cruise_cms',
         'title' => '⚙️ CẤU HÌNH CHI TIẾT DU THUYỀN',
@@ -156,34 +252,6 @@ add_action('acf/init', function () {
                 'instructions' => 'Mỗi tiện ích 1 dòng (vd: Điều hòa, Wi-Fi miễn phí, Bồn tắm Jacuzzi...).', 'rows' => 5],
         ],
     ]);
-
-    /* B. FIELDS CHO TRANG CẤU HÌNH SITE & HOMEPAGE */
-    acf_add_local_field_group([
-        'key' => 'group_site_options',
-        'title' => '🌐 Quản Lý Nội Dung Trang Chủ & Các Trang Tour',
-        'show_in_rest' => 1,
-        'location' => [[['param' => 'options_page', 'operator' => '==', 'value' => 'site-homepage-settings']]],
-        'fields' => [
-            /* TAB HOMEPAGE */
-            ['key' => 'tab_opt_home', 'label' => '🏠 Trang Chủ (Homepage)', 'type' => 'tab'],
-            ['key' => 'field_home_title', 'name' => 'home_hero_title', 'label' => 'Tiêu Đề Banner Chính (H1)', 'type' => 'text',
-                'default_value' => 'Every budget. Every travel style. One bay you\'ll never forget.'],
-            ['key' => 'field_home_sub', 'name' => 'home_hero_subtitle', 'label' => 'Mô Tả Banner Phụ', 'type' => 'textarea',
-                'default_value' => '64 handpicked cruises — day trips to 3-night voyages — across Ha Long, Lan Ha & Bai Tu Long Bay.', 'rows' => 2],
-            ['key' => 'field_home_hero_img', 'name' => 'home_hero_image', 'label' => 'Ảnh Banner Trang Chủ', 'type' => 'image', 'return_format' => 'url'],
-            ['key' => 'field_whatsapp', 'name' => 'site_whatsapp', 'label' => 'Số WhatsApp Liên Hệ', 'type' => 'text', 'default_value' => '+84905999888'],
-            ['key' => 'field_email', 'name' => 'site_email', 'label' => 'Email Tư Vấn', 'type' => 'text', 'default_value' => 'hello@halongbestcruises.com'],
-
-            /* TAB TOURS */
-            ['key' => 'tab_opt_tours', 'label' => '🚢 Các Trang Tours & Điểm Đến', 'type' => 'tab'],
-            ['key' => 'field_tour_day_title', 'name' => 'tour_day_title', 'label' => 'Trang Day Cruises - Tiêu Đề', 'type' => 'text', 'default_value' => 'Ha Long Bay Day Cruises'],
-            ['key' => 'field_tour_2d1n_title', 'name' => 'tour_2d1n_title', 'label' => 'Trang 2D1N Cruises - Tiêu Đề', 'type' => 'text', 'default_value' => '2 Day 1 Night Ha Long Bay Cruises'],
-            ['key' => 'field_tour_3d2n_title', 'name' => 'tour_3d2n_title', 'label' => 'Trang 3D2N Cruises - Tiêu Đề', 'type' => 'text', 'default_value' => '3 Day 2 Night Ha Long Bay Cruises'],
-            ['key' => 'field_tour_halong_title', 'name' => 'tour_halong_title', 'label' => 'Trang Vịnh Hạ Long - Tiêu Đề', 'type' => 'text', 'default_value' => 'Ha Long Bay Cruises'],
-            ['key' => 'field_tour_lanha_title', 'name' => 'tour_lanha_title', 'label' => 'Trang Vịnh Lan Hạ - Tiêu Đề', 'type' => 'text', 'default_value' => 'Lan Ha Bay Cruises'],
-            ['key' => 'field_tour_baitulong_title', 'name' => 'tour_baitulong_title', 'label' => 'Trang Vịnh Bái Tử Long - Tiêu Đề', 'type' => 'text', 'default_value' => 'Bai Tu Long Bay Cruises'],
-        ],
-    ]);
 });
 
 /* ------------------------------------------------------------------ */
@@ -219,11 +287,19 @@ add_action('rest_api_init', function () {
         'methods' => 'GET',
         'permission_callback' => '__return_true',
         'callback' => function () {
-            if (function_exists('get_fields')) {
-                $fields = get_fields('option');
-                return new WP_REST_Response($fields ?: [], 200);
-            }
-            return new WP_REST_Response([], 200);
+            return new WP_REST_Response([
+                'home_hero_title' => get_option('home_hero_title', 'Every budget. Every travel style. One bay you\'ll never forget.'),
+                'home_hero_subtitle' => get_option('home_hero_subtitle', '64 handpicked cruises — day trips to 3-night voyages — across Ha Long, Lan Ha & Bai Tu Long Bay.'),
+                'home_hero_image' => get_option('home_hero_image', 'https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg'),
+                'site_whatsapp' => get_option('site_whatsapp', '+84905999888'),
+                'site_email' => get_option('site_email', 'hello@halongbestcruises.com'),
+                'tour_day_title' => get_option('tour_day_title', 'Ha Long Bay Day Cruises'),
+                'tour_2d1n_title' => get_option('tour_2d1n_title', '2 Day 1 Night Ha Long Bay Cruises'),
+                'tour_3d2n_title' => get_option('tour_3d2n_title', '3 Day 2 Night Ha Long Bay Cruises'),
+                'tour_halong_title' => get_option('tour_halong_title', 'Ha Long Bay Cruises'),
+                'tour_lanha_title' => get_option('tour_lanha_title', 'Lan Ha Bay Cruises'),
+                'tour_baitulong_title' => get_option('tour_baitulong_title', 'Bai Tu Long Bay Cruises'),
+            ], 200);
         },
     ]);
 });
