@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: Ha Long Cruise CMS (Visual Editor Pro)
- * Description: Quản lý toàn bộ nội dung Du Thuyền Ha Long Bay cho trang Next.js Headless. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
- * Version: 2.0.0
+ * Plugin Name: Ha Long Cruise CMS (Visual Editor Pro v2.1)
+ * Description: Quản lý toàn bộ nội dung Du Thuyền & Các Trang Tours / Trang Chủ cho Headless Next.js. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
+ * Version: 2.1.0
  * Author: Ha Long Best Cruises
  */
 
 if (!defined('ABSPATH')) exit;
 
 /* ------------------------------------------------------------------ */
-/* 1. Đăng ký Custom Post Type: Cruises (Du Thuyền)                  */
+/* 1. Đăng ký Custom Post Type: Cruises (Du Thuyền) & Inquiries       */
 /* ------------------------------------------------------------------ */
 add_action('init', function () {
     register_post_type('cruise', [
@@ -35,7 +35,7 @@ add_action('init', function () {
     register_post_type('inquiry', [
         'label' => 'Yêu Cầu Đặt Tàu',
         'labels' => [
-            'name' => '✉️ Yêu Cầu Đặt Tàu',
+            'name' => '✉️ Đơn Đặt Tàu & Tư Vấn',
             'singular_name' => 'Yêu Cầu',
         ],
         'public' => false,
@@ -47,11 +47,29 @@ add_action('init', function () {
 });
 
 /* ------------------------------------------------------------------ */
-/* 2. Cấu hình Trường Dữ Liệu ACF Trực Quan (Chia Tab Dễ Quản Lý)      */
+/* 2. Đăng ký Trang Cấu Hình Website & Homepage                      */
+/* ------------------------------------------------------------------ */
+add_action('acf/init', function () {
+    if (function_exists('acf_add_options_page')) {
+        acf_add_options_page([
+            'page_title' => '🌐 Cấu Hình Trang Chủ & Các Trang Tours',
+            'menu_title' => '🌐 Cấu Hình Website',
+            'menu_slug'  => 'site-homepage-settings',
+            'capability' => 'edit_posts',
+            'redirect'   => false,
+            'icon_url'   => 'dashicons-admin-site-alt3',
+            'show_in_rest' => true,
+        ]);
+    }
+});
+
+/* ------------------------------------------------------------------ */
+/* 3. Cấu hình Trường Dữ Liệu ACF Trực Quan Cho Du Thuyền             */
 /* ------------------------------------------------------------------ */
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field_group')) return;
 
+    /* A. FIELDS CHO BÀI VIẾT DU THUYỀN */
     acf_add_local_field_group([
         'key' => 'group_cruise_cms',
         'title' => '⚙️ CẤU HÌNH CHI TIẾT DU THUYỀN',
@@ -138,12 +156,41 @@ add_action('acf/init', function () {
                 'instructions' => 'Mỗi tiện ích 1 dòng (vd: Điều hòa, Wi-Fi miễn phí, Bồn tắm Jacuzzi...).', 'rows' => 5],
         ],
     ]);
+
+    /* B. FIELDS CHO TRANG CẤU HÌNH SITE & HOMEPAGE */
+    acf_add_local_field_group([
+        'key' => 'group_site_options',
+        'title' => '🌐 Quản Lý Nội Dung Trang Chủ & Các Trang Tour',
+        'show_in_rest' => 1,
+        'location' => [[['param' => 'options_page', 'operator' => '==', 'value' => 'site-homepage-settings']]],
+        'fields' => [
+            /* TAB HOMEPAGE */
+            ['key' => 'tab_opt_home', 'label' => '🏠 Trang Chủ (Homepage)', 'type' => 'tab'],
+            ['key' => 'field_home_title', 'name' => 'home_hero_title', 'label' => 'Tiêu Đề Banner Chính (H1)', 'type' => 'text',
+                'default_value' => 'Every budget. Every travel style. One bay you\'ll never forget.'],
+            ['key' => 'field_home_sub', 'name' => 'home_hero_subtitle', 'label' => 'Mô Tả Banner Phụ', 'type' => 'textarea',
+                'default_value' => '64 handpicked cruises — day trips to 3-night voyages — across Ha Long, Lan Ha & Bai Tu Long Bay.', 'rows' => 2],
+            ['key' => 'field_home_hero_img', 'name' => 'home_hero_image', 'label' => 'Ảnh Banner Trang Chủ', 'type' => 'image', 'return_format' => 'url'],
+            ['key' => 'field_whatsapp', 'name' => 'site_whatsapp', 'label' => 'Số WhatsApp Liên Hệ', 'type' => 'text', 'default_value' => '+84905999888'],
+            ['key' => 'field_email', 'name' => 'site_email', 'label' => 'Email Tư Vấn', 'type' => 'text', 'default_value' => 'hello@halongbestcruises.com'],
+
+            /* TAB TOURS */
+            ['key' => 'tab_opt_tours', 'label' => '🚢 Các Trang Tours & Điểm Đến', 'type' => 'tab'],
+            ['key' => 'field_tour_day_title', 'name' => 'tour_day_title', 'label' => 'Trang Day Cruises - Tiêu Đề', 'type' => 'text', 'default_value' => 'Ha Long Bay Day Cruises'],
+            ['key' => 'field_tour_2d1n_title', 'name' => 'tour_2d1n_title', 'label' => 'Trang 2D1N Cruises - Tiêu Đề', 'type' => 'text', 'default_value' => '2 Day 1 Night Ha Long Bay Cruises'],
+            ['key' => 'field_tour_3d2n_title', 'name' => 'tour_3d2n_title', 'label' => 'Trang 3D2N Cruises - Tiêu Đề', 'type' => 'text', 'default_value' => '3 Day 2 Night Ha Long Bay Cruises'],
+            ['key' => 'field_tour_halong_title', 'name' => 'tour_halong_title', 'label' => 'Trang Vịnh Hạ Long - Tiêu Đề', 'type' => 'text', 'default_value' => 'Ha Long Bay Cruises'],
+            ['key' => 'field_tour_lanha_title', 'name' => 'tour_lanha_title', 'label' => 'Trang Vịnh Lan Hạ - Tiêu Đề', 'type' => 'text', 'default_value' => 'Lan Ha Bay Cruises'],
+            ['key' => 'field_tour_baitulong_title', 'name' => 'tour_baitulong_title', 'label' => 'Trang Vịnh Bái Tử Long - Tiêu Đề', 'type' => 'text', 'default_value' => 'Bai Tu Long Bay Cruises'],
+        ],
+    ]);
 });
 
 /* ------------------------------------------------------------------ */
-/* 3. Endpoint Nhận Đơn Đặt Tàu Từ Form Website Next.js              */
+/* 4. REST API Endpoints & Order Handlers                             */
 /* ------------------------------------------------------------------ */
 add_action('rest_api_init', function () {
+    // REST API Endpoint gửi Đơn Đặt Tàu về Admin WordPress
     register_rest_route('halong/v1', '/inquiries', [
         'methods' => 'POST',
         'permission_callback' => '__return_true',
@@ -166,6 +213,19 @@ add_action('rest_api_init', function () {
                 return new WP_REST_Response(['status' => 'success', 'id' => $post_id], 200);
             }
             return new WP_REST_Response(['status' => 'error'], 500);
+        },
+    ]);
+    
+    // REST API Endpoint lấy Cấu Hình Website / Homepage Options
+    register_rest_route('halong/v1', '/site-options', [
+        'methods' => 'GET',
+        'permission_callback' => '__return_true',
+        'callback' => function () {
+            if (function_exists('get_fields')) {
+                $fields = get_fields('option');
+                return new WP_REST_Response($fields ?: [], 200);
+            }
+            return new WP_REST_Response([], 200);
         },
     ]);
 });
