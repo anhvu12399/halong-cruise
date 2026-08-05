@@ -109,7 +109,8 @@ add_action('acf/init', function () {
                     ['key' => 'field_cb_size', 'name' => 'size', 'label' => 'Size (e.g. "20 m² / 215 ft²")', 'type' => 'text'],
                     ['key' => 'field_cb_beds', 'name' => 'beds', 'label' => 'Beds', 'type' => 'text'],
                     ['key' => 'field_cb_desc', 'name' => 'description', 'label' => 'Description', 'type' => 'textarea', 'rows' => 4],
-                    ['key' => 'field_cb_image', 'name' => 'image', 'label' => 'Image', 'type' => 'image', 'return_format' => 'array'],
+                    ['key' => 'field_cb_image', 'name' => 'image', 'label' => 'Main Room Image', 'type' => 'image', 'return_format' => 'array'],
+                    ['key' => 'field_cb_gallery', 'name' => 'gallery_images', 'label' => 'Room Photo Gallery', 'type' => 'gallery', 'return_format' => 'array', 'preview_size' => 'medium'],
                 ]],
 
             ['key' => 'field_features', 'name' => 'features', 'label' => 'Features', 'type' => 'textarea',

@@ -4,10 +4,12 @@ import { cruises as mockCruises, getCruiseBySlug as getMockBySlug } from "./mock
 const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
 
 /**
- * Every function here has a mock fallback, so the site runs and looks right
- * with zero WordPress setup. Once WORDPRESS_URL is set in .env.local (and the
- * companion plugin in /wordpress-plugin is installed & activated), these
- * functions transparently switch to live data — nothing in app/ changes.
+ * Headless WordPress integration layer.
+ * 
+ * Every function here has a graceful mock fallback, so the site runs and looks
+ * 100% right with zero WordPress setup. Once WORDPRESS_URL is set in .env.local
+ * (or Vercel Environment Variables), these functions transparently fetch live
+ * data from WordPress REST API (ACF & CPT).
  */
 
 type WpMedia = {
@@ -15,22 +17,24 @@ type WpMedia = {
 };
 
 type WpCruisePost = {
+  id: number;
   slug: string;
-  acf: {
-    tagline: string;
-    region: string;
-    breadcrumb_label: string;
-    duration_days: number;
-    duration_nights: number;
-    guests_max: number;
-    cabin_count: number;
-    starting_price: number | "" | null;
-    overview: string; // rich text, one paragraph per line
-    life_on_board: string;
-    highlights: string; // one per line
-    tags: string; // one per line, e.g. "luxury\nbest\nfamily"
-    gallery: { url: string }[];
-    itinerary: {
+  title?: { rendered?: string };
+  acf?: {
+    tagline?: string;
+    region?: string;
+    breadcrumb_label?: string;
+    duration_days?: number;
+    duration_nights?: number;
+    guests_max?: number;
+    cabin_count?: number;
+    starting_price?: number | "" | null;
+    overview?: string; // rich text or multi-paragraph
+    life_on_board?: string;
+    highlights?: string; // one per line
+    tags?: string; // one per line, e.g. "luxury\nbest\nfamily"
+    gallery?: { url: string }[];
+    itinerary?: {
       title: string;
       location: string;
       image?: { url: string };
@@ -38,8 +42,8 @@ type WpCruisePost = {
       pm?: string;
       eve?: string;
     }[];
-    social_areas: { name: string; image?: { url: string } }[];
-    cabins: {
+    social_areas?: { name: string; image?: { url: string } }[];
+    cabins?: {
       name: string;
       cabin_count: number;
       guests: string;
@@ -47,11 +51,12 @@ type WpCruisePost = {
       beds: string;
       description: string;
       image?: { url: string };
+      gallery_images?: { url: string }[];
     }[];
-    features: string; // one per line
-    equipment: string; // one per line
+    features?: string;
+    equipment?: string;
     deck_plan?: { url: string };
-    related: { post_name: string }[];
+    related?: { post_name: string }[];
   };
   _embedded?: {
     "wp:featuredmedia"?: WpMedia[];
@@ -66,11 +71,11 @@ function splitLines(value: string | undefined): string[] {
 }
 
 function mapWpCruise(post: WpCruisePost): Cruise {
-  const a = post.acf;
+  const a = post.acf || {};
   const itinerary: ItineraryDay[] = (a.itinerary ?? []).map((d, i) => ({
     day: i + 1,
-    title: d.title,
-    location: d.location,
+    title: d.title || `Day ${i + 1}`,
+    location: d.location || "Ha Long Bay",
     image: d.image?.url,
     blocks: [
       d.am ? { period: "AM" as const, text: d.am } : null,
@@ -80,33 +85,36 @@ function mapWpCruise(post: WpCruisePost): Cruise {
   }));
 
   const cabins: Cabin[] = (a.cabins ?? []).map((c) => ({
-    name: c.name,
-    cabinCount: c.cabin_count,
-    guests: c.guests,
-    size: c.size,
-    beds: c.beds,
-    description: c.description,
-    image: c.image?.url ?? "",
+    name: c.name || "Suite Cabin",
+    cabinCount: c.cabin_count || 10,
+    guests: c.guests || "2–3",
+    size: c.size || "28 m²",
+    beds: c.beds || "Double/Twin",
+    description: c.description || "Luxury oceanview suite with private balcony.",
+    image: c.image?.url || "",
+    galleryImages: c.gallery_images ? c.gallery_images.map((g) => g.url) : (c.image?.url ? [c.image.url] : []),
   }));
 
   const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s) => ({
-    name: s.name,
-    image: s.image?.url ?? "",
+    name: s.name || "Social Area",
+    image: s.image?.url || "",
   }));
+
+  const cruiseName = a.breadcrumb_label || post.title?.rendered || post.slug;
 
   return {
     slug: post.slug,
-    name: a.breadcrumb_label,
-    tagline: a.tagline,
-    region: a.region,
-    breadcrumbLabel: a.breadcrumb_label,
+    name: cruiseName,
+    tagline: a.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
+    region: a.region || "Ha Long Bay & Lan Ha Bay",
+    breadcrumbLabel: cruiseName,
     tags: splitLines(a.tags).map((t) => t.toLowerCase()),
-    durationDays: a.duration_days,
-    durationNights: a.duration_nights,
-    guestsMax: a.guests_max,
-    cabinCount: a.cabin_count,
+    durationDays: a.duration_days || 2,
+    durationNights: a.duration_nights || 1,
+    guestsMax: a.guests_max || 48,
+    cabinCount: a.cabin_count || 20,
     startingPrice: a.starting_price ? Number(a.starting_price) : null,
-    heroImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? "",
+    heroImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? ""),
     galleryImages: (a.gallery ?? []).map((g) => g.url),
     overview: splitLines(a.overview),
     lifeOnBoard: splitLines(a.life_on_board),
@@ -124,14 +132,23 @@ function mapWpCruise(post: WpCruisePost): Cruise {
 export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=50`, {
+    // Try standard CPT endpoint first, then custom post type cruises-vietnam
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, {
       next: { revalidate: 300 },
     });
+    
+    if (!res.ok) {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&per_page=100`, {
+        next: { revalidate: 300 },
+      });
+    }
+
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
     const posts: WpCruisePost[] = await res.json();
+    if (!Array.isArray(posts) || posts.length === 0) return mockCruises;
     return posts.map(mapWpCruise);
   } catch (err) {
-    console.error("[wp] falling back to mock cruise data:", err);
+    console.error("[wp-headless] falling back to local database:", err);
     return mockCruises;
   }
 }
@@ -139,15 +156,22 @@ export async function getAllCruises(): Promise<Cruise[]> {
 export async function getCruiseBySlug(slug: string): Promise<Cruise | undefined> {
   if (!WP_URL) return getMockBySlug(slug);
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
       next: { revalidate: 300 },
     });
+
+    if (!res.ok) {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`, {
+        next: { revalidate: 300 },
+      });
+    }
+
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
     const posts: WpCruisePost[] = await res.json();
-    if (!posts.length) return undefined;
+    if (!Array.isArray(posts) || !posts.length) return getMockBySlug(slug);
     return mapWpCruise(posts[0]);
   } catch (err) {
-    console.error("[wp] falling back to mock cruise data:", err);
+    console.error("[wp-headless] falling back to local database:", err);
     return getMockBySlug(slug);
   }
 }
