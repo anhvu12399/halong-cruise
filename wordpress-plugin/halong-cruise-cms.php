@@ -1,183 +1,171 @@
 <?php
 /**
- * Plugin Name: Ha Long Cruise CMS
- * Description: Headless content backend for the Ha Long Bay Cruises Next.js site.
- *              Registers the "Cruise" post type + the exact fields the frontend
- *              expects, and exposes them at /wp-json/wp/v2/cruises. Also stores
- *              inquiry-form submissions from the site.
- * Version: 1.0.0
- * Requires Plugins: advanced-custom-fields
- *
- * SETUP (see ../SETUP-WORDPRESS.md for the full walkthrough):
- *   1. Install & activate the free "Advanced Custom Fields" plugin.
- *   2. Upload this file as a plugin (or drop it in wp-content/plugins/halong-cruise-cms/
- *      as halong-cruise-cms.php) and activate it.
- *   3. Go to Cruises in the WP admin sidebar and start editing — every field
- *      below shows up automatically in a clean editing screen.
- *   4. Set WORDPRESS_URL in the Next.js project's .env.local to this site's URL.
+ * Plugin Name: Ha Long Cruise CMS (Visual Editor Pro)
+ * Description: Quản lý toàn bộ nội dung Du Thuyền Ha Long Bay cho trang Next.js Headless. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
+ * Version: 2.0.0
+ * Author: Ha Long Best Cruises
  */
 
 if (!defined('ABSPATH')) exit;
 
 /* ------------------------------------------------------------------ */
-/* 1. Custom Post Type: Cruise                                        */
+/* 1. Đăng ký Custom Post Type: Cruises (Du Thuyền)                  */
 /* ------------------------------------------------------------------ */
 add_action('init', function () {
     register_post_type('cruise', [
-        'label' => 'Cruises',
+        'label' => 'Du Thuyền Hạ Long',
         'labels' => [
-            'name' => 'Cruises',
-            'singular_name' => 'Cruise',
-            'add_new_item' => 'Add New Cruise',
-            'edit_item' => 'Edit Cruise',
+            'name' => '🚢 Du Thuyền',
+            'singular_name' => 'Du Thuyền',
+            'add_new' => 'Thêm Tàu Mới',
+            'add_new_item' => 'Thêm Tàu Mới',
+            'edit_item' => 'Chỉnh Sửa Du Thuyền',
+            'new_item' => 'Tàu Mới',
+            'all_items' => 'Tất Cả Du Thuyền',
         ],
         'public' => true,
         'show_in_rest' => true,
         'rest_base' => 'cruises',
         'menu_icon' => 'dashicons-palmtree',
-        'supports' => ['title', 'thumbnail'],
+        'supports' => ['title', 'thumbnail', 'editor', 'revisions'],
         'has_archive' => false,
         'rewrite' => ['slug' => 'cruises'],
+    ]);
+
+    register_post_type('inquiry', [
+        'label' => 'Yêu Cầu Đặt Tàu',
+        'labels' => [
+            'name' => '✉️ Yêu Cầu Đặt Tàu',
+            'singular_name' => 'Yêu Cầu',
+        ],
+        'public' => false,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_icon' => 'dashicons-email-alt',
+        'supports' => ['title', 'editor'],
     ]);
 });
 
 /* ------------------------------------------------------------------ */
-/* 2. ACF field groups — mirror src/lib/types.ts exactly.             */
-/*    Editors never see PHP; this just pre-wires the admin UI.        */
+/* 2. Cấu hình Trường Dữ Liệu ACF Trực Quan (Chia Tab Dễ Quản Lý)      */
 /* ------------------------------------------------------------------ */
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field_group')) return;
 
     acf_add_local_field_group([
-        'key' => 'group_cruise',
-        'title' => 'Cruise details',
-        'show_in_rest' => 1, // exposes all fields below under the "acf" key in the REST response
+        'key' => 'group_cruise_cms',
+        'title' => '⚙️ CẤU HÌNH CHI TIẾT DU THUYỀN',
+        'show_in_rest' => 1,
         'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'cruise']]],
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
         'fields' => [
-            ['key' => 'field_tagline', 'name' => 'tagline', 'label' => 'Tagline', 'type' => 'text',
-                'instructions' => 'One sentence, shown under the ship name on the hero.'],
-            ['key' => 'field_region', 'name' => 'region', 'label' => 'Region', 'type' => 'select',
-                'choices' => ['Ha Long Bay' => 'Ha Long Bay', 'Lan Ha Bay' => 'Lan Ha Bay',
-                    'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay', 'Bai Tu Long Bay' => 'Bai Tu Long Bay']],
-            ['key' => 'field_breadcrumb', 'name' => 'breadcrumb_label', 'label' => 'Display name (breadcrumb / cards)', 'type' => 'text'],
-            ['key' => 'field_days', 'name' => 'duration_days', 'label' => 'Duration — days', 'type' => 'number', 'required' => 1],
-            ['key' => 'field_nights', 'name' => 'duration_nights', 'label' => 'Duration — nights', 'type' => 'number', 'required' => 1],
-            ['key' => 'field_guests', 'name' => 'guests_max', 'label' => 'Max guests', 'type' => 'number'],
-            ['key' => 'field_cabin_count', 'name' => 'cabin_count', 'label' => 'Total cabins', 'type' => 'number'],
-            ['key' => 'field_price', 'name' => 'starting_price', 'label' => 'Starting price (USD, per person)', 'type' => 'number',
-                'instructions' => 'Leave blank to show "Price on request".'],
 
-            ['key' => 'field_overview', 'name' => 'overview', 'label' => 'Overview', 'type' => 'textarea',
-                'instructions' => 'One paragraph per line. Each line becomes a <p>.', 'rows' => 6],
-            ['key' => 'field_life', 'name' => 'life_on_board', 'label' => 'Life on board', 'type' => 'textarea',
-                'instructions' => 'One paragraph per line.', 'rows' => 6],
-            ['key' => 'field_highlights', 'name' => 'highlights', 'label' => 'Highlights', 'type' => 'textarea',
-                'instructions' => 'One bullet per line.', 'rows' => 4],
-            ['key' => 'field_tags', 'name' => 'tags', 'label' => 'Category tags', 'type' => 'textarea',
-                'instructions' => 'One per line. Used by the homepage category tiles — recognized values: luxury, deluxe, budget, newest, best, honeymoon, family, group.',
-                'rows' => 3],
-
-            ['key' => 'field_gallery', 'name' => 'gallery', 'label' => 'Gallery', 'type' => 'gallery',
-                'return_format' => 'array', 'preview_size' => 'medium'],
-
-            ['key' => 'field_itinerary', 'name' => 'itinerary', 'label' => 'Itinerary', 'type' => 'repeater',
-                'instructions' => 'Add one row per day, in order.',
-                'button_label' => 'Add day',
-                'sub_fields' => [
-                    ['key' => 'field_it_title', 'name' => 'title', 'label' => 'Day title', 'type' => 'text'],
-                    ['key' => 'field_it_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
-                    ['key' => 'field_it_image', 'name' => 'image', 'label' => 'Image', 'type' => 'image', 'return_format' => 'array'],
-                    ['key' => 'field_it_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 3],
-                    ['key' => 'field_it_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 3],
-                    ['key' => 'field_it_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 3],
+            /* TAB 1: THÔNG TIN CHUNG */
+            ['key' => 'tab_general', 'label' => '📌 Thông Tin Chung & Giá', 'type' => 'tab'],
+            ['key' => 'field_tagline', 'name' => 'tagline', 'label' => 'Dòng Giới Thiệu Ngắn (Tagline)', 'type' => 'text',
+                'instructions' => '1 câu ngắn gọn hiển thị dưới tên tàu trên Banner.'],
+            ['key' => 'field_region', 'name' => 'region', 'label' => 'Khu Vực Hành Trình', 'type' => 'select',
+                'choices' => ['Ha Long Bay' => 'Ha Long Bay', 'Lan Ha Bay' => 'Lan Ha Bay', 'Bai Tu Long Bay' => 'Bai Tu Long Bay', 'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay']],
+            ['key' => 'field_price', 'name' => 'starting_price', 'label' => 'Giá Bắt Đầu ($ USD/khách)', 'type' => 'number',
+                'instructions' => 'Bỏ trống nếu muốn hiển thị "Price on request".'],
+            ['key' => 'field_days', 'name' => 'duration_days', 'label' => 'Số Ngày', 'type' => 'number', 'default_value' => 2],
+            ['key' => 'field_nights', 'name' => 'duration_nights', 'label' => 'Số Đêm', 'type' => 'number', 'default_value' => 1],
+            ['key' => 'field_cabin_count', 'name' => 'cabin_count', 'label' => 'Tổng Số Phòng Trên Tàu', 'type' => 'number'],
+            ['key' => 'field_guests', 'name' => 'guests_max', 'label' => 'Sức Chứa Tối Đa (Khách)', 'type' => 'number'],
+            ['key' => 'field_tags', 'name' => 'tags', 'label' => 'Nhãn Phân Loại (Tags)', 'type' => 'checkbox',
+                'choices' => [
+                    'best-value' => 'Best Value (Giá Tốt)',
+                    'deluxe' => 'Deluxe (Cao Cấp)',
+                    'luxury' => 'Luxury (Sang Trọng)',
+                    'family' => 'Family (Gia Đình)',
+                    'couples' => 'Couples/Honeymoon (Cặp Đôi)',
+                    'group' => 'Group/Charter (Đoàn/Bao Tàu)',
+                    'small-ship' => 'Small Ship (Tàu Nhỏ Quây Quần)',
+                    'newest' => 'Newest (Tàu Mới Ra Mắt)',
                 ]],
 
-            ['key' => 'field_social', 'name' => 'social_areas', 'label' => 'Social areas', 'type' => 'repeater',
-                'instructions' => 'Restaurant, sundeck, spa, bar, etc.',
-                'button_label' => 'Add area',
+            /* TAB 2: NỘI DUNG & NỔI BẬT */
+            ['key' => 'tab_content', 'label' => '📝 Tổng Quan & Điểm Nổi Bật', 'type' => 'tab'],
+            ['key' => 'field_overview', 'name' => 'overview', 'label' => 'Mô Tả Tổng Quan', 'type' => 'wysiwyg',
+                'instructions' => 'Giới thiệu về du thuyền, phong cách thiết kế và trải nghiệm.'],
+            ['key' => 'field_highlights', 'name' => 'highlights', 'label' => 'Điểm Nổi Bật Mấy Hàng', 'type' => 'textarea',
+                'instructions' => 'Mỗi dòng 1 gạch đầu dòng nổi bật (ví dụ: Bồn tắm kính hướng biển, Sân golf mini trên boong...).', 'rows' => 5],
+            ['key' => 'field_life', 'name' => 'life_on_board', 'label' => 'Trải Nghiệm Trên Tàu (Life on board)', 'type' => 'textarea',
+                'instructions' => 'Ẩm thực, Spa, chèo thuyền Kayak, câu mực đêm...', 'rows' => 5],
+
+            /* TAB 3: DANH SÁCH HẠNG PHÒNG */
+            ['key' => 'tab_cabins', 'label' => '🛏️ Các Hạng Phòng (Cabins)', 'type' => 'tab'],
+            ['key' => 'field_cabins', 'name' => 'cabins', 'label' => 'Danh Sách Hạng Phòng', 'type' => 'repeater',
+                'button_label' => '➕ Thêm Hạng Phòng Mới',
                 'sub_fields' => [
-                    ['key' => 'field_sa_name', 'name' => 'name', 'label' => 'Name', 'type' => 'text'],
-                    ['key' => 'field_sa_image', 'name' => 'image', 'label' => 'Image', 'type' => 'image', 'return_format' => 'array'],
+                    ['key' => 'field_cb_name', 'name' => 'name', 'label' => 'Tên Hạng Phòng', 'type' => 'text', 'required' => 1],
+                    ['key' => 'field_cb_size', 'name' => 'size', 'label' => 'Diện Tích (vd: 28 m²)', 'type' => 'text'],
+                    ['key' => 'field_cb_guests', 'name' => 'guests', 'label' => 'Số Khách (vd: 2-3 người)', 'type' => 'text'],
+                    ['key' => 'field_cb_beds', 'name' => 'beds', 'label' => 'Loại Giường (vd: Double / Twin)', 'type' => 'text'],
+                    ['key' => 'field_cb_desc', 'name' => 'description', 'label' => 'Mô Tả Chi Tiết Phòng', 'type' => 'textarea', 'rows' => 3],
+                    ['key' => 'field_cb_image', 'name' => 'image', 'label' => 'Ảnh Đại Diện Phòng', 'type' => 'image', 'return_format' => 'url'],
+                    ['key' => 'field_cb_gallery', 'name' => 'gallery_images', 'label' => 'Bộ Sưu Tập Ảnh Phòng (Nhiều Ảnh)', 'type' => 'gallery', 'return_format' => 'url'],
                 ]],
 
-            ['key' => 'field_cabins', 'name' => 'cabins', 'label' => 'Cabin categories', 'type' => 'repeater',
-                'button_label' => 'Add cabin category',
+            /* TAB 4: LỊCH TRÌNH THEO NGÀY */
+            ['key' => 'tab_itinerary', 'label' => '📅 Hành Trình Chi Tiết', 'type' => 'tab'],
+            ['key' => 'field_itinerary', 'name' => 'itinerary', 'label' => 'Lịch Trình Theo Ngày', 'type' => 'repeater',
+                'button_label' => '➕ Thêm Ngày Mới',
                 'sub_fields' => [
-                    ['key' => 'field_cb_name', 'name' => 'name', 'label' => 'Category name', 'type' => 'text'],
-                    ['key' => 'field_cb_count', 'name' => 'cabin_count', 'label' => 'Number of cabins', 'type' => 'number'],
-                    ['key' => 'field_cb_guests', 'name' => 'guests', 'label' => 'Guests (e.g. "2–3")', 'type' => 'text'],
-                    ['key' => 'field_cb_size', 'name' => 'size', 'label' => 'Size (e.g. "20 m² / 215 ft²")', 'type' => 'text'],
-                    ['key' => 'field_cb_beds', 'name' => 'beds', 'label' => 'Beds', 'type' => 'text'],
-                    ['key' => 'field_cb_desc', 'name' => 'description', 'label' => 'Description', 'type' => 'textarea', 'rows' => 4],
-                    ['key' => 'field_cb_image', 'name' => 'image', 'label' => 'Main Room Image', 'type' => 'image', 'return_format' => 'array'],
-                    ['key' => 'field_cb_gallery', 'name' => 'gallery_images', 'label' => 'Room Photo Gallery', 'type' => 'gallery', 'return_format' => 'array', 'preview_size' => 'medium'],
+                    ['key' => 'field_it_title', 'name' => 'title', 'label' => 'Tiêu Đề Ngày (vd: Ngày 1: Hà Nội - Vịnh Hạ Long)', 'type' => 'text'],
+                    ['key' => 'field_it_location', 'name' => 'location', 'label' => 'Địa Điểm (vd: Vịnh Lan Hạ)', 'type' => 'text'],
+                    ['key' => 'field_it_image', 'name' => 'image', 'label' => 'Ảnh Điểm Đến Trong Ngày', 'type' => 'image', 'return_format' => 'url'],
+                    ['key' => 'field_it_am', 'name' => 'am', 'label' => 'Buổi Sáng (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_pm', 'name' => 'pm', 'label' => 'Buổi Chiều (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_eve', 'name' => 'eve', 'label' => 'Buổi Tối (Evening)', 'type' => 'textarea', 'rows' => 2],
                 ]],
 
-            ['key' => 'field_features', 'name' => 'features', 'label' => 'Features', 'type' => 'textarea',
-                'instructions' => 'One per line, e.g. "Air conditioning".', 'rows' => 4],
-            ['key' => 'field_equipment', 'name' => 'equipment', 'label' => 'Equipment', 'type' => 'textarea',
-                'instructions' => 'One per line, e.g. "Kayaks".', 'rows' => 4],
-            ['key' => 'field_deckplan', 'name' => 'deck_plan', 'label' => 'Deck plan image', 'type' => 'image', 'return_format' => 'array'],
-
-            ['key' => 'field_related', 'name' => 'related', 'label' => 'Related cruises', 'type' => 'relationship',
-                'post_type' => ['cruise'], 'return_format' => 'object',
-                'instructions' => 'Pick 2–3 other cruises to show at the bottom of this page.'],
+            /* TAB 5: HÌNH ẢNH & TIỆN ÍCH */
+            ['key' => 'tab_media', 'label' => '🖼️ Thư Viện Ảnh & Tiện Nghi', 'type' => 'tab'],
+            ['key' => 'field_gallery', 'name' => 'gallery', 'label' => 'Bộ Ảnh Du Thuyền (Album)', 'type' => 'gallery',
+                'return_format' => 'url', 'preview_size' => 'medium'],
+            ['key' => 'field_social', 'name' => 'social_areas', 'label' => 'Khu Vực Chung (Nhà Hàng, Sundeck, Bar)', 'type' => 'repeater',
+                'button_label' => '➕ Thêm Khu Vực',
+                'sub_fields' => [
+                    ['key' => 'field_sa_name', 'name' => 'name', 'label' => 'Tên Khu Vực', 'type' => 'text'],
+                    ['key' => 'field_sa_image', 'name' => 'image', 'label' => 'Hình Ảnh', 'type' => 'image', 'return_format' => 'url'],
+                ]],
+            ['key' => 'field_features', 'name' => 'features', 'label' => 'Trang Thiết Bị & Tiện Nghi', 'type' => 'textarea',
+                'instructions' => 'Mỗi tiện ích 1 dòng (vd: Điều hòa, Wi-Fi miễn phí, Bồn tắm Jacuzzi...).', 'rows' => 5],
         ],
     ]);
 });
 
 /* ------------------------------------------------------------------ */
-/* 3. Inquiry storage: a private CPT + the REST endpoint the site     */
-/*    posts to from src/app/api/inquiry/route.ts.                     */
+/* 3. Endpoint Nhận Đơn Đặt Tàu Từ Form Website Next.js              */
 /* ------------------------------------------------------------------ */
-add_action('init', function () {
-    register_post_type('inquiry', [
-        'label' => 'Inquiries',
-        'public' => false,
-        'show_ui' => true,
-        'show_in_menu' => true,
-        'menu_icon' => 'dashicons-email',
-        'supports' => ['title'],
-        'capability_type' => 'post',
-    ]);
-});
-
 add_action('rest_api_init', function () {
     register_rest_route('halong/v1', '/inquiries', [
         'methods' => 'POST',
-        'permission_callback' => '__return_true', // public write endpoint — see SETUP-WORDPRESS.md for rate-limiting notes
+        'permission_callback' => '__return_true',
         'callback' => function (WP_REST_Request $req) {
             $data = $req->get_json_params();
-            if (empty($data['name']) || empty($data['email'])) {
-                return new WP_Error('missing_fields', 'Name and email are required.', ['status' => 400]);
-            }
+            $name = sanitize_text_field($data['name'] ?? 'Khách hàng');
+            $email = sanitize_email($data['email'] ?? '');
+            $phone = sanitize_text_field($data['phone'] ?? '');
+            $cruise = sanitize_text_field($data['cruise'] ?? 'Yêu cầu tư vấn');
+            $notes = sanitize_textarea_field($data['notes'] ?? '');
 
             $post_id = wp_insert_post([
                 'post_type' => 'inquiry',
-                'post_title' => sanitize_text_field($data['name']) . ' — ' . sanitize_email($data['email']),
-                'post_status' => 'private',
-                'meta_input' => [
-                    'email' => sanitize_email($data['email'] ?? ''),
-                    'phone' => sanitize_text_field($data['phone'] ?? ''),
-                    'cruise' => sanitize_text_field($data['cruise'] ?? ''),
-                    'dates' => sanitize_text_field($data['dates'] ?? ''),
-                    'guests' => sanitize_text_field($data['guests'] ?? ''),
-                    'message' => sanitize_textarea_field($data['message'] ?? ''),
-                ],
+                'post_title' => "Đơn đặt tàu: {$name} - {$cruise}",
+                'post_content' => "Họ tên: {$name}\nEmail: {$email}\nĐiện thoại: {$phone}\nTàu quan tâm: {$cruise}\nGhi chú: {$notes}",
+                'post_status' => 'publish',
             ]);
 
-            $notify = get_option('admin_email');
-            if ($notify) {
-                wp_mail(
-                    $notify,
-                    'New cruise inquiry — ' . sanitize_text_field($data['name']),
-                    "Name: {$data['name']}\nEmail: {$data['email']}\nPhone: " . ($data['phone'] ?? '-') .
-                    "\nCruise: " . ($data['cruise'] ?? '-') . "\nDates: " . ($data['dates'] ?? '-') .
-                    "\nGuests: " . ($data['guests'] ?? '-') . "\n\nMessage:\n" . ($data['message'] ?? '-')
-                );
+            if ($post_id) {
+                return new WP_REST_Response(['status' => 'success', 'id' => $post_id], 200);
             }
-
-            return ['ok' => true, 'id' => $post_id];
+            return new WP_REST_Response(['status' => 'error'], 500);
         },
     ]);
 });
