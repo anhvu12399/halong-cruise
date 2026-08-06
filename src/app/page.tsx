@@ -39,15 +39,32 @@ export default async function HomePage() {
   const content = await getHomepageContent();
   const cruises = await getAllCruises();
 
-  // Pick 4 cruises that have real WP hero images for the banner slideshow
-  const slideCruises = cruises
-    .filter((c) => c.heroImage && c.heroImage.startsWith('http'))
+  // Chọn đúng 4 tàu hạng sang cao cấp nhất để banner luôn đẹp & sắc nét
+  const premiumSlugs = [
+    'heritage-cruises-binh-chuan-cat-ba-archipelago',
+    'stellar-of-the-seas-cruise',
+    'halong-capellacruise-member-of-lyra-cruise-collection',
+    'ambassador-cruise-halong-bay'
+  ];
+  
+  const slideCruises = premiumSlugs
+    .map(slug => cruises.find(c => c.slug === slug))
+    .filter(Boolean)
+    .filter((c) => c!.heroImage && c!.heroImage.startsWith('http'))
     .slice(0, 4);
 
+  // Fallback nếu trong DB chưa có các tàu trên thì lấy 4 tàu bất kỳ có ảnh
+  if (slideCruises.length < 4) {
+    const fallbackCruises = cruises
+      .filter((c) => c.heroImage && c.heroImage.startsWith('http') && !slideCruises.includes(c))
+      .slice(0, 4 - slideCruises.length);
+    slideCruises.push(...fallbackCruises);
+  }
+
   const heroSlides = slideCruises.map((c) => ({
-    image: c.heroImage,
-    name: c.breadcrumbLabel || c.name || 'Ha Long Bay Cruise',
-    slug: c.slug,
+    image: c!.heroImage,
+    name: c!.breadcrumbLabel || c!.name || 'Ha Long Bay Cruise',
+    slug: c!.slug,
   }));
 
   return (
