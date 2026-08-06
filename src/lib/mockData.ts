@@ -11321,3 +11321,64 @@ export function getRelatedCruises(cruise: Cruise): Cruise[] {
 }
 
 export const pressLogos = ["Fodor's", "Bloomberg", "The New York Times", "USA Today", "Travel+Leisure"];
+
+import { TourCollection, HomepageContent } from "./types";
+
+export const mockTourCollections: TourCollection[] = [
+  {
+    slug: "halong-bay",
+    type: "region",
+    eyebrow: "UNESCO World Heritage Site · 2,000+ Limestone Karsts",
+    title: "Ha Long Bay Cruises",
+    subtitle: "The most iconic sailing in Southeast Asia — from day trips to three-night expeditions.",
+    heroImage: "https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg",
+    descriptionParagraphs: [
+      "Ha Long Bay (Vietnamese: Vịnh Hạ Long) is a UNESCO World Heritage Site in Quang Ninh Province, northeastern Vietnam. Nearly 2,000 limestone karst islands rise from the emerald waters of the Gulf of Tonkin across an area of roughly 1,553 km²."
+    ],
+    keyHighlights: [
+      "UNESCO World Heritage Site since 1994",
+      "Day trips from $39/person"
+    ],
+    priceRangeText: "$39–$900+ per person depending on duration and ship category",
+    bestMonthsText: "October–April (dry season, clear skies). Peak: December–February.",
+    expertAdvice: "First-time visitors often underestimate how large Ha Long Bay is. If you only have one night, choose a ship that sails to Lan Ha Bay.",
+    faqs: [
+      {
+        question: "How do I get from Hanoi to Ha Long Bay?",
+        answer: "Most cruise operators offer hotel pick-up in Hanoi (Old Quarter). The drive to Tuan Chau Harbour takes about 2.5–3 hours."
+      }
+    ]
+  }
+];
+
+export const mockHomepageContent: HomepageContent = {
+  heroTitle: "Sail the Karsts. Sleep on the Bay.",
+  heroSubtitle: "64 handpicked Ha Long Bay cruises from $39/person. Day trips, 2D1N, 3D2N voyages. Expert advice, free shortlist, book direct.",
+  heroBackground: "https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg",
+  tripTypesTitle: "Choose Your Voyage",
+  tripTypesDescription: "From quick excursions to deep-bay explorations.",
+  selectedStyles: mockTourCollections,
+  regionsTitle: "The Three Bays",
+  regionsDescription: "The geology spans three interconnected but distinct regions. Which one fits your style?",
+  selectedRegions: mockTourCollections,
+  featuredTitle: "Featured Fleet",
+  featuredCruises: cruises.slice(0, 4),
+  testimonialsTitle: "What our travelers say",
+  testimonials: [
+    {
+      quote: "The best experience in Vietnam.",
+      author: "Sarah J.",
+      location: "UK"
+    }
+  ],
+  guidesTitle: "Ha Long Bay Travel Guides",
+  guidesList: [
+    {
+      title: "Best Ha Long Bay Cruises",
+      url: "/guides/best-cruises",
+      image: "https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg",
+      date: "Aug 10, 2026",
+      readTime: "8 min read"
+    }
+  ]
+};

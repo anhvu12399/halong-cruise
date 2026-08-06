@@ -57,3 +57,36 @@ export type Cruise = {
 export type PressLogo = {
   name: string;
 };
+
+export type TourCollection = {
+  slug: string;
+  type: "region" | "style";
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  heroImage: string;
+  descriptionParagraphs: string[];
+  keyHighlights: string[];
+  priceRangeText: string;
+  bestMonthsText: string;
+  expertAdvice: string;
+  faqs: { question: string; answer: string }[];
+};
+
+export type HomepageContent = {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroBackground: string;
+  tripTypesTitle: string;
+  tripTypesDescription: string;
+  selectedStyles: TourCollection[];
+  regionsTitle: string;
+  regionsDescription: string;
+  selectedRegions: TourCollection[];
+  featuredTitle: string;
+  featuredCruises: Cruise[];
+  testimonialsTitle: string;
+  testimonials: { quote: string; author: string; location: string }[];
+  guidesTitle: string;
+  guidesList: { title: string; url: string; image: string; date: string; readTime: string }[];
+};

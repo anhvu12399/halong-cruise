@@ -1,5 +1,10 @@
-import { Cruise, ItineraryDay, Cabin, SocialArea } from "./types";
-import { cruises as mockCruises, getCruiseBySlug as getMockBySlug } from "./mockData";
+import { Cruise, ItineraryDay, Cabin, SocialArea, TourCollection, HomepageContent } from "./types";
+import { 
+  cruises as mockCruises, 
+  getCruiseBySlug as getMockBySlug, 
+  mockTourCollections, 
+  mockHomepageContent 
+} from "./mockData";
 
 const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
 
@@ -181,6 +186,88 @@ export async function getRelatedCruises(cruise: Cruise): Promise<Cruise[]> {
   return cruise.relatedSlugs
     .map((slug) => all.find((c) => c.slug === slug))
     .filter((c): c is Cruise => Boolean(c));
+}
+
+// Map WP Tour Collection -> frontend TourCollection
+function mapWpTourCollection(post: any): TourCollection {
+  const a = post.acf || {};
+  return {
+    slug: post.slug,
+    type: a.collection_type || "region",
+    eyebrow: a.eyebrow || "",
+    title: a.title || post.title?.rendered || post.slug,
+    subtitle: a.subtitle || "",
+    heroImage: a.hero_image?.url || "",
+    descriptionParagraphs: splitLines(a.description_paragraphs),
+    keyHighlights: splitLines(a.key_highlights),
+    priceRangeText: a.price_range_text || "",
+    bestMonthsText: a.best_months_text || "",
+    expertAdvice: a.expert_advice || "",
+    faqs: (a.faqs ?? []).map((faq: any) => ({
+      question: faq.question || "",
+      answer: faq.answer || "",
+    })),
+  };
+}
+
+export async function getTourCollectionBySlug(slug: string): Promise<TourCollection | undefined> {
+  if (!WP_URL) return mockTourCollections.find(c => c.slug === slug);
+  try {
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
+    const posts = await res.json();
+    if (!Array.isArray(posts) || !posts.length) return mockTourCollections.find(c => c.slug === slug);
+    return mapWpTourCollection(posts[0]);
+  } catch (err) {
+    console.error("[wp-headless] fallback to mock tour collection:", err);
+    return mockTourCollections.find(c => c.slug === slug);
+  }
+}
+
+export async function getHomepageContent(): Promise<HomepageContent> {
+  if (!WP_URL) return mockHomepageContent;
+  try {
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/homepage-content?_embed&per_page=1`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
+    const posts = await res.json();
+    if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
+    
+    const a = posts[0].acf || {};
+    return {
+      heroTitle: a.hero_title || "",
+      heroSubtitle: a.hero_subtitle || "",
+      heroBackground: a.hero_background?.url || "",
+      tripTypesTitle: a.trip_types_title || "",
+      tripTypesDescription: a.trip_types_description || "",
+      selectedStyles: (a.selected_styles ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
+      regionsTitle: a.regions_title || "",
+      regionsDescription: a.regions_description || "",
+      selectedRegions: (a.selected_regions ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
+      featuredTitle: a.featured_title || "",
+      featuredCruises: (a.featured_cruises ?? []).map((p: any) => ({ ...mockCruises[0], slug: p.post_name, name: p.post_title })), // Simplification for now, would fetch full cruise ideally
+      testimonialsTitle: a.testimonials_title || "",
+      testimonials: (a.testimonials ?? []).map((t: any) => ({
+        quote: t.quote || "",
+        author: t.author || "",
+        location: t.location || "",
+      })),
+      guidesTitle: a.guides_title || "",
+      guidesList: (a.guides_list ?? []).map((g: any) => ({
+        title: g.title || "",
+        url: g.url || "",
+        image: g.image?.url || "",
+        date: g.date || "",
+        readTime: g.read_time || "",
+      })),
+    };
+  } catch (err) {
+    console.error("[wp-headless] fallback to mock homepage content:", err);
+    return mockHomepageContent;
+  }
 }
 
 export const isLive = Boolean(WP_URL);
