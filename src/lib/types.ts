@@ -45,7 +45,8 @@ export type Cruise = {
   overview: string[];
   lifeOnBoard: string[];
   highlights: string[];
-  itinerary: ItineraryDay[];
+  programs?: { id: string; name: string; days: ItineraryDay[] }[];
+  itinerary?: ItineraryDay[];
   socialAreas: SocialArea[];
   cabins: Cabin[];
   features: string[];

@@ -76,12 +76,12 @@ function splitLines(value: string | undefined): string[] {
 }
 
 function mapWpCruise(post: WpCruisePost): Cruise {
-  const a = post.acf || {};
-  const itinerary: ItineraryDay[] = (a.itinerary ?? []).map((d, i) => ({
+  const a = (post.acf as any) || {};
+  const mapItinerary = (itineraryArr: any[]) => (itineraryArr ?? []).map((d, i) => ({
     day: i + 1,
     title: d.title || `Day ${i + 1}`,
     location: d.location || "Ha Long Bay",
-    image: d.image?.url,
+    image: d.image?.url || "",
     blocks: [
       d.am ? { period: "AM" as const, text: d.am } : null,
       d.pm ? { period: "PM" as const, text: d.pm } : null,
@@ -89,7 +89,20 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     ].filter((b): b is { period: "AM" | "PM" | "EVE"; text: string } => Boolean(b)),
   }));
 
-  const cabins: Cabin[] = (a.cabins ?? []).map((c) => ({
+  const programs: { id: string; name: string; days: ItineraryDay[] }[] = [];
+  if (a.itinerary_2d1n && a.itinerary_2d1n.length > 0) {
+    programs.push({ id: "2d1n", name: "2 Days 1 Night", days: mapItinerary(a.itinerary_2d1n) });
+  }
+  if (a.itinerary_3d2n && a.itinerary_3d2n.length > 0) {
+    programs.push({ id: "3d2n", name: "3 Days 2 Nights", days: mapItinerary(a.itinerary_3d2n) });
+  }
+  
+  // Fallback for old data or if no programs exist
+  if (programs.length === 0 && a.itinerary && a.itinerary.length > 0) {
+    programs.push({ id: "2d1n", name: "2 Days 1 Night", days: mapItinerary(a.itinerary) });
+  }
+
+  const cabins: Cabin[] = (a.cabins ?? []).map((c: any) => ({
     name: c.name || "Suite Cabin",
     cabinCount: c.cabin_count || 10,
     guests: c.guests || "2–3",
@@ -97,10 +110,10 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     beds: c.beds || "Double/Twin",
     description: c.description || "Luxury oceanview suite with private balcony.",
     image: c.image?.url || "",
-    galleryImages: c.gallery_images ? c.gallery_images.map((g) => g.url) : (c.image?.url ? [c.image.url] : []),
+    galleryImages: c.gallery_images ? c.gallery_images.map((g: any) => g.url) : (c.image?.url ? [c.image.url] : []),
   }));
 
-  const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s) => ({
+  const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s: any) => ({
     name: s.name || "Social Area",
     image: s.image?.url || "",
   }));
@@ -120,17 +133,17 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     cabinCount: a.cabin_count || 20,
     startingPrice: a.starting_price ? Number(a.starting_price) : null,
     heroImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? ""),
-    galleryImages: (a.gallery ?? []).map((g) => g.url),
+    galleryImages: (a.gallery ?? []).map((g: any) => g.url),
     overview: splitLines(a.overview),
     lifeOnBoard: splitLines(a.life_on_board),
     highlights: splitLines(a.highlights),
-    itinerary,
+    programs,
     socialAreas,
     cabins,
     features: splitLines(a.features),
     equipment: splitLines(a.equipment),
     deckPlanImage: a.deck_plan?.url,
-    relatedSlugs: (a.related ?? []).map((r) => r.post_name),
+    relatedSlugs: (a.related ?? []).map((r: any) => r.post_name),
   };
 }
 
@@ -190,7 +203,7 @@ export async function getRelatedCruises(cruise: Cruise): Promise<Cruise[]> {
 
 // Map WP Tour Collection -> frontend TourCollection
 function mapWpTourCollection(post: any): TourCollection {
-  const a = post.acf || {};
+  const a = (post.acf as any) || {};
   return {
     slug: post.slug,
     type: a.collection_type || "region",
