@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllCruises, getHomepageContent } from "@/lib/wp";
+import { mockTourCollections } from "@/lib/mockData";
 import CruiseCard from "@/components/CruiseCard";
 import CategoryTiles from "@/components/CategoryTiles";
 import SectionHeading from "@/components/SectionHeading";
@@ -114,7 +115,7 @@ export default async function HomePage() {
       )}
 
       {/* ── Choose Your Style ── */}
-      <section className="container-content py-24 md:py-28">
+      <section className="container-content py-16 md:py-20">
         <SectionHeading
           eyebrow="Choose your style"
           title="Find your perfect cruise."
@@ -125,7 +126,7 @@ export default async function HomePage() {
 
       {/* ── Featured Fleet ── */}
       {content.featuredCruises && content.featuredCruises.length > 0 && (
-        <section className="bg-sand-100/60 py-24 md:py-32">
+        <section className="bg-sand-100/60 py-16 md:py-20">
           <div className="container-content">
             <SectionHeading
               eyebrow="Handpicked ships"
@@ -143,15 +144,27 @@ export default async function HomePage() {
       )}
 
       {/* ── Regions ── */}
-      {content.selectedRegions && content.selectedRegions.length > 0 && (
-        <section id="regions" className="container-content py-24 md:py-32">
+      {(() => {
+        // Fallback logic: Ensure we always have exactly 3 regions (The Three Bays)
+        const dbRegions = content.selectedRegions || [];
+        const fallbackRegions = mockTourCollections.filter(c => c.type === 'region');
+        
+        const displayRegions = [...dbRegions];
+        if (displayRegions.length < 3) {
+           const needed = 3 - displayRegions.length;
+           const additional = fallbackRegions.filter(f => !displayRegions.some(d => d.slug === f.slug)).slice(0, needed);
+           displayRegions.push(...additional);
+        }
+
+        return displayRegions.length > 0 && (
+        <section id="regions" className="container-content py-16 md:py-20">
           <SectionHeading
             eyebrow="Where the boats go"
             title={content.regionsTitle || "The Three Bays"}
             description={content.regionsDescription || "Different bays for different experiences."}
           />
           <div className="grid gap-6 md:grid-cols-3">
-            {content.selectedRegions.map((region) => (
+            {displayRegions.map((region) => (
               <Link
                 key={region.slug}
                 href={`/tours/${region.slug}`}
@@ -182,12 +195,12 @@ export default async function HomePage() {
               </Link>
             ))}
           </div>
-        </section>
-      )}
+        </section>)
+      })()}
 
       {/* ── Travel Guides Teaser ── */}
       {content.guidesList && content.guidesList.length > 0 && (
-        <section className="container-content py-24 md:py-28">
+        <section className="container-content py-16 md:py-20">
           <SectionHeading
             eyebrow="Ha Long Bay Travel Guides"
             title={content.guidesTitle || "Plan smarter, sail better."}
@@ -227,7 +240,7 @@ export default async function HomePage() {
       <Testimonials />
 
       {/* ── Get My Cruise Shortlist (Lead Capture) ── */}
-      <section className="bg-sand-100/60 py-24 md:py-32">
+      <section className="bg-sand-100/60 py-16 md:py-20">
         <div className="container-content max-w-3xl">
           <ShortlistForm />
         </div>
