@@ -24,7 +24,15 @@ export default function SocialAreasGallery({ areas }: { areas: SocialArea[] }) {
         ))}
       </div>
       <div className="relative aspect-[16/8] overflow-hidden rounded-2xl">
-        <Image src={areas[active].image} alt={areas[active].name} fill className="object-cover" priority={false} />
+        <Image src={areas[active].image} alt={areas[active].alt || areas[active].name} fill className="object-cover" priority={false} />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-teal-950/90 via-teal-950/40 to-transparent p-4 md:p-6">
+          <div className="inline-flex max-w-2xl items-center gap-2 rounded-lg border border-brass-500/30 bg-teal-950/80 px-3.5 py-2 backdrop-blur-sm">
+            <span className="text-brass-400">📷</span>
+            <p className="font-mono text-xs text-sand-100 first-letter:capitalize">
+              {areas[active].alt || areas[active].name}
+            </p>
+          </div>
+        </div>
       </div>
       <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
         {areas.map((area, i) => (

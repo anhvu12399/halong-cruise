@@ -25,6 +25,7 @@ export type Cabin = {
 export type SocialArea = {
   name: string;
   image: string;
+  alt?: string;
 };
 
 export type PhotoItem = {
