@@ -77,12 +77,20 @@ export default function HeroSlideshow({
         );
       })}
 
-      {/* Gradient vignette — bottom darkening only, preserves sky clarity */}
+      {/* High-contrast multi-stop vignette for maximum text readability */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to top, rgba(22,56,28,0.90) 0%, rgba(27,67,29,0.30) 40%, rgba(27,67,29,0.04) 100%)',
+            'linear-gradient(to top, rgba(16,38,18,0.96) 0%, rgba(16,38,18,0.78) 45%, rgba(16,38,18,0.38) 75%, rgba(16,38,18,0.18) 100%)',
+          zIndex: 1,
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at bottom left, rgba(16,38,18,0.85) 0%, transparent 70%)',
           zIndex: 1,
         }}
       />
@@ -90,23 +98,23 @@ export default function HeroSlideshow({
 
       {/* Content */}
       <div className="container-content relative pb-16 pt-36" style={{ zIndex: 2 }}>
-        <p className="eyebrow mb-4 text-brass-300 font-bold">
+        <p className="eyebrow mb-4 text-[#F0C875] font-bold tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
           Ha Long Bay Cruise Specialist · Since 2015
         </p>
-        <h1 className="max-w-4xl font-display text-5xl font-medium leading-[1.06] tracking-tight text-sand-50 md:text-7xl">
+        <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_14px_rgba(0,0,0,0.95)] md:text-7xl">
           {heroTitle || 'Sail the Karsts.'}
         </h1>
 
-        {/* Slide name badge — subtle attribution of the background photo */}
-        <p
-          className="mt-3 font-mono text-xs text-brass-300/90 uppercase tracking-widest transition-opacity duration-700"
-          aria-live="polite"
-        >
-          ↑ {slides[current]?.name}
-        </p>
+        {/* Slide name badge — high contrast dark pill container */}
+        <div className="mt-3.5 inline-flex items-center gap-2 rounded-md border border-[#E09F00]/50 bg-[#16381C]/85 px-3.5 py-1.5 backdrop-blur-md shadow-lg">
+          <span className="text-[#E09F00] font-bold">↑</span>
+          <span className="font-mono text-xs font-bold uppercase tracking-widest text-sand-50 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+            {slides[current]?.name}
+          </span>
+        </div>
 
         {heroSubtitle && (
-          <p className="mt-4 max-w-2xl text-lg font-medium text-sand-100/90 leading-relaxed">
+          <p className="mt-4 max-w-2xl text-lg font-semibold text-sand-50 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
             {heroSubtitle}
           </p>
         )}
@@ -117,35 +125,35 @@ export default function HeroSlideshow({
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <Link
             href="/cruises"
-            className="rounded-full bg-terracotta-500 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-sand-50 transition hover:bg-terracotta-600 shadow-md"
+            className="rounded-full bg-[#E09F00] px-8 py-3.5 text-xs font-extrabold uppercase tracking-wider text-[#16381C] transition hover:bg-[#F0A800] shadow-xl"
           >
             Find My Cruise →
           </Link>
           <Link
             href={`/cruises/${slides[current]?.slug}`}
-            className="rounded-full border border-sand-100/40 bg-teal-950/40 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-sand-50 backdrop-blur-sm transition hover:border-brass-300 hover:text-brass-300"
+            className="rounded-full border border-[#E09F00]/60 bg-[#16381C]/80 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-sand-50 backdrop-blur-md transition hover:border-[#E09F00] hover:text-[#F0C875] shadow-lg"
           >
             View this ship
           </Link>
         </div>
 
         {/* Stat strip */}
-        <div className="mt-10 grid grid-cols-2 gap-5 border-t border-sand-100/20 pt-7 font-body text-sand-100/80 md:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-5 border-t border-sand-100/25 pt-7 font-body text-sand-100 md:grid-cols-4">
           <div>
-            <p className="eyebrow text-[10px] text-brass-300">Ships Listed</p>
-            <p className="mt-1 text-2xl font-bold text-sand-50">{cruiseCount ?? slides.length} Cruises</p>
+            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Ships Listed</p>
+            <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{cruiseCount ?? slides.length} Cruises</p>
           </div>
           <div>
-            <p className="eyebrow text-[10px] text-brass-300">Starting From</p>
-            <p className="mt-1 text-2xl font-bold text-sand-50">$39 / person</p>
+            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Starting From</p>
+            <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">$39 / person</p>
           </div>
           <div>
-            <p className="eyebrow text-[10px] text-brass-300">Customer Rating</p>
-            <p className="mt-1 text-2xl font-bold text-sand-50">4.9 ★ Google</p>
+            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Booking Fee</p>
+            <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">$0 Fee Always</p>
           </div>
           <div>
-            <p className="eyebrow text-[10px] text-brass-300">Expert Reply</p>
-            <p className="mt-1 text-2xl font-bold text-sand-50">Within 2 hrs</p>
+            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Price Promise</p>
+            <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">Direct Operators</p>
           </div>
         </div>
       </div>
