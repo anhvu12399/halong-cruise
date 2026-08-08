@@ -120,30 +120,37 @@ function mapWpCruise(post: WpCruisePost): Cruise {
 
   const cruiseName = a.breadcrumb_label || post.title?.rendered || post.slug;
 
+  const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
+
+  const heroImage = a.hero_image?.url || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
+  const galleryImages = mockFallback?.galleryImages && mockFallback.galleryImages.length > 0 ? mockFallback.galleryImages : (a.gallery ?? []).map((g: any) => g.url);
+  const finalCabins = cabins.length > 0 ? cabins : (mockFallback?.cabins || []);
+  const finalPrograms = programs.length > 0 ? programs : (mockFallback?.programs || []);
+
   return {
     slug: post.slug,
     name: cruiseName,
-    tagline: a.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
-    region: a.region || "Ha Long Bay & Lan Ha Bay",
+    tagline: a.tagline || mockFallback?.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
+    region: a.region || mockFallback?.region || "Ha Long Bay & Lan Ha Bay",
     breadcrumbLabel: cruiseName,
-    tags: splitLines(a.tags).map((t) => t.toLowerCase()),
-    durationDays: a.duration_days || 2,
-    durationNights: a.duration_nights || 1,
-    guestsMax: a.guests_max || 48,
-    cabinCount: a.cabin_count || 20,
-    startingPrice: a.starting_price ? Number(a.starting_price) : null,
-    heroImage: a.hero_image?.url || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? ""),
-    galleryImages: (a.gallery ?? []).map((g: any) => g.url),
-    overview: splitLines(a.overview),
-    lifeOnBoard: splitLines(a.life_on_board),
-    highlights: splitLines(a.highlights),
-    programs,
-    socialAreas,
-    cabins,
-    features: splitLines(a.features),
-    equipment: splitLines(a.equipment),
+    tags: splitLines(a.tags).length > 0 ? splitLines(a.tags).map((t) => t.toLowerCase()) : (mockFallback?.tags || ["luxury"]),
+    durationDays: a.duration_days || mockFallback?.durationDays || 2,
+    durationNights: a.duration_nights || mockFallback?.durationNights || 1,
+    guestsMax: a.guests_max || mockFallback?.guestsMax || 48,
+    cabinCount: a.cabin_count || mockFallback?.cabinCount || 20,
+    startingPrice: a.starting_price ? Number(a.starting_price) : (mockFallback?.startingPrice || 150),
+    heroImage,
+    galleryImages,
+    overview: splitLines(a.overview).length > 0 ? splitLines(a.overview) : (mockFallback?.overview || []),
+    lifeOnBoard: splitLines(a.life_on_board).length > 0 ? splitLines(a.life_on_board) : (mockFallback?.lifeOnBoard || []),
+    highlights: splitLines(a.highlights).length > 0 ? splitLines(a.highlights) : (mockFallback?.highlights || []),
+    programs: finalPrograms,
+    socialAreas: socialAreas.length > 0 ? socialAreas : (mockFallback?.socialAreas || []),
+    cabins: finalCabins,
+    features: splitLines(a.features).length > 0 ? splitLines(a.features) : (mockFallback?.features || []),
+    equipment: splitLines(a.equipment).length > 0 ? splitLines(a.equipment) : (mockFallback?.equipment || []),
     deckPlanImage: a.deck_plan?.url,
-    relatedSlugs: (a.related ?? []).map((r: any) => r.post_name),
+    relatedSlugs: (a.related ?? []).map((r: any) => r.post_name).length > 0 ? (a.related ?? []).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
   };
 }
 
