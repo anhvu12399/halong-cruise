@@ -27,6 +27,11 @@ export type SocialArea = {
   image: string;
 };
 
+export type PhotoItem = {
+  url: string;
+  alt?: string;
+};
+
 export type Cruise = {
   slug: string;
   name: string;
@@ -42,6 +47,13 @@ export type Cruise = {
   startingPrice: number | null; // null => "On request"
   heroImage: string;
   galleryImages: string[];
+  photos?: PhotoItem[];
+  rating?: number;
+  reviewCount?: number;
+  address?: string;
+  surroundings?: string[];
+  houseRules?: string[];
+  finePrint?: string;
   overview: string[];
   lifeOnBoard: string[];
   highlights: string[];

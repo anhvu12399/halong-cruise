@@ -46,13 +46,23 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
             <div>
               <div className="flex flex-wrap items-center gap-4">
                 <h1 className="font-display text-6xl text-sand-50 md:text-7xl">{cruise.name}</h1>
+                {cruise.rating && (
+                  <span className="eyebrow flex items-center gap-1 rounded-full border border-brass-500/40 bg-brass-500/20 px-4 py-1.5 text-brass-300 backdrop-blur-sm">
+                    ★ {cruise.rating} ({cruise.reviewCount || 100} reviews)
+                  </span>
+                )}
                 {cruise.tags.includes("best") && (
                   <span className="eyebrow rounded-full bg-terracotta-500 px-4 py-1.5 text-sand-50">
                     Best Cruises
                   </span>
                 )}
               </div>
-              <p className="mt-4 max-w-xl text-lg text-sand-100/80">{cruise.tagline}</p>
+              {cruise.address && (
+                <p className="mt-2 font-mono text-xs text-brass-400">
+                  📍 {cruise.address}
+                </p>
+              )}
+              <p className="mt-3 max-w-xl text-lg text-sand-100/80">{cruise.tagline}</p>
               <nav className="mt-8 flex flex-wrap gap-x-8 gap-y-2 font-mono text-xs uppercase tracking-wideish text-sand-100/70">
                 <a href="#overview" className="hover:text-brass-300">Overview</a>
                 <a href="#itinerary" className="hover:text-brass-300">Itinerary</a>
