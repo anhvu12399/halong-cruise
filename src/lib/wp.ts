@@ -132,7 +132,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     guestsMax: a.guests_max || 48,
     cabinCount: a.cabin_count || 20,
     startingPrice: a.starting_price ? Number(a.starting_price) : null,
-    heroImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? ""),
+    heroImage: a.hero_image?.url || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? ""),
     galleryImages: (a.gallery ?? []).map((g: any) => g.url),
     overview: splitLines(a.overview),
     lifeOnBoard: splitLines(a.life_on_board),
