@@ -38,16 +38,16 @@ export default function CategoryListingPage({
 
   return (
     <div className="bg-sand-50">
-      {/* Hero Section */}
-      <section className="relative min-h-[55vh] w-full overflow-hidden bg-teal-950">
+      {/* Hero Section — 100% crisp natural photo colors, no green tint mask */}
+      <section className="relative min-h-[55vh] w-full overflow-hidden bg-[#0B1D28]">
         <Image
           src={heroImage}
           alt={title}
           fill
           priority
-          className="object-cover opacity-35"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1D28]/95 via-[#0B1D28]/45 to-transparent" />
 
         <div className="container-content relative flex min-h-[55vh] flex-col justify-between py-14">
           <p className="eyebrow text-sand-100/80">

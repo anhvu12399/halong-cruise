@@ -53,8 +53,8 @@ export default function HeroSlideshow({
   if (slides.length === 0) return null;
 
   return (
-    <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-[#1B431D]">
-      {/* Slideshow background — FULL CLARITY, no opacity-60 */}
+    <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-[#0B2224]">
+      {/* Slideshow background — FULL CLARITY, 100% natural photo colors */}
       {slides.map((slide, idx) => {
         if (idx !== 0 && !mounted) return null;
         return (
@@ -71,44 +71,35 @@ export default function HeroSlideshow({
               loading={idx === 0 ? 'eager' : 'lazy'}
               sizes="100vw"
               className="object-cover object-center"
-              // ← No opacity class here — photo shows at full vibrancy
             />
           </div>
         );
       })}
 
-      {/* High-contrast multi-stop vignette for maximum text readability */}
+      {/* Subtle bottom vignette only — preserves 100% photo sky clarity */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to top, rgba(16,38,18,0.96) 0%, rgba(16,38,18,0.78) 45%, rgba(16,38,18,0.38) 75%, rgba(16,38,18,0.18) 100%)',
+            'linear-gradient(to top, rgba(11,34,36,0.88) 0%, rgba(11,34,36,0.25) 40%, transparent 80%)',
           zIndex: 1,
         }}
       />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at bottom left, rgba(16,38,18,0.85) 0%, transparent 70%)',
-          zIndex: 1,
-        }}
-      />
-      <div className="chart-grid absolute inset-0 opacity-20" style={{ zIndex: 1 }} />
+      <div className="chart-grid absolute inset-0 opacity-15" style={{ zIndex: 1 }} />
 
       {/* Content */}
       <div className="container-content relative pb-16 pt-36" style={{ zIndex: 2 }}>
-        <p className="eyebrow mb-4 text-[#F0C875] font-bold tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        <p className="eyebrow mb-4 text-brass-300 font-bold tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
           Ha Long Bay Cruise Specialist · Since 2015
         </p>
-        <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-[0_4px_14px_rgba(0,0,0,0.95)] md:text-7xl">
+        <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-sand-50 drop-shadow-[0_4px_14px_rgba(0,0,0,0.9)] md:text-7xl">
           {heroTitle || 'Sail the Karsts.'}
         </h1>
 
-        {/* Slide name badge — high contrast dark pill container */}
-        <div className="mt-3.5 inline-flex items-center gap-2 rounded-md border border-[#E09F00]/50 bg-[#16381C]/85 px-3.5 py-1.5 backdrop-blur-md shadow-lg">
-          <span className="text-[#E09F00] font-bold">↑</span>
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-sand-50 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+        {/* Slide name badge — elegant luxury pill */}
+        <div className="mt-3.5 inline-flex items-center gap-2 rounded-full border border-brass-400/40 bg-teal-950/70 px-4 py-1.5 backdrop-blur-md shadow-lg">
+          <span className="text-brass-300 font-bold">↑</span>
+          <span className="font-mono text-xs font-bold uppercase tracking-widest text-sand-50">
             {slides[current]?.name}
           </span>
         </div>

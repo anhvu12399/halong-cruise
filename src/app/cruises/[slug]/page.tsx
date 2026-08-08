@@ -29,11 +29,11 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
 
   return (
     <div className="bg-sand-50">
-      {/* Hero */}
-      <section className="relative min-h-[86vh] w-full overflow-hidden bg-teal-950">
-        <Image src={cruise.heroImage} alt={cruise.name} fill priority className="object-cover opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-teal-950/60 via-transparent to-transparent" />
+      {/* Hero Header — 100% natural photo clarity */}
+      <section className="relative min-h-[86vh] w-full overflow-hidden bg-[#0B2224]">
+        <Image src={cruise.heroImage} alt={cruise.name} fill priority className="object-cover object-center" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B2224] via-[#0B2224]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B2224]/70 via-transparent to-transparent" />
 
         <div className="container-content relative flex min-h-[86vh] flex-col justify-between pb-10 pt-10">
           <p className="eyebrow text-sand-100/80">

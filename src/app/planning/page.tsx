@@ -18,16 +18,16 @@ export default async function CruisePlanningHubPage() {
 
   return (
     <div className="bg-sand-50">
-      {/* Hero Section */}
-      <section className="relative min-h-[65vh] w-full overflow-hidden bg-[#231A14]">
+      {/* Hero Section — 100% natural photo clarity */}
+      <section className="relative min-h-[65vh] w-full overflow-hidden bg-[#0B2224]">
         <Image
           src="https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.webp?k=9d3aefd241f0c12537840e57970e2567330167d4a516f3746826967a5bb54164&o="
           alt="Cruise Planning Hub"
           fill
           priority
-          className="object-cover opacity-35"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#231A14] via-[#231A14]/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B2224] via-[#0B2224]/45 to-transparent" />
 
         <div className="container-content relative flex min-h-[65vh] flex-col justify-between py-16">
           <p className="eyebrow text-sand-100/80">
