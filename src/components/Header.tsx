@@ -108,9 +108,9 @@ export default function Header() {
 
   return (
     <>
-      {/* ── Top Announcement Bar — Deep Forest Green & Gold (#23491E & #E09F00) ── */}
+      {/* ── Top Announcement Bar ── */}
       {showBanner && (
-        <div className="relative z-50 flex items-center justify-between bg-[#23491E] px-4 py-2.5 text-xs text-sand-50 transition">
+        <div className="relative z-50 flex items-center justify-between bg-teal-900 px-4 py-2.5 text-xs text-sand-50 transition">
           <div className="mx-auto flex flex-wrap items-center justify-center gap-3 text-center font-mono">
             <span className="font-semibold tracking-wide">
               2 x 1 Special Offer &amp; Summer Promotion aboard{" "}
@@ -120,7 +120,7 @@ export default function Header() {
             </span>
             <Link
               href="/cruises"
-              className="inline-flex items-center rounded bg-[#E09F00] px-3 py-1 font-bold text-teal-950 transition hover:bg-[#F0A800]"
+              className="inline-flex items-center rounded bg-brass-400 px-3 py-1 font-bold text-teal-950 transition hover:bg-brass-300"
             >
               Details
             </Link>
@@ -211,7 +211,7 @@ export default function Header() {
         {/* ── CTA ──────────────────────────────────────────────────────────── */}
         <Link
           href="/inquire"
-          className="hidden items-center gap-2 rounded-full bg-[#E09F00] px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#16381C] transition hover:bg-[#F0A800] md:flex shadow-sm"
+          className="hidden items-center gap-2 rounded-full bg-brass-400 px-6 py-3 text-xs font-bold uppercase tracking-wider text-teal-950 transition hover:bg-brass-300 md:flex shadow-sm"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
             <path d="M6 1L6 11M1 6L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />

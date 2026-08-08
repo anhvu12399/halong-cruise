@@ -116,13 +116,13 @@ export default function HeroSlideshow({
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <Link
             href="/cruises"
-            className="rounded-full bg-[#E09F00] px-8 py-3.5 text-xs font-extrabold uppercase tracking-wider text-[#16381C] transition hover:bg-[#F0A800] shadow-xl"
+            className="rounded-full bg-brass-400 px-8 py-3.5 text-xs font-extrabold uppercase tracking-wider text-teal-950 transition hover:bg-brass-300 shadow-xl"
           >
             Find My Cruise →
           </Link>
           <Link
             href={`/cruises/${slides[current]?.slug}`}
-            className="rounded-full border border-[#E09F00]/60 bg-[#16381C]/80 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-sand-50 backdrop-blur-md transition hover:border-[#E09F00] hover:text-[#F0C875] shadow-lg"
+            className="rounded-full border border-brass-400/60 bg-teal-950/80 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-sand-50 backdrop-blur-md transition hover:border-brass-300 hover:text-brass-300 shadow-lg"
           >
             View this ship
           </Link>
@@ -131,19 +131,19 @@ export default function HeroSlideshow({
         {/* Stat strip */}
         <div className="mt-10 grid grid-cols-2 gap-5 border-t border-sand-100/25 pt-7 font-body text-sand-100 md:grid-cols-4">
           <div>
-            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Ships Listed</p>
+            <p className="eyebrow text-[10px] font-bold text-brass-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Ships Listed</p>
             <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{cruiseCount ?? slides.length} Cruises</p>
           </div>
           <div>
-            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Starting From</p>
+            <p className="eyebrow text-[10px] font-bold text-brass-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Starting From</p>
             <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">$39 / person</p>
           </div>
           <div>
-            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Booking Fee</p>
+            <p className="eyebrow text-[10px] font-bold text-brass-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Booking Fee</p>
             <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">$0 Fee Always</p>
           </div>
           <div>
-            <p className="eyebrow text-[10px] font-bold text-[#F0C875] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Price Promise</p>
+            <p className="eyebrow text-[10px] font-bold text-brass-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">Price Promise</p>
             <p className="mt-1 text-2xl font-extrabold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">Direct Operators</p>
           </div>
         </div>
