@@ -12,7 +12,7 @@ export default async function InquirePage({
 
   return (
     <div className="bg-sand-50">
-      <div className="chart-grid bg-teal-950 py-20 text-sand-100">
+      <div className="chart-grid bg-gradient-to-b from-[#1B431D] via-[#16381C] to-[#102A14] py-20 text-sand-100 border-b border-[#E09F00]/30">
         <div className="container-content">
           <p className="eyebrow mb-3">Home / Inquire</p>
           <h1 className="max-w-xl font-display text-5xl italic text-sand-50">Plan a sailing</h1>

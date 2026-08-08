@@ -40,7 +40,7 @@ export default async function CruisesPage({
 
   return (
     <div className="bg-sand-50">
-      <div className="chart-grid bg-teal-950 py-20 text-sand-100">
+      <div className="chart-grid bg-gradient-to-b from-[#0D2644] via-[#0A1D33] to-[#081524] py-20 text-sand-100 border-b border-brass-500/20">
         <div className="container-content">
           <p className="eyebrow mb-3">
             Home / Cruises

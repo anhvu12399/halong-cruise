@@ -104,13 +104,42 @@ function NavItem({
 
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [showBanner, setShowBanner] = useState(true);
 
   return (
-    <header
-      className="sticky top-0 z-50 border-b border-teal-800 bg-teal-950 text-sand-50 shadow-md"
-      onMouseLeave={() => setActiveDropdown(null)}
-    >
-      <div className="container-content flex h-20 items-center justify-between">
+    <>
+      {/* ── Top Announcement Bar — Deep Forest Green & Gold (#23491E & #E09F00) ── */}
+      {showBanner && (
+        <div className="relative z-50 flex items-center justify-between bg-[#23491E] px-4 py-2.5 text-xs text-sand-50 transition">
+          <div className="mx-auto flex flex-wrap items-center justify-center gap-3 text-center font-mono">
+            <span className="font-semibold tracking-wide">
+              2 x 1 Special Offer &amp; Summer Promotion aboard{" "}
+              <Link href="/cruises" className="underline underline-offset-4 hover:text-brass-300">
+                Ha Long &amp; Lan Ha Luxury Cruises
+              </Link>
+            </span>
+            <Link
+              href="/cruises"
+              className="inline-flex items-center rounded bg-[#E09F00] px-3 py-1 font-bold text-teal-950 transition hover:bg-[#F0A800]"
+            >
+              Details
+            </Link>
+          </div>
+          <button
+            onClick={() => setShowBanner(false)}
+            className="ml-2 text-sand-100/70 hover:text-sand-50"
+            aria-label="Close banner"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      <header
+        className="sticky top-0 z-50 border-b border-teal-800 bg-teal-950 text-sand-50 shadow-md"
+        onMouseLeave={() => setActiveDropdown(null)}
+      >
+        <div className="container-content flex h-20 items-center justify-between">
 
         {/* ── Brand ────────────────────────────────────────────────────────── */}
         <Link href="/" className="flex items-baseline gap-2.5 leading-none">
@@ -201,5 +230,6 @@ export default function Header() {
         </button>
       </div>
     </header>
-  );
+  </>
+);
 }
