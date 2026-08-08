@@ -288,6 +288,47 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         date: g.date || "",
         readTime: g.read_time || "",
       })),
+      headerMenu: {
+        cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+      },
+      footerData: {
+        address: a.footer_address || "",
+        phone: a.footer_phone || "",
+        email: a.footer_email || "",
+        cruises: (a.footer_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        tours: (a.footer_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        guides: (a.footer_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+      },
+      seoBlock: {
+        title: a.seo_title || "",
+        text: a.seo_text || "",
+      },
+      announcementBar: {
+        text: a.top_bar_text || "",
+        linkText: a.top_bar_link_text || "",
+        linkUrl: a.top_bar_link_url || "",
+      },
+      categoryTilesSection: {
+        eyebrow: a.category_section_eyebrow || "",
+        title: a.category_section_title || "",
+        description: a.category_section_desc || "",
+        tiles: (a.category_tiles ?? []).map((t: any) => ({
+          label: t.label || "",
+          subtitle: t.subtitle || "",
+          href: t.href || "",
+          image: t.image?.url || "",
+          badge: t.badge || "",
+        })),
+      },
+      leadCapture: {
+        shortlistTitle: a.shortlist_form_title || "",
+        shortlistSubtitle: a.shortlist_form_subtitle || "",
+        shortlistDesc: a.shortlist_form_desc || "",
+        stickyCtaText: a.sticky_cta_text || "",
+        stickyCtaWhatsapp: a.sticky_cta_whatsapp || "",
+      },
     };
   } catch (err) {
     console.error("[wp-headless] fallback to mock homepage content:", err);

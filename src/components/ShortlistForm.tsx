@@ -5,7 +5,7 @@ import { trackFormStart, trackFormSubmit } from "./Analytics";
 
 type FormState = "idle" | "sending" | "success" | "error";
 
-export default function ShortlistForm() {
+export default function ShortlistForm({ data }: { data?: any }) {
   const [state, setState] = useState<FormState>("idle");
   const [started, setStarted] = useState(false);
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -42,12 +42,14 @@ export default function ShortlistForm() {
 
   return (
     <div id="get-shortlist" className="rounded-3xl bg-teal-950 p-8 text-sand-50 shadow-xl md:p-12">
-      <p className="eyebrow text-brass-400">Free, no obligation</p>
+      <p className="eyebrow text-brass-400">
+        {data?.shortlistSubtitle || "Free, no obligation"}
+      </p>
       <h2 className="mt-3 font-display text-3xl italic text-sand-50 md:text-4xl">
-        Get my cruise shortlist
+        {data?.shortlistTitle || "Get my cruise shortlist"}
       </h2>
       <p className="mt-3 text-sand-100/70 max-w-lg">
-        Tell us your dates, budget and travel style — we&apos;ll send you 3–5 perfectly matched cruises within 2 hours.
+        {data?.shortlistDesc || "Tell us your dates, budget and travel style — we'll send you 3–5 perfectly matched cruises within 2 hours."}
       </p>
 
       {state === "success" ? (

@@ -15,39 +15,7 @@ const Ornament = () => (
   </svg>
 );
 
-const CRUISE_ITEMS = [
-  { href: "/cruises", label: "All Cruises" },
-  { href: "/cruises/best-value", label: "Best Value" },
-  { href: "/cruises/deluxe", label: "Deluxe Cruises" },
-  { href: "/cruises/luxury", label: "Luxury Cruises" },
-  { href: "/cruises/small-ship", label: "Small Ship" },
-  { href: "/cruises/family", label: "Family Cruises" },
-  { href: "/cruises/couples", label: "Couples & Honeymoon" },
-  { href: "/cruises/group", label: "Group & Charter" },
-];
-
-const TOUR_ITEMS = [
-  { href: "/tours/day-cruises", label: "Day Cruises" },
-  { href: "/tours/2-days-1-night", label: "2 Days 1 Night" },
-  { href: "/tours/3-days-2-nights", label: "3 Days 2 Nights" },
-  { href: "/tours/halong-bay", label: "Ha Long Bay" },
-  { href: "/tours/lan-ha-bay", label: "Lan Ha Bay" },
-  { href: "/tours/bai-tu-long-bay", label: "Bai Tu Long Bay" },
-  { href: "/tours/private-cruises", label: "Private Charters" },
-  { href: "/tours/honeymoon", label: "Honeymoon Tours" },
-  { href: "/tours/family-packages", label: "Family Packages" },
-];
-
-const GUIDE_ITEMS = [
-  { href: "/guides/best-cruises", label: "Best Ha Long Bay Cruises" },
-  { href: "/guides/cruise-prices", label: "Cruise Prices Guide" },
-  { href: "/guides/how-to-choose", label: "How to Choose a Cruise" },
-  { href: "/guides/bay-comparison", label: "Ha Long vs Lan Ha vs Bai Tu Long" },
-  { href: "/guides/best-time-to-visit", label: "Best Time to Visit" },
-  { href: "/guides/hanoi-to-halong", label: "Hanoi to Ha Long Bay" },
-  { href: "/guides/what-to-pack", label: "What to Pack" },
-  { href: "/guides/is-halong-worth-it", label: "Is Ha Long Bay Worth It?" },
-];
+// Menu items are now passed as props from the CMS
 
 function DropdownLink({ href, label }: { href: string; label: string }) {
   return (
@@ -102,7 +70,7 @@ function NavItem({
   );
 }
 
-export default function Header() {
+export default function Header({ menu, announcementBar }: { menu?: any; announcementBar?: any }) {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [showBanner, setShowBanner] = useState(true);
 
@@ -113,9 +81,9 @@ export default function Header() {
         <div className="relative z-50 flex items-center justify-between bg-teal-900 px-4 py-2.5 text-xs text-sand-50 transition">
           <div className="mx-auto flex flex-wrap items-center justify-center gap-3 text-center font-mono">
             <span className="font-semibold tracking-wide">
-              2 x 1 Special Offer &amp; Summer Promotion aboard{" "}
-              <Link href="/cruises" className="underline underline-offset-4 hover:text-brass-300">
-                Ha Long &amp; Lan Ha Luxury Cruises
+              {announcementBar?.text || "2 x 1 Special Offer & Summer Promotion aboard"}{" "}
+              <Link href={announcementBar?.linkUrl || "/cruises"} className="underline underline-offset-4 hover:text-brass-300">
+                {announcementBar?.linkText || "Ha Long & Lan Ha Luxury Cruises"}
               </Link>
             </span>
             <Link
@@ -163,7 +131,7 @@ export default function Header() {
             active={activeDropdown === "cruises"}
             onEnter={setActiveDropdown}
           >
-            {CRUISE_ITEMS.map((item) => (
+            {(menu?.cruises || []).map((item: any) => (
               <DropdownLink key={item.href} {...item} />
             ))}
           </NavItem>
@@ -174,7 +142,7 @@ export default function Header() {
             active={activeDropdown === "tours"}
             onEnter={setActiveDropdown}
           >
-            {TOUR_ITEMS.map((item) => (
+            {(menu?.tours || []).map((item: any) => (
               <DropdownLink key={item.href} {...item} />
             ))}
           </NavItem>
@@ -195,7 +163,7 @@ export default function Header() {
                 Planning Hub
               </span>
             </Link>
-            {GUIDE_ITEMS.map((item) => (
+            {(menu?.guides || []).map((item: any) => (
               <DropdownLink key={item.href} {...item} />
             ))}
           </NavItem>

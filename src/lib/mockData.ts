@@ -50721,7 +50721,66 @@ export const mockHomepageContent = {
   guidesTitle: "Cruise Guides & Advice",
   guidesList: [
     { title: "Ha Long Bay vs Lan Ha Bay: Which Cruise to Choose?", url: "/guides/bay-comparison", image: "https://cf.bstatic.com/xdata/images/hotel/max1920x1080/121409303.jpg?k=e7b8f154ae87921475f63aafeb13a215c77ccc70ee72dc10823bbc88e4f71cab&o=", date: "May 2026", readTime: "5 min read" }
-  ]
+  ],
+  headerMenu: {
+    cruises: [
+      { href: "/cruises", label: "All Cruises" },
+      { href: "/cruises/best-value", label: "Best Value" },
+      { href: "/cruises/luxury", label: "Luxury Cruises" }
+    ],
+    tours: [
+      { href: "/tours/2-days-1-night", label: "2 Days 1 Night" },
+      { href: "/tours/halong-bay", label: "Ha Long Bay" }
+    ],
+    guides: [
+      { href: "/guides/best-cruises", label: "Best Ha Long Bay Cruises" }
+    ]
+  },
+  footerData: {
+    address: "Tuan Chau Marina, Ha Long, Vietnam",
+    phone: "+84 123 456 789",
+    email: "hello@halongbestcruises.com",
+    cruises: [
+      { href: "/cruises", label: "All Cruises" },
+      { href: "/cruises/luxury", label: "Luxury Cruises" }
+    ],
+    tours: [
+      { href: "/tours/day-cruises", label: "Day Cruises" }
+    ],
+    guides: [
+      { href: "/guides/best-cruises", label: "Best Cruises" }
+    ]
+  },
+  seoBlock: {
+    title: "Ha Long Bay Cruises — A Specialist Guide",
+    text: "Ha Long Bay, a UNESCO World Heritage Site in northeastern Vietnam, is home to nearly 2,000 limestone karst islands rising dramatically from the emerald water of the Gulf of Tonkin. The best way to experience it is by cruise."
+  },
+  announcementBar: {
+    text: "2 x 1 Special Offer & Summer Promotion aboard",
+    linkText: "Ha Long & Lan Ha Luxury Cruises",
+    linkUrl: "/cruises"
+  },
+  categoryTilesSection: {
+    eyebrow: "Choose your style",
+    title: "Find your perfect cruise.",
+    description: "Same stunning bay, sorted by what matters most to you.",
+    tiles: [
+      { label: "Best Value", subtitle: "From $99 · Well-run ships", href: "/cruises/best-value", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.webp?k=9580531eb28c9c8e634700d2a64b6adbf3e920885c2bd5a97ead535c5b191cf5&o=", badge: "Most Popular" },
+      { label: "Deluxe", subtitle: "$150–$350 · Comfortable & stylish", href: "/cruises/deluxe", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.webp?k=332fd8224c34a103fadc0be18c2fd4fd3cc281dc81ca0777a453eacede034e92&o=", badge: "" },
+      { label: "Luxury", subtitle: "$400+ · Premium service", href: "/cruises/luxury", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.webp?k=9d3aefd241f0c12537840e57970e2567330167d4a516f3746826967a5bb54164&o=", badge: "" },
+      { label: "Family", subtitle: "Family suites · Child activities", href: "/cruises/family", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.webp?k=e7bdebdef0306a9d17bac45171c99ae969f974aff2911f37248e3e2ca570f025&o=", badge: "" },
+      { label: "Couples", subtitle: "Romance · Honeymoon · Sunsets", href: "/cruises/couples", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/411409062.webp?k=dd0f7b9297bb345b5350265a4466db99778914c17805d5a46a25ab5db2f8df33&o=", badge: "Honeymoon ♥" },
+      { label: "Group", subtitle: "8+ people · Charter options", href: "/cruises/group", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/540224451.webp?k=9275ad9f8fdad3bc9867f4f78fce11784317bb543b6539c8255cb7f4bd1ff16d&o=", badge: "" },
+      { label: "Small Ship", subtitle: "Under 20 cabins · Quiet bays", href: "/cruises/small-ship", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/895524639.webp?k=ad1836bbd6de1032a92737816e5a95038c5d8fd9e649979d98a9f722afb4acdd&o=", badge: "" }
+    ]
+  },
+  leadCapture: {
+    shortlistTitle: "Get my cruise shortlist",
+    shortlistSubtitle: "Free, no obligation",
+    shortlistDesc: "Tell us your dates, budget and travel style — we'll send you 3–5 perfectly matched cruises within 2 hours.",
+    stickyCtaText: "Need advice? Chat with a local expert",
+    stickyCtaWhatsapp: "84905999888"
+  }
 };
 
 export const cruises = mockCruises;

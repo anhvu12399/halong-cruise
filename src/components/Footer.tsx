@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { pressLogos } from "@/lib/mockData";
 
-export default function Footer() {
+export default function Footer({ data }: { data?: any }) {
   return (
     <footer className="chart-grid bg-teal-950 text-sand-100">
       {/* Top CTA Banner */}
@@ -35,12 +35,9 @@ export default function Footer() {
         <div>
           <p className="eyebrow mb-4 text-brass-300">Cruises by Category</p>
           <ul className="space-y-2.5 font-mono text-xs text-sand-100/80">
-            <li><Link href="/cruises" className="transition hover:text-brass-300">All Cruises</Link></li>
-            <li><Link href="/cruises/luxury" className="transition hover:text-brass-300">Luxury Cruises</Link></li>
-            <li><Link href="/cruises/5-star" className="transition hover:text-brass-300">5-Star Cruises</Link></li>
-            <li><Link href="/cruises/boutique" className="transition hover:text-brass-300">Boutique Cruises</Link></li>
-            <li><Link href="/cruises/family" className="transition hover:text-brass-300">Family Cruises</Link></li>
-            <li><Link href="/cruises/private-charter" className="transition hover:text-brass-300">Private Charter Cruises</Link></li>
+            {(data?.cruises || []).map((item: any, i: number) => (
+              <li key={i}><Link href={item.href} className="transition hover:text-brass-300">{item.label}</Link></li>
+            ))}
           </ul>
         </div>
 
@@ -48,15 +45,9 @@ export default function Footer() {
         <div>
           <p className="eyebrow mb-4 text-brass-300">Popular Tour Routes</p>
           <ul className="space-y-2.5 font-mono text-xs text-sand-100/80">
-            <li><Link href="/tours/2-days-1-night" className="transition hover:text-brass-300">2 Days 1 Night Cruises</Link></li>
-            <li><Link href="/tours/3-days-2-nights" className="transition hover:text-brass-300">3 Days 2 Nights Cruises</Link></li>
-            <li><Link href="/tours/day-cruises" className="transition hover:text-brass-300">Halong Bay Day Cruises</Link></li>
-            <li><Link href="/tours/lan-ha-bay" className="transition hover:text-brass-300">Lan Ha Bay Cruises</Link></li>
-            <li><Link href="/tours/bai-tu-long-bay" className="transition hover:text-brass-300">Bai Tu Long Bay Cruises</Link></li>
-            <li><Link href="/tours/hanoi-packages" className="transition hover:text-brass-300">Hanoi to Halong Packages</Link></li>
-            <li><Link href="/tours/private-cruises" className="transition hover:text-brass-300">Private Halong Cruises</Link></li>
-            <li><Link href="/tours/honeymoon" className="transition hover:text-brass-300">Honeymoon Cruises</Link></li>
-            <li><Link href="/tours/family-packages" className="transition hover:text-brass-300">Family Cruise Packages</Link></li>
+            {(data?.tours || []).map((item: any, i: number) => (
+              <li key={i}><Link href={item.href} className="transition hover:text-brass-300">{item.label}</Link></li>
+            ))}
           </ul>
         </div>
 
@@ -65,11 +56,9 @@ export default function Footer() {
           <p className="eyebrow mb-4 text-brass-300">Travel Guides &amp; Insights</p>
           <ul className="space-y-2.5 font-mono text-xs text-sand-100/80">
             <li><Link href="/planning" className="text-brass-300 transition hover:underline">✦ Cruise Planning Hub</Link></li>
-            <li><Link href="/guides/best-cruises" className="transition hover:text-brass-300">Best Halong Bay Cruises</Link></li>
-            <li><Link href="/guides/bay-comparison" className="transition hover:text-brass-300">Halong vs Lan Ha vs Bai Tu Long</Link></li>
-            <li><Link href="/guides/best-time-to-visit" className="transition hover:text-brass-300">Best Time to Visit Halong Bay</Link></li>
-            <li><Link href="/guides/cruise-prices" className="transition hover:text-brass-300">Halong Bay Cruise Prices</Link></li>
-            <li><Link href="/guides/how-to-choose" className="transition hover:text-brass-300">How to Choose a Cruise</Link></li>
+            {(data?.guides || []).map((item: any, i: number) => (
+              <li key={i}><Link href={item.href} className="transition hover:text-brass-300">{item.label}</Link></li>
+            ))}
           </ul>
         </div>
 
@@ -83,7 +72,9 @@ export default function Footer() {
             <li><span className="text-sand-100/50">Licensed Tour Operator ID: 01-1029/TCDL-GPLHQT</span></li>
           </ul>
           <p className="mt-4 text-xs text-sand-100/60 leading-relaxed">
-            Head Office: Tuan Chau Marina &amp; Old Quarter, Hanoi, Vietnam.
+            {data?.address || "Tuan Chau Marina, Ha Long, Vietnam"} <br />
+            {data?.phone || "+84 123 456 789"} <br />
+            {data?.email || "hello@halongbestcruises.com"}
           </p>
         </div>
       </div>

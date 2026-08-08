@@ -134,14 +134,16 @@ export default async function HomePage() {
       )}
 
       {/* ── Choose Your Style ── */}
-      <section className="container-content py-16 md:py-20">
-        <SectionHeading
-          eyebrow="Choose your style"
-          title="Find your perfect cruise."
-          description="Same stunning bay, sorted by what matters most to you."
-        />
-        <CategoryTiles />
-      </section>
+      {content.categoryTilesSection && (
+        <section className="container-content py-16 md:py-20">
+          <SectionHeading
+            eyebrow={content.categoryTilesSection.eyebrow}
+            title={content.categoryTilesSection.title}
+            description={content.categoryTilesSection.description}
+          />
+          <CategoryTiles data={content.categoryTilesSection.tiles} />
+        </section>
+      )}
 
       {/* ── Featured Fleet ── */}
       {content.featuredCruises && content.featuredCruises.length > 0 && (
@@ -261,22 +263,22 @@ export default async function HomePage() {
       {/* ── Get My Cruise Shortlist (Lead Capture) ── */}
       <section className="bg-sand-100/60 py-16 md:py-20">
         <div className="container-content max-w-3xl">
-          <ShortlistForm />
+          <ShortlistForm data={content.leadCapture} />
         </div>
       </section>
       {/* ── SEO Text Block ── */}
-      <section className="container-content py-16">
-        <div className="prose prose-sm mx-auto max-w-3xl text-ink-700">
-          <h2 className="font-display text-2xl font-medium italic text-ink-900 not-prose">
-            Ha Long Bay Cruises — A Specialist Guide
-          </h2>
-          <p className="mt-4 leading-relaxed font-normal">
-            Ha Long Bay, a UNESCO World Heritage Site in northeastern Vietnam, is home to nearly 2,000 limestone
-            karst islands rising dramatically from the emerald water of the Gulf of Tonkin. The best way to
-            experience it is by cruise.
-          </p>
-        </div>
-      </section>
+      {content.seoBlock?.title && content.seoBlock?.text && (
+        <section className="container-content py-16">
+          <div className="prose prose-sm mx-auto max-w-3xl text-ink-700">
+            <h2 className="font-display text-2xl font-medium italic text-ink-900 not-prose">
+              {content.seoBlock.title}
+            </h2>
+            <p className="mt-4 leading-relaxed font-normal whitespace-pre-line">
+              {content.seoBlock.text}
+            </p>
+          </div>
+        </section>
+      )}
     </>
   );
 }

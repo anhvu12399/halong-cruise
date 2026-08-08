@@ -84,15 +84,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+import { getHomepageContent } from "@/lib/wp";
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const content = await getHomepageContent();
+
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} ${label.variable}`}>
         <Analytics />
-        <Header />
+        <Header menu={content.headerMenu} announcementBar={content.announcementBar} />
         <main>{children}</main>
-        <Footer />
-        <StickyCta />
+        <Footer data={content.footerData} />
+        <StickyCta data={content.leadCapture} />
       </body>
     </html>
   );

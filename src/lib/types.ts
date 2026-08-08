@@ -103,4 +103,39 @@ export type HomepageContent = {
   testimonials: { quote: string; author: string; location: string }[];
   guidesTitle: string;
   guidesList: { title: string; url: string; image: string; date: string; readTime: string }[];
+  headerMenu?: {
+    cruises: { label: string; href: string }[];
+    tours: { label: string; href: string }[];
+    guides: { label: string; href: string }[];
+  };
+  footerData?: {
+    address: string;
+    phone: string;
+    email: string;
+    cruises: { label: string; href: string }[];
+    tours: { label: string; href: string }[];
+    guides: { label: string; href: string }[];
+  };
+  seoBlock?: {
+    title: string;
+    text: string;
+  };
+  announcementBar?: {
+    text: string;
+    linkText: string;
+    linkUrl: string;
+  };
+  categoryTilesSection?: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    tiles: { label: string; subtitle: string; href: string; image: string; badge: string }[];
+  };
+  leadCapture?: {
+    shortlistTitle: string;
+    shortlistSubtitle: string;
+    shortlistDesc: string;
+    stickyCtaText: string;
+    stickyCtaWhatsapp: string;
+  };
 };

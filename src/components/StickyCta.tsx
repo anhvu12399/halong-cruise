@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { trackWhatsApp, trackCtaClick } from "./Analytics";
 
-const WHATSAPP_URL =
-  "https://wa.me/84905999888?text=Hi%2C+I%27d+like+a+Ha+Long+Bay+cruise+shortlist";
+// CMS handles the WhatsApp URL now
 
-export default function StickyCta() {
+export default function StickyCta({ data }: { data?: any }) {
   const [visible, setVisible] = useState(false);
   const [formInView, setFormInView] = useState(false);
 
@@ -44,12 +43,14 @@ export default function StickyCta() {
     >
       <div className="mx-auto flex max-w-content items-center justify-between gap-3 bg-teal-950/95 px-4 py-3 backdrop-blur-sm md:rounded-t-2xl md:px-8 border-t border-teal-800">
         <p className="hidden text-sm text-sand-100/70 md:block">
-          <span className="font-semibold text-sand-50">64 Ha Long Bay cruises</span> — every budget &amp; style
+          <span className="font-semibold text-sand-50">
+            {data?.stickyCtaText || "64 Ha Long Bay cruises"}
+          </span>
         </p>
         <div className="flex w-full items-center gap-3 md:w-auto">
           <a
             id="sticky-whatsapp"
-            href={WHATSAPP_URL}
+            href={`https://wa.me/${data?.stickyCtaWhatsapp || "84905999888"}?text=Hi%2C+I%27d+like+a+Ha+Long+Bay+cruise+shortlist`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={trackWhatsApp}
