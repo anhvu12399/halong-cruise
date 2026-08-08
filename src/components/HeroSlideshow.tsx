@@ -53,7 +53,7 @@ export default function HeroSlideshow({
   if (slides.length === 0) return null;
 
   return (
-    <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-teal-950">
+    <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-[#1B431D]">
       {/* Slideshow background — FULL CLARITY, no opacity-60 */}
       {slides.map((slide, idx) => {
         if (idx !== 0 && !mounted) return null;
@@ -82,7 +82,7 @@ export default function HeroSlideshow({
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to top, rgba(8,20,32,0.85) 0%, rgba(8,20,32,0.22) 40%, rgba(8,20,32,0.04) 100%)',
+            'linear-gradient(to top, rgba(22,56,28,0.90) 0%, rgba(27,67,29,0.30) 40%, rgba(27,67,29,0.04) 100%)',
           zIndex: 1,
         }}
       />

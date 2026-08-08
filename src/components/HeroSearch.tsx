@@ -97,7 +97,7 @@ export default function HeroSearch() {
 
         <button
           onClick={goToListing}
-          className="m-0.5 shrink-0 rounded-full bg-terracotta-500 px-6 py-2.5 font-mono text-xs uppercase tracking-wideish text-sand-50 transition hover:bg-terracotta-600"
+          className="m-0.5 shrink-0 rounded-full bg-[#E09F00] px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wideish text-[#16381C] transition hover:bg-[#F0A800]"
         >
           Search
         </button>

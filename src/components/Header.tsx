@@ -211,10 +211,10 @@ export default function Header() {
         {/* ── CTA ──────────────────────────────────────────────────────────── */}
         <Link
           href="/inquire"
-          className="hidden items-center gap-2 rounded-full border border-terracotta-500 bg-terracotta-500 px-6 py-3 text-xs font-bold uppercase tracking-wider text-sand-50 transition hover:bg-terracotta-600 md:flex shadow-sm"
+          className="hidden items-center gap-2 rounded-full bg-[#E09F00] px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#16381C] transition hover:bg-[#F0A800] md:flex shadow-sm"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-            <path d="M6 1L6 11M1 6L11 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <path d="M6 1L6 11M1 6L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
           PLAN A SAILING
         </Link>

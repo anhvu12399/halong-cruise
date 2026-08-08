@@ -5,27 +5,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Midnight teal — deep water at dusk
+        // Deep Forest Green — exact green from user screenshot (#1B431D / #23491E)
         teal: {
-          950: "#0B2224",
-          900: "#123638",
-          800: "#17423F",
-          700: "#1F4D4F",
-          600: "#2C6360",
+          950: "#1B431D",
+          900: "#16381C",
+          800: "#23491E",
+          700: "#2D5E30",
+          600: "#38703C",
+        },
+        forest: {
+          950: "#1B431D",
+          900: "#16381C",
+          800: "#23491E",
+          700: "#2D5E30",
+          600: "#38703C",
+        },
+        gold: {
+          400: "#F0A800",
+          500: "#E09F00",
+          600: "#D49B00",
         },
         // Warm terracotta — junk-sail brick, lacquer trim
         terracotta: {
           50: "#FBEEE6",
-          400: "#D07F51",
-          500: "#B85C34",
-          600: "#9C4826",
-          700: "#7C381D",
+          400: "#E09F00",
+          500: "#E09F00",
+          600: "#D49B00",
+          700: "#B88500",
         },
         // Aged brass — deck fittings, lantern light
         brass: {
-          300: "#D9BE85",
-          400: "#C4A55A",
-          500: "#A9873F",
+          300: "#F0C875",
+          400: "#E09F00",
+          500: "#D49B00",
           600: "#8B6E30",
         },
         // Sand — limestone, sail canvas
