@@ -62,11 +62,30 @@ export default async function HomePage() {
     slideCruises.push(...fallbackCruises);
   }
 
-  const heroSlides = slideCruises.map((c) => ({
-    image: c!.heroImage,
-    name: c!.breadcrumbLabel || c!.name || 'Ha Long Bay Cruise',
-    slug: c!.slug,
-  }));
+  const fourthSlide = slideCruises[3] || slideCruises[0] || cruises[0];
+
+  const heroSlides = [
+    {
+      image: '/images/hero-ai-banner-1.png',
+      name: 'Ha Long Odyssey Luxury Sunset Voyage',
+      slug: 'cruises',
+    },
+    {
+      image: '/images/hero-ai-banner-2.png',
+      name: 'Lan Ha Heritage Grand 5-Star Sailing',
+      slug: 'cruises',
+    },
+    {
+      image: '/images/hero-ai-banner-3.png',
+      name: 'Bai Tu Long Twilight Boutique Expedition',
+      slug: 'cruises',
+    },
+    {
+      image: fourthSlide?.heroImage || 'https://cf.bstatic.com/xdata/images/hotel/max1920x1080/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=',
+      name: fourthSlide?.breadcrumbLabel || fourthSlide?.name || 'Ambassador Cruise Ha Long Bay',
+      slug: fourthSlide?.slug || 'cruises',
+    },
+  ];
 
   return (
     <>
