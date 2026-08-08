@@ -122,8 +122,9 @@ function mapWpCruise(post: WpCruisePost): Cruise {
 
   const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
 
-  const heroImage = a.hero_image?.url || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
-  const galleryImages = mockFallback?.galleryImages && mockFallback.galleryImages.length > 0 ? mockFallback.galleryImages : (a.gallery ?? []).map((g: any) => g.url);
+  const heroImage = a.hero_image_url || a.hero_image?.url || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
+  const extGalleryUrls = (a.external_gallery ?? []).map((e: any) => e.image_url || e).filter(Boolean);
+  const galleryImages = extGalleryUrls.length > 0 ? extGalleryUrls : (mockFallback?.galleryImages && mockFallback.galleryImages.length > 0 ? mockFallback.galleryImages : (a.gallery ?? []).map((g: any) => g.url));
   const finalCabins = cabins.length > 0 ? cabins : (mockFallback?.cabins || []);
   const finalPrograms = programs.length > 0 ? programs : (mockFallback?.programs || []);
 
