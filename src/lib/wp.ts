@@ -324,9 +324,15 @@ export async function getHomepageContent(): Promise<HomepageContent> {
       })),
       headerMenu: {
         logo: a.header_logo?.url || a.header_logo || "",
-        cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        cruises: Array.isArray(a.header_cruises) && a.header_cruises.length > 0
+          ? a.header_cruises.map((i: any) => ({ label: i.label || "", href: i.href || "" }))
+          : mockHomepageContent.headerMenu.cruises,
+        tours: Array.isArray(a.header_tours) && a.header_tours.length > 0
+          ? a.header_tours.map((i: any) => ({ label: i.label || "", href: i.href || "" }))
+          : mockHomepageContent.headerMenu.tours,
+        guides: Array.isArray(a.header_guides) && a.header_guides.length > 0
+          ? a.header_guides.map((i: any) => ({ label: i.label || "", href: i.href || "" }))
+          : mockHomepageContent.headerMenu.guides,
       },
       footerData: {
         address: a.footer_address || "Tuan Chau Marina, Ha Long, Vietnam",
