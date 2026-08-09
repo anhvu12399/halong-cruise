@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
+const WP_URL = (process.env.WORDPRESS_URL || "https://halongcruise.vietnamprivatetours.com").replace(/\/$/, "");
+
+function wpApiUrl(route: string): string {
+  const [path, query = ""] = route.replace(/^\/+/, "").split("?");
+  const url = new URL(WP_URL);
+  url.searchParams.set("rest_route", `/${path}`);
+  new URLSearchParams(query).forEach((value, key) => url.searchParams.set(key, value));
+  return url.toString();
+}
 
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;
@@ -20,7 +28,7 @@ export async function POST(req: NextRequest) {
   // a standard wp_mail() call in the plugin — emails your reservations inbox.
   if (WP_URL) {
     try {
-      const res = await fetch(`${WP_URL}/wp-json/halong/v1/inquiries`, {
+      const res = await fetch(wpApiUrl("halong/v1/inquiries"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

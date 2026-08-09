@@ -19,6 +19,32 @@ function wpApiUrl(route: string): string {
   return url.toString();
 }
 
+/** Fetch every page from a WordPress collection, not just the first 100 posts. */
+async function fetchWpCollection<T>(route: string): Promise<T[]> {
+  const separator = route.includes("?") ? "&" : "?";
+  const first = await fetch(wpApiUrl(`${route}${separator}per_page=100&page=1`), {
+    next: { revalidate: 300 },
+  });
+  if (!first.ok) throw new Error(`WordPress responded ${first.status}`);
+
+  const firstPage = await first.json();
+  if (!Array.isArray(firstPage)) return [];
+  const totalPages = Math.max(1, Number(first.headers.get("x-wp-totalpages") || 1));
+  if (totalPages === 1) return firstPage as T[];
+
+  const remaining = await Promise.all(
+    Array.from({ length: totalPages - 1 }, async (_, index) => {
+      const response = await fetch(wpApiUrl(`${route}${separator}per_page=100&page=${index + 2}`), {
+        next: { revalidate: 300 },
+      });
+      if (!response.ok) throw new Error(`WordPress responded ${response.status}`);
+      const page = await response.json();
+      return Array.isArray(page) ? page as T[] : [];
+    }),
+  );
+  return (firstPage as T[]).concat(...remaining);
+}
+
 /**
  * Headless WordPress integration layer.
  * 
@@ -203,18 +229,12 @@ export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
     // Try standard CPT endpoint first, then custom post type cruises-vietnam
-    let res = await fetch(wpApiUrl("wp/v2/cruises?_embed&per_page=100"), {
-      next: { revalidate: 300 },
-    });
-    
-    if (!res.ok) {
-      res = await fetch(wpApiUrl("wp/v2/cruises-vietnam?_embed&per_page=100"), {
-        next: { revalidate: 300 },
-      });
+    let posts: WpCruisePost[];
+    try {
+      posts = await fetchWpCollection<WpCruisePost>("wp/v2/cruises?_embed");
+    } catch {
+      posts = await fetchWpCollection<WpCruisePost>("wp/v2/cruises-vietnam?_embed");
     }
-
-    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
-    const posts: WpCruisePost[] = await res.json();
     if (!Array.isArray(posts) || posts.length === 0) return mockCruises;
     return posts.map(mapWpCruise);
   } catch (err) {
@@ -302,13 +322,11 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
     
     const a = posts[0].acf || {};
-    const [tourResponse, cruiseResponse, siteOptionsResponse] = await Promise.all([
-      fetch(wpApiUrl("wp/v2/tour-collections?_embed&per_page=100"), { next: { revalidate: 300 } }),
-      fetch(wpApiUrl("wp/v2/cruises?_embed&per_page=100"), { next: { revalidate: 300 } }),
+    const [tourPosts, cruisePosts, siteOptionsResponse] = await Promise.all([
+      fetchWpCollection<any>("wp/v2/tour-collections?_embed"),
+      fetchWpCollection<WpCruisePost>("wp/v2/cruises?_embed"),
       fetch(wpApiUrl("halong/v1/site-options"), { next: { revalidate: 300 } }),
     ]);
-    const tourPosts = tourResponse.ok ? await tourResponse.json() : [];
-    const cruisePosts: WpCruisePost[] = cruiseResponse.ok ? await cruiseResponse.json() : [];
     const siteOptions = siteOptionsResponse.ok ? await siteOptionsResponse.json() : {};
     const resolveTour = (ref: any) => {
       const slug = ref?.post_name || ref?.slug;
