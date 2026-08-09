@@ -87,6 +87,11 @@ function splitLines(value: string | undefined): string[] {
     .filter(Boolean);
 }
 
+/** ACF returns false for an empty repeater/relationship field. */
+function arrayValue<T = any>(value: unknown): T[] {
+  return Array.isArray(value) ? value as T[] : [];
+}
+
 /** ACF can return an image as a URL, attachment object or numeric ID depending
  * on the field configuration. The CMS uses URL fields by default, but this
  * keeps old WordPress data working after an upgrade. */
@@ -131,7 +136,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     programs.push({ id: "2d1n", name: "2 Days 1 Night", days: mapItinerary(a.itinerary) });
   }
 
-  const cabins: Cabin[] = (a.cabins ?? []).map((c: any) => ({
+  const cabins: Cabin[] = arrayValue(a.cabins).map((c: any) => ({
     name: c.name || "Suite Cabin",
     cabinCount: c.cabin_count || 10,
     guests: c.guests || "2–3",
@@ -142,7 +147,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     galleryImages: imageUrls(c.gallery_urls || c.gallery_images).length ? imageUrls(c.gallery_urls || c.gallery_images) : imageUrls(c.image_url || c.image),
   }));
 
-  const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s: any) => ({
+  const socialAreas: SocialArea[] = arrayValue(a.social_areas).map((s: any) => ({
     name: s.name || "Social Area",
     image: imageUrl(s.image_url || s.image),
     alt: s.alt_text || s.name || "Social Area",
@@ -154,7 +159,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
 
   const heroImage = imageUrl(a.hero_image_url || a.hero_image) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || imageUrl(a.gallery?.[0]);
   const extGalleryUrls = imageUrls(a.external_gallery);
-  const externalPhotos = (a.external_gallery ?? []).map((item: any) => ({
+  const externalPhotos = arrayValue(a.external_gallery).map((item: any) => ({
     url: imageUrl(item?.image_url || item?.url || item),
     alt: item?.alt_text || item?.alt || cruiseName,
   })).filter((item: any) => item.url);
@@ -190,7 +195,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     features: splitLines(a.features).length > 0 ? splitLines(a.features) : (mockFallback?.features || []),
     equipment: splitLines(a.equipment).length > 0 ? splitLines(a.equipment) : (mockFallback?.equipment || []),
     deckPlanImage: imageUrl(a.deck_plan_url || a.deck_plan),
-    relatedSlugs: (a.related ?? []).map((r: any) => r.post_name).length > 0 ? (a.related ?? []).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
+    relatedSlugs: arrayValue(a.related).map((r: any) => r.post_name).length > 0 ? arrayValue(a.related).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
   });
 }
 
@@ -263,7 +268,7 @@ function mapWpTourCollection(post: any): TourCollection {
     priceRangeText: a.price_range_text || "",
     bestMonthsText: a.best_months_text || "",
     expertAdvice: a.expert_advice || "",
-    faqs: (a.faqs ?? []).map((faq: any) => ({
+    faqs: arrayValue(a.faqs).map((faq: any) => ({
       question: faq.question || "",
       answer: faq.answer || "",
     })),
@@ -319,23 +324,23 @@ export async function getHomepageContent(): Promise<HomepageContent> {
       heroTitle: a.hero_title || "",
       heroSubtitle: a.hero_subtitle || "",
       heroBackground: imageUrl(a.hero_background_url || a.hero_background),
-      heroSlides: (a.hero_slides ?? []).map((slide: any) => ({
+      heroSlides: arrayValue(a.hero_slides).map((slide: any) => ({
         image: imageUrl(slide.image_url || slide.image),
         name: slide.name || "Ha Long Bay",
         slug: slide.slug || "cruises",
       })).filter((slide: any) => slide.image),
       tripTypesTitle: a.trip_types_title || "",
       tripTypesDescription: a.trip_types_description || "",
-      selectedStyles: (a.selected_styles ?? []).map(resolveTour),
+      selectedStyles: arrayValue(a.selected_styles).map(resolveTour),
       regionsTitle: a.regions_title || "",
       regionsDescription: a.regions_description || "",
-      selectedRegions: (a.selected_regions ?? []).map(resolveTour),
+      selectedRegions: arrayValue(a.selected_regions).map(resolveTour),
       featuredTitle: a.featured_title || "",
-      featuredCruises: (a.featured_cruises ?? []).map(resolveCruise),
+      featuredCruises: arrayValue(a.featured_cruises).map(resolveCruise),
       testimonialsTitle: a.testimonials_title || "",
       testimonialsEyebrow: a.testimonials_eyebrow || "",
       testimonialsRatingText: a.testimonials_rating_text || "",
-      testimonials: (a.testimonials ?? []).map((t: any) => ({
+      testimonials: arrayValue(a.testimonials).map((t: any) => ({
         quote: t.quote || "",
         author: t.author || "",
         location: t.location || "",
@@ -343,7 +348,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
       teamSection: {
         eyebrow: a.team_eyebrow || "",
         title: a.team_title || "",
-        members: (a.team_members ?? []).map((member: any) => ({
+        members: arrayValue(a.team_members).map((member: any) => ({
           name: member.name || "",
           role: member.role || "",
           experience: member.experience || "",
@@ -363,7 +368,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         hours: a.contact_hours || "",
       },
       guidesTitle: a.guides_title || "",
-      guidesList: (a.guides_list ?? []).map((g: any) => ({
+      guidesList: arrayValue(a.guides_list).map((g: any) => ({
         title: g.title || "",
         url: g.url || "",
         image: imageUrl(g.image_url || g.image),
@@ -380,17 +385,17 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         aboutLabel: a.header_about_label || "About Us",
         ctaLabel: a.header_cta_label || "Plan a Sailing",
         ctaUrl: a.header_cta_url || "/inquire",
-        cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        cruises: arrayValue(a.header_cruises).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        tours: arrayValue(a.header_tours).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        guides: arrayValue(a.header_guides).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
       },
       footerData: {
         address: a.footer_address || "Tuan Chau Marina, Ha Long, Vietnam",
         phone: a.footer_phone || "+84 988600388",
         email: a.footer_email || "sales@halongbestcruises.com",
-        cruises: (a.footer_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        tours: (a.footer_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        guides: (a.footer_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        cruises: arrayValue(a.footer_cruises).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        tours: arrayValue(a.footer_tours).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        guides: arrayValue(a.footer_guides).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
       },
       seoBlock: {
         title: a.seo_title || "",
@@ -405,7 +410,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         eyebrow: a.category_section_eyebrow || "",
         title: a.category_section_title || "",
         description: a.category_section_desc || "",
-        tiles: (a.category_tiles ?? []).map((t: any) => ({
+        tiles: arrayValue(a.category_tiles).map((t: any) => ({
           label: t.label || "",
           subtitle: t.subtitle || "",
           href: t.href || "",
