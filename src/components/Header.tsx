@@ -147,10 +147,10 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
             ) : (
               <div className="flex items-baseline gap-2">
                 <span className="font-display text-2xl font-semibold italic leading-none text-sand-50 tracking-tight">
-                  Ha Long
+                  Ha Long Best
                 </span>
                 <span className="font-label text-[10px] font-bold uppercase tracking-widest text-brass-300 leading-none">
-                  Bay Cruises
+                  Cruises
                 </span>
               </div>
             )}
