@@ -1,4 +1,5 @@
 import { Cruise, ItineraryDay, Cabin, SocialArea, TourCollection, HomepageContent, FrontendPageContent } from "./types";
+import { normalizeCruise } from "./normalizeCruises";
 import { 
   cruises as mockCruises, 
   getCruiseBySlug as getMockBySlug, 
@@ -152,7 +153,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
   const finalCabins = cabins.length > 0 ? cabins : (mockFallback?.cabins || []);
   const finalPrograms = programs.length > 0 ? programs : (mockFallback?.programs || []);
 
-  return {
+  return normalizeCruise({
     slug: post.slug,
     name: cruiseName,
     tagline: a.tagline || mockFallback?.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
@@ -180,7 +181,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     equipment: splitLines(a.equipment).length > 0 ? splitLines(a.equipment) : (mockFallback?.equipment || []),
     deckPlanImage: imageUrl(a.deck_plan_url || a.deck_plan),
     relatedSlugs: (a.related ?? []).map((r: any) => r.post_name).length > 0 ? (a.related ?? []).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
-  };
+  });
 }
 
 export async function getAllCruises(): Promise<Cruise[]> {

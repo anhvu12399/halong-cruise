@@ -191,7 +191,7 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
             {cruise.cabins.map((cabin, i) => (
               <div
                 key={cabin.name}
-                className={`grid items-center gap-8 md:grid-cols-2 md:gap-14 ${i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""}`}
+                className={`grid items-center gap-8 md:gap-14 ${cabin.image || cabin.galleryImages?.length ? "md:grid-cols-2" : ""} ${i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""}`}
               >
                 <div>
                   <p className="font-mono text-xs uppercase tracking-wideish text-terracotta-600">{cabin.cabinCount} cabins</p>
@@ -203,11 +203,13 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
                   </dl>
                   <p className="mt-5 leading-relaxed text-ink-700">{cabin.description}</p>
                 </div>
-                <CabinGallery
-                  images={cabin.galleryImages && cabin.galleryImages.length > 0 ? cabin.galleryImages : [cabin.image]}
-                  name={cabin.name}
-                  reversed={i % 2 === 1}
-                />
+                {(cabin.image || cabin.galleryImages?.length) && (
+                  <CabinGallery
+                    images={cabin.galleryImages && cabin.galleryImages.length > 0 ? cabin.galleryImages : [cabin.image]}
+                    name={cabin.name}
+                    reversed={i % 2 === 1}
+                  />
+                )}
               </div>
             ))}
           </div>
