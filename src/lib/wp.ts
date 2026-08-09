@@ -372,3 +372,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
 }
 
 export const isLive = Boolean(WP_URL);
+
+export async function getFrontendPage(slug: string) {
+  return null;
+}
