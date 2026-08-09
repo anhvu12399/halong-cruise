@@ -6,7 +6,16 @@ import {
   mockHomepageContent 
 } from "./mockData";
 
-const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
+const WP_URL = (process.env.WORDPRESS_URL || "https://halongcruise.vietnamprivatetours.com").replace(/\/$/, "");
+
+/** This WordPress host exposes its REST API through ?rest_route=, not /wp-json/. */
+function wpApiUrl(route: string): string {
+  const [path, query = ""] = route.replace(/^\/+/, "").split("?");
+  const url = new URL(WP_URL);
+  url.searchParams.set("rest_route", `/${path}`);
+  new URLSearchParams(query).forEach((value, key) => url.searchParams.set(key, value));
+  return url.toString();
+}
 
 const DEFAULT_HEADER_MENU = {
   cruises: [
@@ -81,8 +90,11 @@ type WpCruisePost = {
   };
 };
 
-function splitLines(value: string | undefined): string[] {
-  return (value ?? "")
+function splitLines(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean);
+  }
+  return (typeof value === "string" ? value : "")
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
@@ -210,12 +222,12 @@ export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
     // Try standard CPT endpoint first, then custom post type cruises-vietnam
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, {
+    let res = await fetch(wpApiUrl("wp/v2/cruises?_embed&per_page=100"), {
       next: { revalidate: 300 },
     });
     
     if (!res.ok) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&per_page=100`, {
+      res = await fetch(wpApiUrl("wp/v2/cruises-vietnam?_embed&per_page=100"), {
         next: { revalidate: 300 },
       });
     }
@@ -233,12 +245,12 @@ export async function getAllCruises(): Promise<Cruise[]> {
 export async function getCruiseBySlug(slug: string): Promise<Cruise | undefined> {
   if (!WP_URL) return getMockBySlug(slug);
   try {
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
+    let res = await fetch(wpApiUrl(`wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`), {
       next: { revalidate: 300 },
     });
 
     if (!res.ok) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`, {
+      res = await fetch(wpApiUrl(`wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`), {
         next: { revalidate: 300 },
       });
     }
@@ -285,7 +297,7 @@ function mapWpTourCollection(post: any): TourCollection {
 export async function getTourCollectionBySlug(slug: string): Promise<TourCollection | undefined> {
   if (!WP_URL) return mockTourCollections.find(c => c.slug === slug);
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`, {
+    const res = await fetch(wpApiUrl(`wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`), {
       next: { revalidate: 300 },
     });
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
@@ -301,7 +313,7 @@ export async function getTourCollectionBySlug(slug: string): Promise<TourCollect
 export async function getHomepageContent(): Promise<HomepageContent> {
   if (!WP_URL) return mockHomepageContent;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/homepage-content?_embed&per_page=1`, {
+    const res = await fetch(wpApiUrl("wp/v2/homepage-content?_embed&per_page=1"), {
       next: { revalidate: 300 },
     });
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
@@ -309,6 +321,10 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
     
     const a = posts[0].acf || {};
+    const siteOptionsResponse = await fetch(wpApiUrl("halong/v1/site-options"), {
+      next: { revalidate: 300 },
+    });
+    const siteOptions = siteOptionsResponse.ok ? await siteOptionsResponse.json() : {};
     return {
       heroTitle: a.hero_title || "",
       heroSubtitle: a.hero_subtitle || "",
@@ -327,6 +343,15 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         author: t.author || "",
         location: t.location || "",
       })),
+      contactStrip: {
+        whatsappLabel: a.contact_whatsapp_label || "WhatsApp",
+        whatsapp: siteOptions.site_whatsapp || a.contact_whatsapp || "",
+        emailLabel: a.contact_email_label || "Email",
+        email: siteOptions.site_email || a.contact_email || "",
+        officeLabel: a.contact_office_label || "Office",
+        office: a.contact_office || "",
+        hours: a.contact_hours || "",
+      },
       guidesTitle: a.guides_title || "",
       guidesList: (a.guides_list ?? []).map((g: any) => ({
         title: g.title || "",
