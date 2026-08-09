@@ -130,12 +130,12 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
 
       {/* ── Header Navbar ── */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 transform ${
+        className={`inset-x-0 top-0 z-40 transition-all duration-300 transform ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
           isAtTop
-            ? "bg-gradient-to-b from-teal-950/90 via-teal-950/50 to-transparent border-b border-transparent shadow-none"
-            : "bg-teal-950/90 backdrop-blur-md border-b border-teal-800/80 shadow-2xl"
+            ? "absolute bg-teal-950/72 backdrop-blur-[2px] border-b border-sand-50/10 shadow-none"
+            : "fixed bg-teal-950/92 backdrop-blur-md border-b border-teal-800/80 shadow-2xl"
         }`}
         onMouseLeave={() => setActiveDropdown(null)}
       >
