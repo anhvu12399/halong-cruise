@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
- * Version: 6.3.0
+ * Version: 6.3.1
  * Author: Ha Long Best Cruises
  */
 
@@ -475,11 +475,15 @@ function halong_set_imported_field($name, $value, $post_id, $overwrite) {
 function halong_import_frontend_cruises($endpoint, $overwrite = false) {
     if (!function_exists('update_field')) return new WP_Error('halong_acf_missing', 'Activate ACF Free before importing cruise fields.');
     $response = wp_remote_get($endpoint, ['timeout' => 60, 'redirection' => 3]);
-    if (is_wp_error($response)) return $response;
-    $status = wp_remote_retrieve_response_code($response);
-    if ($status !== 200) return new WP_Error('halong_export_http', 'Frontend export returned HTTP ' . $status . '. Deploy the latest frontend first.');
-    $payload = json_decode(wp_remote_retrieve_body($response), true);
-    if (!is_array($payload['cruises'] ?? null)) return new WP_Error('halong_export_invalid', 'The frontend export did not contain a cruises list.');
+    $payload = null;
+    if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+        $payload = json_decode(wp_remote_retrieve_body($response), true);
+    }
+    if (!is_array($payload['cruises'] ?? null)) {
+        $bundled_file = plugin_dir_path(__FILE__) . 'frontend-cruises.json';
+        if (is_readable($bundled_file)) $payload = json_decode(file_get_contents($bundled_file), true);
+    }
+    if (!is_array($payload['cruises'] ?? null)) return new WP_Error('halong_export_invalid', 'No valid cruise export was found online or in the plugin package.');
 
     $imported = 0; $created = 0; $skipped = 0;
     foreach ($payload['cruises'] as $cruise) {
@@ -559,7 +563,7 @@ function halong_render_cruise_importer() {
     }
     ?>
     <div class="wrap"><h1>Import Frontend Cruise Data</h1>
-      <p>This copies the cruise catalogue currently stored in the Next.js frontend into the matching WordPress ACF fields. Cruises are matched by slug; missing cruises are created.</p>
+      <p>This copies the cruise catalogue currently stored in the Next.js frontend into the matching WordPress ACF fields. Cruises are matched by slug; missing cruises are created. If the online export is unavailable, the plugin automatically uses its bundled frontend catalogue.</p>
       <?php if (is_wp_error($result)) : ?><div class="notice notice-error"><p><?php echo esc_html($result->get_error_message()); ?></p></div>
       <?php elseif (is_array($result)) : ?><div class="notice notice-success"><p><strong>Import complete:</strong> <?php echo esc_html($result['imported']); ?> cruises processed, <?php echo esc_html($result['created']); ?> created, <?php echo esc_html($result['skipped']); ?> skipped.</p></div><?php endif; ?>
       <form method="post" style="max-width:850px;background:#fff;border:1px solid #ccd0d4;padding:24px;margin-top:20px">
