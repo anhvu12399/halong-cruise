@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
- * Version: 6.3.1
+ * Version: 6.3.2
  * Author: Ha Long Best Cruises
  */
 
@@ -291,7 +291,7 @@ function render_halong_cms_homepage_settings() {
     $hero_img   = get_option('home_hero_image', 'https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg');
     $whatsapp   = get_option('site_whatsapp', '+84905999888');
     $email      = get_option('site_email', 'hello@halongbestcruises.com');
-    $frontend_url = get_option('frontend_site_url', 'https://www.halongbestcruises.com');
+    $frontend_url = halong_frontend_base_url();
     
     $tour_day   = get_option('tour_day_title', 'Ha Long Bay Day Cruises');
     $tour_2d1n  = get_option('tour_2d1n_title', '2 Day 1 Night Ha Long Bay Cruises');
@@ -377,8 +377,17 @@ function halong_cruise_field($name, $post_id) {
     return function_exists('get_field') ? get_field($name, $post_id) : get_post_meta($post_id, $name, true);
 }
 
+function halong_frontend_base_url() {
+    $url = trim((string) get_option('frontend_site_url', ''));
+    /* Migrate the incorrect default shipped briefly in v6.2–v6.3.1. */
+    if (!$url || untrailingslashit($url) === 'https://www.halongbestcruises.com') {
+        $url = 'https://halong-cruise.vercel.app';
+    }
+    return untrailingslashit($url);
+}
+
 function halong_cruise_frontend_url($post_id) {
-    $base = untrailingslashit((string) get_option('frontend_site_url', 'https://www.halongbestcruises.com'));
+    $base = halong_frontend_base_url();
     return $base . '/cruises/' . get_post_field('post_name', $post_id);
 }
 
@@ -554,7 +563,7 @@ function halong_import_frontend_cruises($endpoint, $overwrite = false) {
 
 function halong_render_cruise_importer() {
     if (!current_user_can('manage_options')) return;
-    $default_endpoint = untrailingslashit((string) get_option('frontend_site_url', 'https://www.halongbestcruises.com')) . '/api/cms-export';
+    $default_endpoint = halong_frontend_base_url() . '/api/cms-export';
     $result = null;
     if (isset($_POST['halong_run_cruise_import'])) {
         check_admin_referer('halong_import_frontend_cruises');
