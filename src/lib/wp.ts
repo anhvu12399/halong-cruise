@@ -287,12 +287,14 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
     
     const a = posts[0].acf || {};
-    const [tourResponse, cruiseResponse] = await Promise.all([
+    const [tourResponse, cruiseResponse, siteOptionsResponse] = await Promise.all([
       fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&per_page=100`, { next: { revalidate: 300 } }),
       fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, { next: { revalidate: 300 } }),
+      fetch(`${WP_URL}/wp-json/halong/v1/site-options`, { next: { revalidate: 300 } }),
     ]);
     const tourPosts = tourResponse.ok ? await tourResponse.json() : [];
     const cruisePosts: WpCruisePost[] = cruiseResponse.ok ? await cruiseResponse.json() : [];
+    const siteOptions = siteOptionsResponse.ok ? await siteOptionsResponse.json() : {};
     const resolveTour = (ref: any) => {
       const slug = ref?.post_name || ref?.slug;
       const full = (Array.isArray(tourPosts) ? tourPosts : []).find((post: any) => post.slug === slug);
@@ -342,9 +344,10 @@ export async function getHomepageContent(): Promise<HomepageContent> {
       },
       contactStrip: {
         whatsappLabel: a.contact_whatsapp_label || "",
-        whatsapp: a.contact_whatsapp || "",
+        // Website Settings is the single source of truth for these global contact details.
+        whatsapp: siteOptions.site_whatsapp || a.contact_whatsapp || "",
         emailLabel: a.contact_email_label || "",
-        email: a.contact_email || "",
+        email: siteOptions.site_email || a.contact_email || "",
         officeLabel: a.contact_office_label || "",
         office: a.contact_office || "",
         hours: a.contact_hours || "",
