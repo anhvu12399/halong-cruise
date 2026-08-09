@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
- * Version: 6.2.0
+ * Version: 6.3.0
  * Author: Ha Long Best Cruises
  */
 
@@ -430,6 +430,147 @@ add_action('admin_head-edit.php', function () {
     $screen = function_exists('get_current_screen') ? get_current_screen() : null;
     if ($screen && $screen->post_type === 'cruise') echo '<style>.column-halong_image{width:88px}.column-halong_price,.column-halong_duration{width:110px}.column-halong_frontend{width:135px}</style>';
 });
+
+/* Cruise editing is field-driven; the classic screen keeps all ACF tabs visible. */
+add_filter('use_block_editor_for_post_type', function ($use_block_editor, $post_type) {
+    return $post_type === 'cruise' ? false : $use_block_editor;
+}, 10, 2);
+
+add_action('admin_menu', function () {
+    add_submenu_page(
+        'edit.php?post_type=cruise',
+        'Import Frontend Cruise Data',
+        'Import Frontend Data',
+        'manage_options',
+        'halong-import-frontend-cruises',
+        'halong_render_cruise_importer'
+    );
+});
+
+function halong_import_itinerary_days($days) {
+    $result = [];
+    foreach ((array) $days as $day) {
+        $row = [
+            'title' => sanitize_text_field($day['title'] ?? ''),
+            'location' => sanitize_text_field($day['location'] ?? ''),
+            'image_url' => esc_url_raw($day['image'] ?? ''),
+            'am' => '', 'pm' => '', 'eve' => '',
+        ];
+        foreach ((array) ($day['blocks'] ?? []) as $block) {
+            $period = strtolower((string) ($block['period'] ?? ''));
+            if (in_array($period, ['am', 'pm', 'eve'], true)) $row[$period] = sanitize_textarea_field($block['text'] ?? '');
+        }
+        $result[] = $row;
+    }
+    return $result;
+}
+
+function halong_set_imported_field($name, $value, $post_id, $overwrite) {
+    $current = function_exists('get_field') ? get_field($name, $post_id, false) : get_post_meta($post_id, $name, true);
+    if (!$overwrite && $current !== false && $current !== '' && $current !== null && $current !== []) return;
+    if (function_exists('update_field')) update_field($name, $value, $post_id);
+    else update_post_meta($post_id, $name, $value);
+}
+
+function halong_import_frontend_cruises($endpoint, $overwrite = false) {
+    if (!function_exists('update_field')) return new WP_Error('halong_acf_missing', 'Activate ACF Free before importing cruise fields.');
+    $response = wp_remote_get($endpoint, ['timeout' => 60, 'redirection' => 3]);
+    if (is_wp_error($response)) return $response;
+    $status = wp_remote_retrieve_response_code($response);
+    if ($status !== 200) return new WP_Error('halong_export_http', 'Frontend export returned HTTP ' . $status . '. Deploy the latest frontend first.');
+    $payload = json_decode(wp_remote_retrieve_body($response), true);
+    if (!is_array($payload['cruises'] ?? null)) return new WP_Error('halong_export_invalid', 'The frontend export did not contain a cruises list.');
+
+    $imported = 0; $created = 0; $skipped = 0;
+    foreach ($payload['cruises'] as $cruise) {
+        $slug = sanitize_title($cruise['slug'] ?? '');
+        if (!$slug) { $skipped++; continue; }
+        $post = get_page_by_path($slug, OBJECT, 'cruise');
+        if (!$post) {
+            $post_id = wp_insert_post(['post_type' => 'cruise', 'post_status' => 'publish', 'post_title' => sanitize_text_field($cruise['name'] ?? $slug), 'post_name' => $slug], true);
+            if (is_wp_error($post_id)) { $skipped++; continue; }
+            $created++;
+        } else {
+            $post_id = $post->ID;
+        }
+
+        $simple = [
+            'tagline' => sanitize_text_field($cruise['tagline'] ?? ''),
+            'breadcrumb_label' => sanitize_text_field($cruise['breadcrumbLabel'] ?? $cruise['name'] ?? ''),
+            'region' => sanitize_text_field($cruise['region'] ?? ''),
+            'starting_price' => isset($cruise['startingPrice']) ? floatval($cruise['startingPrice']) : '',
+            'duration_days' => absint($cruise['durationDays'] ?? 0),
+            'duration_nights' => absint($cruise['durationNights'] ?? 0),
+            'cabin_count' => absint($cruise['cabinCount'] ?? 0),
+            'guests_max' => absint($cruise['guestsMax'] ?? 0),
+            'tags' => array_values(array_map('sanitize_text_field', (array) ($cruise['tags'] ?? []))),
+            'overview' => implode("\n\n", array_map('wp_kses_post', (array) ($cruise['overview'] ?? []))),
+            'highlights' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['highlights'] ?? []))),
+            'life_on_board' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['lifeOnBoard'] ?? []))),
+            'hero_image_url' => esc_url_raw($cruise['heroImage'] ?? ''),
+            'features' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['features'] ?? []))),
+            'equipment' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['equipment'] ?? []))),
+            'deck_plan_url' => esc_url_raw($cruise['deckPlanImage'] ?? ''),
+        ];
+        foreach ($simple as $name => $value) halong_set_imported_field($name, $value, $post_id, $overwrite);
+
+        $photos = [];
+        foreach ((array) ($cruise['photos'] ?? []) as $photo) {
+            if (!empty($photo['url'])) $photos[] = ['image_url' => esc_url_raw($photo['url']), 'alt_text' => sanitize_text_field($photo['alt'] ?? '')];
+        }
+        if (!$photos) foreach ((array) ($cruise['galleryImages'] ?? []) as $url) if ($url) $photos[] = ['image_url' => esc_url_raw($url), 'alt_text' => sanitize_text_field($cruise['name'] ?? '')];
+        halong_set_imported_field('external_gallery', $photos, $post_id, $overwrite);
+
+        $cabins = [];
+        foreach ((array) ($cruise['cabins'] ?? []) as $cabin) {
+            $gallery = [];
+            foreach ((array) ($cabin['galleryImages'] ?? []) as $url) if ($url) $gallery[] = ['image_url' => esc_url_raw($url)];
+            $cabins[] = [
+                'name' => sanitize_text_field($cabin['name'] ?? ''), 'cabin_count' => absint($cabin['cabinCount'] ?? 0),
+                'size' => sanitize_text_field($cabin['size'] ?? ''), 'guests' => sanitize_text_field($cabin['guests'] ?? ''),
+                'beds' => sanitize_text_field($cabin['beds'] ?? ''), 'description' => sanitize_textarea_field($cabin['description'] ?? ''),
+                'image_url' => esc_url_raw($cabin['image'] ?? ''), 'gallery_urls' => $gallery,
+            ];
+        }
+        halong_set_imported_field('cabins', $cabins, $post_id, $overwrite);
+
+        foreach ((array) ($cruise['programs'] ?? []) as $program) {
+            $id = sanitize_key($program['id'] ?? '');
+            if ($id === '2d1n' || $id === '3d2n') halong_set_imported_field('itinerary_' . $id, halong_import_itinerary_days($program['days'] ?? []), $post_id, $overwrite);
+        }
+        if (empty($cruise['programs']) && !empty($cruise['itinerary'])) halong_set_imported_field('itinerary', halong_import_itinerary_days($cruise['itinerary']), $post_id, $overwrite);
+
+        $areas = [];
+        foreach ((array) ($cruise['socialAreas'] ?? []) as $area) $areas[] = ['name' => sanitize_text_field($area['name'] ?? ''), 'image_url' => esc_url_raw($area['image'] ?? ''), 'alt_text' => sanitize_text_field($area['alt'] ?? '')];
+        halong_set_imported_field('social_areas', $areas, $post_id, $overwrite);
+        $imported++;
+    }
+    return ['imported' => $imported, 'created' => $created, 'skipped' => $skipped, 'total' => count($payload['cruises'])];
+}
+
+function halong_render_cruise_importer() {
+    if (!current_user_can('manage_options')) return;
+    $default_endpoint = untrailingslashit((string) get_option('frontend_site_url', 'https://www.halongbestcruises.com')) . '/api/cms-export';
+    $result = null;
+    if (isset($_POST['halong_run_cruise_import'])) {
+        check_admin_referer('halong_import_frontend_cruises');
+        $endpoint = esc_url_raw($_POST['export_endpoint'] ?? $default_endpoint);
+        $result = halong_import_frontend_cruises($endpoint, !empty($_POST['overwrite_existing']));
+    }
+    ?>
+    <div class="wrap"><h1>Import Frontend Cruise Data</h1>
+      <p>This copies the cruise catalogue currently stored in the Next.js frontend into the matching WordPress ACF fields. Cruises are matched by slug; missing cruises are created.</p>
+      <?php if (is_wp_error($result)) : ?><div class="notice notice-error"><p><?php echo esc_html($result->get_error_message()); ?></p></div>
+      <?php elseif (is_array($result)) : ?><div class="notice notice-success"><p><strong>Import complete:</strong> <?php echo esc_html($result['imported']); ?> cruises processed, <?php echo esc_html($result['created']); ?> created, <?php echo esc_html($result['skipped']); ?> skipped.</p></div><?php endif; ?>
+      <form method="post" style="max-width:850px;background:#fff;border:1px solid #ccd0d4;padding:24px;margin-top:20px">
+        <?php wp_nonce_field('halong_import_frontend_cruises'); ?>
+        <table class="form-table"><tr><th><label for="export_endpoint">Frontend Export URL</label></th><td><input class="large-text" type="url" id="export_endpoint" name="export_endpoint" required value="<?php echo esc_attr($default_endpoint); ?>"><p class="description">The latest frontend must be deployed before running this import.</p></td></tr>
+        <tr><th>Existing data</th><td><label><input type="checkbox" name="overwrite_existing" value="1"> Overwrite fields that already contain WordPress data</label><p class="description">Leave unchecked for the safest first import: only empty fields are filled.</p></td></tr></table>
+        <p class="submit"><button class="button button-primary button-large" type="submit" name="halong_run_cruise_import" value="1">Import / Sync Cruises Now</button></p>
+      </form>
+    </div>
+    <?php
+}
 
 /* ------------------------------------------------------------------ */
 /* 3. Cruise Fields                                                   */
