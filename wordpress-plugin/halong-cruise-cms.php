@@ -2,11 +2,17 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
- * Version: 6.1.0
+ * Version: 6.2.0
  * Author: Ha Long Best Cruises
  */
 
 if (!defined('ABSPATH')) exit;
+
+/* Explain the only required companion plugin instead of silently hiding fields. */
+add_action('admin_notices', function () {
+    if (function_exists('acf_add_local_field_group')) return;
+    echo '<div class="notice notice-error"><p><strong>Ha Long Cruise CMS:</strong> Install and activate the free <a href="' . esc_url(admin_url('plugin-install.php?s=Advanced%20Custom%20Fields&tab=search&type=term')) . '">Advanced Custom Fields (ACF)</a> plugin to display the Cruise Details fields. ACF Pro is not required.</p></div>';
+});
 
 /* ------------------------------------------------------------------ */
 /* ACF Free compatibility: lightweight Repeater field                 */
@@ -268,7 +274,7 @@ function render_halong_cms_homepage_settings() {
         check_admin_referer('halong_options_verify');
         $fields = [
             'home_hero_title', 'home_hero_subtitle', 'home_hero_image',
-            'site_whatsapp', 'site_email', 'tour_day_title',
+            'site_whatsapp', 'site_email', 'frontend_site_url', 'tour_day_title',
             'tour_2d1n_title', 'tour_3d2n_title', 'tour_halong_title',
             'tour_lanha_title', 'tour_baitulong_title'
         ];
@@ -285,6 +291,7 @@ function render_halong_cms_homepage_settings() {
     $hero_img   = get_option('home_hero_image', 'https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg');
     $whatsapp   = get_option('site_whatsapp', '+84905999888');
     $email      = get_option('site_email', 'hello@halongbestcruises.com');
+    $frontend_url = get_option('frontend_site_url', 'https://www.halongbestcruises.com');
     
     $tour_day   = get_option('tour_day_title', 'Ha Long Bay Day Cruises');
     $tour_2d1n  = get_option('tour_2d1n_title', '2 Day 1 Night Ha Long Bay Cruises');
@@ -320,6 +327,10 @@ function render_halong_cms_homepage_settings() {
                     <tr>
                         <th scope="row"><label for="site_email">Contact Email</label></th>
                         <td><input name="site_email" type="text" id="site_email" value="<?php echo esc_attr($email); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="frontend_site_url">Frontend Website URL</label></th>
+                        <td><input name="frontend_site_url" type="url" id="frontend_site_url" value="<?php echo esc_attr($frontend_url); ?>" class="regular-text" style="width:100%"><p class="description">Used by the View Frontend links in the Cruises list.</p></td>
                     </tr>
                 </table>
 
@@ -360,6 +371,65 @@ function render_halong_cms_homepage_settings() {
     </div>
     <?php
 }
+
+/* Make headless cruise data and its frontend destination visible in the list. */
+function halong_cruise_field($name, $post_id) {
+    return function_exists('get_field') ? get_field($name, $post_id) : get_post_meta($post_id, $name, true);
+}
+
+function halong_cruise_frontend_url($post_id) {
+    $base = untrailingslashit((string) get_option('frontend_site_url', 'https://www.halongbestcruises.com'));
+    return $base . '/cruises/' . get_post_field('post_name', $post_id);
+}
+
+add_filter('manage_cruise_posts_columns', function ($columns) {
+    return [
+        'cb' => $columns['cb'],
+        'halong_image' => 'Image',
+        'title' => 'Cruise Name',
+        'halong_region' => 'Region',
+        'halong_price' => 'Starting Price',
+        'halong_duration' => 'Duration',
+        'halong_frontend' => 'Frontend',
+        'date' => $columns['date'] ?? 'Date',
+    ];
+});
+
+add_action('manage_cruise_posts_custom_column', function ($column, $post_id) {
+    if ($column === 'halong_image') {
+        $image = halong_cruise_field('hero_image_url', $post_id);
+        if (!$image) $image = get_the_post_thumbnail_url($post_id, 'thumbnail');
+        echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:72px;height:48px;object-fit:cover;border-radius:5px">' : '<span aria-hidden="true">—</span>';
+    } elseif ($column === 'halong_region') {
+        echo esc_html(halong_cruise_field('region', $post_id) ?: '—');
+    } elseif ($column === 'halong_price') {
+        $price = halong_cruise_field('starting_price', $post_id);
+        echo $price !== '' && $price !== null ? esc_html('$' . number_format_i18n((float) $price)) : '<span style="color:#777">On request</span>';
+    } elseif ($column === 'halong_duration') {
+        $days = halong_cruise_field('duration_days', $post_id);
+        $nights = halong_cruise_field('duration_nights', $post_id);
+        echo ($days || $nights) ? esc_html($days . 'D / ' . $nights . 'N') : '—';
+    } elseif ($column === 'halong_frontend') {
+        echo '<a class="button button-small" target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post_id)) . '">View Frontend ↗</a>';
+    }
+}, 10, 2);
+
+add_filter('post_row_actions', function ($actions, $post) {
+    if ($post->post_type === 'cruise') {
+        $actions['halong_frontend'] = '<a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '">View Frontend</a>';
+    }
+    return $actions;
+}, 10, 2);
+
+add_action('post_submitbox_misc_actions', function ($post) {
+    if (!$post || $post->post_type !== 'cruise' || !$post->ID) return;
+    echo '<div class="misc-pub-section"><span class="dashicons dashicons-external" style="margin-right:6px"></span><a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '"><strong>View this cruise on frontend</strong></a></div>';
+});
+
+add_action('admin_head-edit.php', function () {
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if ($screen && $screen->post_type === 'cruise') echo '<style>.column-halong_image{width:88px}.column-halong_price,.column-halong_duration{width:110px}.column-halong_frontend{width:135px}</style>';
+});
 
 /* ------------------------------------------------------------------ */
 /* 3. Cruise Fields                                                   */
