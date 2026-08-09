@@ -40,50 +40,26 @@ export default async function HomePage() {
   const content = await getHomepageContent();
   const cruises = await getAllCruises();
 
-  // Chọn đúng 4 tàu hạng sang cao cấp nhất để banner luôn đẹp & sắc nét
-  const premiumSlugs = [
-    'heritage-cruises-binh-chuan-cat-ba-archipelago',
-    'stellar-of-the-seas-cruise',
-    'halong-capellacruise-member-of-lyra-cruise-collection',
-    'ambassador-cruise-halong-bay'
-  ];
-  
-  const slideCruises = premiumSlugs
-    .map(slug => cruises.find(c => c.slug === slug))
-    .filter(Boolean)
-    .filter((c) => c!.heroImage && c!.heroImage.startsWith('http'))
-    .slice(0, 4);
-
-  // Fallback nếu trong DB chưa có các tàu trên thì lấy 4 tàu bất kỳ có ảnh
-  if (slideCruises.length < 4) {
-    const fallbackCruises = cruises
-      .filter((c) => c.heroImage && c.heroImage.startsWith('http') && !slideCruises.includes(c))
-      .slice(0, 4 - slideCruises.length);
-    slideCruises.push(...fallbackCruises);
-  }
-
-  const fourthSlide = slideCruises[3] || slideCruises[0] || cruises[0];
-
   const fallbackHeroSlides = [
     {
-      image: '/images/hero-ai-banner-1.png',
-      name: 'Ha Long Odyssey Luxury Sunset Voyage',
+      image: '/images/halong-ai-hero-sunrise-modern.jpg',
+      name: 'Modern Five-Star Cruise at Sunrise',
       slug: 'cruises',
     },
     {
-      image: '/images/hero-ai-banner-2.png',
-      name: 'Lan Ha Heritage Grand 5-Star Sailing',
+      image: '/images/halong-ai-hero-indochine-day.jpg',
+      name: 'Indochine Heritage Cruise in Ha Long Bay',
       slug: 'cruises',
     },
     {
-      image: '/images/hero-ai-banner-3.png',
-      name: 'Bai Tu Long Twilight Boutique Expedition',
+      image: '/images/halong-ai-hero-sunset-navy.jpg',
+      name: 'Luxury Sunset Cruise with Infinity Pool',
       slug: 'cruises',
     },
     {
-      image: fourthSlide?.heroImage || 'https://cf.bstatic.com/xdata/images/hotel/max1920x1080/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=',
-      name: fourthSlide?.breadcrumbLabel || fourthSlide?.name || 'Ambassador Cruise Ha Long Bay',
-      slug: fourthSlide?.slug || 'cruises',
+      image: '/images/halong-ai-hero-misty-expedition.jpg',
+      name: 'Misty Dawn Expedition Cruise',
+      slug: 'cruises',
     },
   ];
   const heroSlides = content.heroSlides && content.heroSlides.length > 0 ? content.heroSlides : fallbackHeroSlides;
