@@ -1,11 +1,10 @@
-import { Cruise } from "./types";
-import { normalizeCruiseCatalog } from "./normalizeCruises";
+import { Cruise, TourCollection, HomepageContent } from "./types";
 
 export const mockCruises: Cruise[] = [
   {
     "slug": "majesty-luxury-prime-cruise-by-premier-group",
     "name": "Majesty Luxury Prime Cruise by Premier Group",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Majesty Luxury Prime Cruise by Premier Group.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Majesty Luxury Prime Cruise by Premier Group.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Majesty Luxury Prime Cruise by Premier Group",
     "tags": [
@@ -17,7 +16,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 24,
-    "startingPrice": 175,
+    "startingPrice": 137,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
@@ -302,7 +301,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -344,7 +343,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -774,7 +773,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "genesis-luxury-regal-cruise-by-premier-group",
     "name": "Genesis Luxury Regal Cruise by Premier Group",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Genesis Luxury Regal Cruise by Premier Group.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Genesis Luxury Regal Cruise by Premier Group.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Genesis Luxury Regal Cruise by Premier Group",
     "tags": [
@@ -786,7 +785,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 20,
-    "startingPrice": 193,
+    "startingPrice": 149,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.jpg?k=954daa92bedb9dc47652ed68580cb55dbf8f0303a0a4883af8ded79b2e0a5c0d&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.jpg?k=954daa92bedb9dc47652ed68580cb55dbf8f0303a0a4883af8ded79b2e0a5c0d&o=&hp=1",
@@ -1080,7 +1079,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -1122,7 +1121,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -1192,7 +1191,29 @@ export const mockCruises: Cruise[] = [
         "description": "Junior Suite Full Ocean View With Private Balcony- 2 Days 1 Night 1 extra-large double bed + Show prices",
         "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -1202,9 +1223,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed",
         "description": "Junior Suite Full Ocean View With Private Balcony - 3 Days 2 Nights 1 extra-large double bed + Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -1304,9 +1347,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed, 2 single beds",
         "description": "Junior Connecting Suite Full Ocean View- Private Balcony- 2 Days 1 Night 1 extra-large double bed 2 single beds × 4+ Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/832469345.jpg?k=686f42486bdded10a45013df4a703c8b016816a25c891157dabaad36d3c6cb13&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/832469345.jpg?k=686f42486bdded10a45013df4a703c8b016816a25c891157dabaad36d3c6cb13&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -1316,9 +1381,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed, 2 single beds",
         "description": "Junior Connecting Suite Full Ocean View With Private Balcony- 3 Days 2 Nights 1 extra-large double bed 2 single beds × 4+ Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353857570.jpg?k=8bbe4873218e268622defb59415113caa39605a8a56061853e26625cf52c57b3&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353857570.jpg?k=8bbe4873218e268622defb59415113caa39605a8a56061853e26625cf52c57b3&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -1424,9 +1511,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bed",
         "description": "Junior Wing Full Ocean View With Private Balcony- 2 Days 1 Night 1 large double bed Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353859817.jpg?k=648f50adb2a200a12db4bca792baeb3852596b88c8da32af9829268c917fbcde&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353859817.jpg?k=648f50adb2a200a12db4bca792baeb3852596b88c8da32af9829268c917fbcde&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -1436,9 +1545,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bed",
         "description": "Junior Wing Full Ocean View With Private Balcony- 3 Days 2 Nights 1 large double bed Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467922.jpg?k=cde6afc4338e09d8a5f23ef705da7146a5b141d0c4bba1a873d3f426b8abca86&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467922.jpg?k=cde6afc4338e09d8a5f23ef705da7146a5b141d0c4bba1a873d3f426b8abca86&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -1486,7 +1617,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "mon-cheri-cruises",
     "name": "Mon Cheri Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Mon Cheri Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Mon Cheri Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Mon Cheri Cruises",
     "tags": [
@@ -1498,7 +1629,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 18,
-    "startingPrice": 184,
+    "startingPrice": 170,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398250.jpg?k=9884c81c8863f906e55c13b9370dad7673f67e433e5c246fe4ae41cf5fba1fc9&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398250.jpg?k=9884c81c8863f906e55c13b9370dad7673f67e433e5c246fe4ae41cf5fba1fc9&o=&hp=1",
@@ -1768,7 +1899,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -1810,7 +1941,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -1980,7 +2111,21 @@ export const mockCruises: Cruise[] = [
         "description": "Mon Chéri Suite Terrace - 2 Days 1 Night 1 large double bed + Show prices",
         "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -1990,9 +2135,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed",
         "description": "Mon Chéri Suite Terrace - 3 Days 2 Nights 1 extra-large double bed + Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -2002,9 +2161,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 single bed, 1 extra-large double bed",
         "description": "Elegance Suite Triple - 2 Days 1 Night 1 single bedand1 extra-large double bed + Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -2014,9 +2187,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 single bed, 1 extra-large double bed",
         "description": "Elegance Suite Triple - 3 Days 2 Nights 1 single bedand1 extra-large double bed + Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -2149,7 +2336,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "calista-cruise-a-ha-long-bay-spectacle",
     "name": "Calista Cruise - A Ha Long Bay Spectacle",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Calista Cruise - A Ha Long Bay Spectacle.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Calista Cruise - A Ha Long Bay Spectacle.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Calista Cruise - A Ha Long Bay Spectacle",
     "tags": [
@@ -2161,7 +2348,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 18,
-    "startingPrice": 124,
+    "startingPrice": 159,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/904782584.jpg?k=6cc83550a6454a8d7fcaa6ed17cc88adad23a73c2a6a8eef4cb56a7c2fa75530&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/904782584.jpg?k=6cc83550a6454a8d7fcaa6ed17cc88adad23a73c2a6a8eef4cb56a7c2fa75530&o=&hp=1",
@@ -2431,7 +2618,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -2473,7 +2660,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -2880,7 +3067,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "aspira-cruise",
     "name": "Aspira Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Aspira Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Aspira Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Aspira Cruise",
     "tags": [
@@ -2892,7 +3079,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 9,
-    "startingPrice": 187,
+    "startingPrice": 160,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/242764332.jpg?k=abbb8ad07ee23d62773d1431b792bf3cb6350894cd419eb0506ed84aafe52955&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/242764306.jpg?k=8b4b3337ce6fa94062ef39a2cc1f6a958e9795c487b72d10bb1c588f62f75eee&o=&hp=1",
@@ -3178,7 +3365,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -3220,7 +3407,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -3483,7 +3670,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "aspira-cruise",
     "name": "Aspira Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Aspira Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Aspira Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Aspira Cruise",
     "tags": [
@@ -3495,7 +3682,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 9,
-    "startingPrice": 167,
+    "startingPrice": 199,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/242764332.jpg?k=abbb8ad07ee23d62773d1431b792bf3cb6350894cd419eb0506ed84aafe52955&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/242764306.jpg?k=8b4b3337ce6fa94062ef39a2cc1f6a958e9795c487b72d10bb1c588f62f75eee&o=&hp=1",
@@ -3781,7 +3968,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -3823,7 +4010,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -4086,7 +4273,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "rita-cruise",
     "name": "Rita Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Rita Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Rita Cruise.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Rita Cruise",
     "tags": [
@@ -4098,7 +4285,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 150,
+    "startingPrice": 160,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229715.jpg?k=65e9913620440526060924b54a5c3c85882c0d96d8038e9ff81db1b6da593562&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.jpg?k=43617013833f7920be7e713f26d270297c9d2781d8026d930d756f05125269e8&o=&hp=1",
@@ -4633,7 +4820,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "luna-cruise-luxury-ha-long-bay",
     "name": "Luna Cruise Luxury Ha Long Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Luna Cruise Luxury Ha Long Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Luna Cruise Luxury Ha Long Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Luna Cruise Luxury Ha Long Bay",
     "tags": [
@@ -4645,7 +4832,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 139,
+    "startingPrice": 178,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/880296819.jpg?k=e4c2f56e69084f3bab192fd50b12f3bf1a50a6e1b33b01929bff0e52448325f2&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/880296819.jpg?k=e4c2f56e69084f3bab192fd50b12f3bf1a50a6e1b33b01929bff0e52448325f2&o=&hp=1",
@@ -4935,7 +5122,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -4977,7 +5164,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -5174,7 +5361,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "catherine-cruises-ha-long-bay",
     "name": "Catherine Cruises Ha Long Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Catherine Cruises Ha Long Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Catherine Cruises Ha Long Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Catherine Cruises Ha Long Bay",
     "tags": [
@@ -5186,7 +5373,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 143,
+    "startingPrice": 138,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739238979.jpg?k=d07dd4c4b0029c05add75c878f598ff4c69d9d7ed5d4835e1696687717eb5643&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739238979.jpg?k=d07dd4c4b0029c05add75c878f598ff4c69d9d7ed5d4835e1696687717eb5643&o=&hp=1",
@@ -5476,7 +5663,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -5518,7 +5705,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -5586,9 +5773,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Premier Suite 1st Floor 1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739247686.jpg?k=fc561b4b136e27c38bc3f248e63586e20b244b0c6931da6ed78d8e1b5d2b7f5a&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739247686.jpg?k=fc561b4b136e27c38bc3f248e63586e20b244b0c6931da6ed78d8e1b5d2b7f5a&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       },
       {
@@ -5598,9 +5800,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Royal Suite1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252578.jpg?k=33eadb4a046be0e87b2c399b304b265f989d1fc66ae75f0f1d3ac023ff463b6e&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252578.jpg?k=33eadb4a046be0e87b2c399b304b265f989d1fc66ae75f0f1d3ac023ff463b6e&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       },
       {
@@ -5610,9 +5827,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Grand Suite 1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251114.jpg?k=65224fdfd719b6006dba0c003d4412088a9303120c1a56fa64c418dd6a9852ef&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251114.jpg?k=65224fdfd719b6006dba0c003d4412088a9303120c1a56fa64c418dd6a9852ef&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       },
       {
@@ -5622,9 +5854,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Premier Suite 2nd Floor 1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739247690.jpg?k=41d23ba89b41be3bccbc4e5847865660c7255ddaacfcb1190dd0f12b8d86d400&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739247690.jpg?k=41d23ba89b41be3bccbc4e5847865660c7255ddaacfcb1190dd0f12b8d86d400&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       },
       {
@@ -5634,9 +5881,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Premier Suite 3rd Floor 1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568238321.jpg?k=8acabac00adf84e6f66e0c93a260d77f313d9bbe58419a51bd90c0f62c962947&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568238321.jpg?k=8acabac00adf84e6f66e0c93a260d77f313d9bbe58419a51bd90c0f62c962947&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       },
       {
@@ -5666,9 +5928,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "2 single beds, 1 extra-large double bedS",
         "description": "Deluxe Double or Twin Room with Sea View2 single bedsor1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251161.jpg?k=814192dff17b08274d2aa7329a32a65e5be1d356abc479fb1c0432e88bb8749d&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251161.jpg?k=814192dff17b08274d2aa7329a32a65e5be1d356abc479fb1c0432e88bb8749d&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       },
       {
@@ -5678,9 +5955,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "2 single beds, 1 extra-large double bed",
         "description": "Two-Bedroom Suite2 single beds1 extra-large double bed× 6Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739248656.jpg?k=b1e2fb36835a5f3fbb6b7b0fbc842e381121492bf43430f21c1cfdb3efd233c8&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739248656.jpg?k=b1e2fb36835a5f3fbb6b7b0fbc842e381121492bf43430f21c1cfdb3efd233c8&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249616.jpg?k=d68ab39e6a231d5c4cf14b4b7d943517669c7d7a4093da9d3f20a03c4b84dd30&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568249807.jpg?k=6b24fed379794a1c3c8920d608042ac31d5fb782cd1c77b3d81b17184eb3207d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568251115.jpg?k=5dbaa22b8950ea058517d097ed2eaca88f0c16e2cf1b2dffb84b72decabf7e14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252582.jpg?k=3ab1c470cb7256ad94efb0bb61318063b5932d588d68366a8e1295b35d67c203&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252619.jpg?k=421c6563dfa4d902ac6efd6da5ef758d3fec3e67a5054c2fd5b0b575160565d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252748.jpg?k=dc6d9fb73f0e8fd81e276af7600b5558bb9ec4b09a2add3d133d6e1260280a3e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/568252725.jpg?k=1be4d4171c6e93e3b9c75c10a7c4e9f6feb7e7a695462e7c65f622e85807eefb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/745765649.jpg?k=4c50615fe02d8fba1a3416bfd3911544d755357a5b29c55e6575910c8625a0b9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/675452000.jpg?k=7e95c9feea7ac7e51fbd4902e3d1290a9ccd561ec9acd50b20ef4f52b157f165&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512747.jpg?k=85f1ba6da7da516283ce9d60781a8b55708b9259808351cce6188fa3a81040a5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512748.jpg?k=4e2ffb12b922408e3768738fbc4af97d50c3afbd1eb16848c99aae99203f53b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512749.jpg?k=fd4e153ef3948115530cd55fd2eda1cafe4addcc50e91b5ff1d4a883a2a22bf1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512751.jpg?k=83370318878bedbd6626d3c38b621626bc564d000ab17df2e3edf7f56b1cc037&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/739512750.jpg?k=e3b792bffd3dbd4aef30b3e0ec99b424dda72b4700aa6d93df7f53f5df13eb11&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739510659.jpg?k=df9ef9b8f8f1328482cd8edc9f2d8fead03572be8669730da1991203f0c420ae&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/739511740.jpg?k=cbb118b8a4b8be9016caf6e93c7cb9d1d8c85dc457b837527902e7d6873c545b&o="
         ]
       }
     ],
@@ -5704,7 +5996,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "venezia-cruises",
     "name": "Venezia Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Venezia Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Venezia Cruises.",
     "region": "Lan Ha Bay & Cat Ba",
     "breadcrumbLabel": "Venezia Cruises",
     "tags": [
@@ -5716,7 +6008,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 171,
+    "startingPrice": 183,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/592000877.jpg?k=c941d23a2e26f72b36102d0bad189f68b5607cc8d52299cdce1f762546ffc185&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/154280732.jpg?k=b06a6047c05a0c2ba550cd7573c1f483b6b8b10e65d4095fe7f96a4e23593573&o=&hp=1",
@@ -6197,7 +6489,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "arcady-boutique-cruise",
     "name": "Arcady Boutique Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Arcady Boutique Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Arcady Boutique Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Arcady Boutique Cruise",
     "tags": [
@@ -6209,7 +6501,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 126,
+    "startingPrice": 191,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/695679661.jpg?k=0271e0a81f9c399af5accd5208c9b7f7fc2981650258d6ab8c3ba047c947c210&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/695679661.jpg?k=0271e0a81f9c399af5accd5208c9b7f7fc2981650258d6ab8c3ba047c947c210&o=&hp=1",
@@ -6510,7 +6802,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -6552,7 +6844,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -6747,7 +7039,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "peony-cruises",
     "name": "Peony Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Peony Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Peony Cruises.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Peony Cruises",
     "tags": [
@@ -6759,7 +7051,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 10,
-    "startingPrice": 150,
+    "startingPrice": 142,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/411409062.jpg?k=3dadbbd269e4a4942176d0db538bf4289796ddcdc2dc41708b22e088f8051744&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/411409062.jpg?k=3dadbbd269e4a4942176d0db538bf4289796ddcdc2dc41708b22e088f8051744&o=&hp=1",
@@ -7329,7 +7621,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "unicharm-cruise",
     "name": "UniCharm Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard UniCharm Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard UniCharm Cruise.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "UniCharm Cruise",
     "tags": [
@@ -7341,7 +7633,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 190,
+    "startingPrice": 172,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/148781609.jpg?k=1de39b6666d64aedb076cb960e9c4427acac1208def4e22cb93b34ad2cf406a6&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/148781609.jpg?k=1de39b6666d64aedb076cb960e9c4427acac1208def4e22cb93b34ad2cf406a6&o=&hp=1",
@@ -7969,7 +8261,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "heritage-line-ylang-cruise-halong-bay-lan-ha-bay",
     "name": "Heritage Line Ylang Cruise - Halong Bay & Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Heritage Line Ylang Cruise - Halong Bay & Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Heritage Line Ylang Cruise - Halong Bay & Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Heritage Line Ylang Cruise - Halong Bay & Lan Ha Bay",
     "tags": [
@@ -7981,7 +8273,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 2,
-    "startingPrice": 151,
+    "startingPrice": 150,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/235509591.jpg?k=0779c27df8583815c682ebf6b8424c4706b6551c3849dbadf968fb1c1147c588&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/235509591.jpg?k=0779c27df8583815c682ebf6b8424c4706b6551c3849dbadf968fb1c1147c588&o=&hp=1",
@@ -8427,7 +8719,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "sena-cruises-wonder-on-lan-ha-bay",
     "name": "Sena Cruises - Wonder On Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Sena Cruises - Wonder On Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Sena Cruises - Wonder On Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Sena Cruises - Wonder On Lan Ha Bay",
     "tags": [
@@ -8439,7 +8731,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 120,
+    "startingPrice": 192,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/670786896.jpg?k=1771e351fca1a7a6a0fd33f5f647ae587b1d9ae26e7b51da1dea6a3d2849d696&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/670786896.jpg?k=1771e351fca1a7a6a0fd33f5f647ae587b1d9ae26e7b51da1dea6a3d2849d696&o=&hp=1",
@@ -8907,7 +9199,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "swan-cruises-halong-off-the-beaten-path-route",
     "name": "Swan Cruises Halong - Off-the-Beaten-Path Route",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Swan Cruises Halong - Off-the-Beaten-Path Route.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Swan Cruises Halong - Off-the-Beaten-Path Route.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Swan Cruises Halong - Off-the-Beaten-Path Route",
     "tags": [
@@ -8919,7 +9211,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 180,
+    "startingPrice": 126,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/676578105.jpg?k=fd21a6dd60939b60eedfb0ba575220a95c3ee2df127de81785edfe92dfa8fc1f&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/676578105.jpg?k=fd21a6dd60939b60eedfb0ba575220a95c3ee2df127de81785edfe92dfa8fc1f&o=&hp=1",
@@ -9190,7 +9482,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -9232,7 +9524,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -9386,7 +9678,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "vspirit-cruise",
     "name": "V'Spirit Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard V'Spirit Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard V'Spirit Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "V'Spirit Cruise",
     "tags": [
@@ -9398,7 +9690,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 12,
-    "startingPrice": 194,
+    "startingPrice": 155,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/434550424.jpg?k=9915c7f12c204baacf89b5e287d380da8ab315ec6c5412b2a595b0c0934c2899&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/434550424.jpg?k=9915c7f12c204baacf89b5e287d380da8ab315ec6c5412b2a595b0c0934c2899&o=&hp=1",
@@ -9668,7 +9960,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -9710,7 +10002,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -10029,7 +10321,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "aqua-cruise-lan-ha-bay",
     "name": "Aqua Cruise Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Aqua Cruise Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Aqua Cruise Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Aqua Cruise Lan Ha Bay",
     "tags": [
@@ -10041,7 +10333,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 13,
-    "startingPrice": 186,
+    "startingPrice": 151,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/488909129.jpg?k=3a2dbebedb611ac903569248ba4d8829394135baad72a8dd87b29bd673d1ef41&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/607444101.jpg?k=7f7b16e7cbf992730e0b9b67d951025e19b92bbe3eab527c8eaa39f040515f90&o=&hp=1",
@@ -10618,7 +10910,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "alisa-premier-cruise",
     "name": "Alisa Premier Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Alisa Premier Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Alisa Premier Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Alisa Premier Cruise",
     "tags": [
@@ -10630,7 +10922,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 122,
+    "startingPrice": 161,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/547976436.jpg?k=bb635ed6d34b672aed823fc3eb7397ce019982f52cb3fb68cfafdf258d89bd6a&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/547976436.jpg?k=bb635ed6d34b672aed823fc3eb7397ce019982f52cb3fb68cfafdf258d89bd6a&o=&hp=1",
@@ -10922,7 +11214,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -10964,7 +11256,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -11176,7 +11468,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "paradise-elegance-cruise-halong",
     "name": "Paradise Elegance Cruise Halong",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Paradise Elegance Cruise Halong.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Paradise Elegance Cruise Halong.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Paradise Elegance Cruise Halong",
     "tags": [
@@ -11188,7 +11480,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 154,
+    "startingPrice": 180,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/408941295.jpg?k=b02353e6b8c0d5dc0b98393242214be090ee12461e760a955afef58c0adfbaae&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/408941295.jpg?k=b02353e6b8c0d5dc0b98393242214be090ee12461e760a955afef58c0adfbaae&o=&hp=1",
@@ -11458,7 +11750,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -11500,7 +11792,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -11718,7 +12010,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "cozy-bay-cruise",
     "name": "Cozy Bay Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Cozy Bay Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Cozy Bay Cruise.",
     "region": "Lan Ha Bay & Cat Ba",
     "breadcrumbLabel": "Cozy Bay Cruise",
     "tags": [
@@ -11730,7 +12022,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 139,
+    "startingPrice": 194,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/880285128.jpg?k=72690d1fe25715ef5968688e94eec3450cbbb1ceb2eea933183caf168c887d1b&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/880284985.jpg?k=88ea181bc88b3c4fc895dcf0e077780764e03a8599cf7ac83ac288feb18d85d7&o=&hp=1",
@@ -12163,7 +12455,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "heritage-line-violet-cruise-halong-bay-lan-ha-bay",
     "name": "Heritage Line Violet Cruise - Halong Bay & Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Heritage Line Violet Cruise - Halong Bay & Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Heritage Line Violet Cruise - Halong Bay & Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Heritage Line Violet Cruise - Halong Bay & Lan Ha Bay",
     "tags": [
@@ -12175,7 +12467,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 2,
-    "startingPrice": 184,
+    "startingPrice": 169,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/707711968.jpg?k=05d87dff26a1774f1b0ed1993997f69ea25f522616b23cca71e53ab38db1c9f1&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/707711968.jpg?k=05d87dff26a1774f1b0ed1993997f69ea25f522616b23cca71e53ab38db1c9f1&o=&hp=1",
@@ -12624,7 +12916,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "rosy-cruises",
     "name": "Rosy Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Rosy Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Rosy Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Rosy Cruises",
     "tags": [
@@ -12636,7 +12928,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 11,
-    "startingPrice": 189,
+    "startingPrice": 164,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/227865150.jpg?k=0cad25edad84277dbfc693d9482943ceab5179776dd0e9d055727c30ae25940a&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/234521469.jpg?k=0a726239dbafa5077c0f5beca249d5184dd5e316b67aa102fb8f33b5c6554f46&o=&hp=1",
@@ -12926,7 +13218,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -12968,7 +13260,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -13340,7 +13632,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "the-au-co-cruise-longest-cruise-2-bays",
     "name": "The Au Co Cruise - Longest Cruise 2 Bays",
-    "tagline": "Experience northern Vietnam's pristine waters aboard The Au Co Cruise - Longest Cruise 2 Bays.",
+    "tagline": "Experience northern Vietnam pristine waters aboard The Au Co Cruise - Longest Cruise 2 Bays.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "The Au Co Cruise - Longest Cruise 2 Bays",
     "tags": [
@@ -13352,7 +13644,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 125,
+    "startingPrice": 170,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/892583721.jpg?k=72dbd0302332e0e5cf462b5f87dfc2e8c7589c5b188589acee4421076399834c&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/892583721.jpg?k=72dbd0302332e0e5cf462b5f87dfc2e8c7589c5b188589acee4421076399834c&o=&hp=1",
@@ -13833,7 +14125,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "signature-halong-cruise",
     "name": "Signature Halong Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Signature Halong Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Signature Halong Cruise.",
     "region": "Bai Tu Long Bay",
     "breadcrumbLabel": "Signature Halong Cruise",
     "tags": [
@@ -13845,7 +14137,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 179,
+    "startingPrice": 161,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/228965995.jpg?k=66b1f1c676ea5d2b7fd0fa2b11ffd4da99ad6f640cc7ed7f9703f0710b2e8516&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/228965995.jpg?k=66b1f1c676ea5d2b7fd0fa2b11ffd4da99ad6f640cc7ed7f9703f0710b2e8516&o=&hp=1",
@@ -14393,7 +14685,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "garden-peak-cruise",
     "name": "Garden Peak Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Garden Peak Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Garden Peak Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Garden Peak Cruise",
     "tags": [
@@ -14405,7 +14697,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 3,
-    "startingPrice": 189,
+    "startingPrice": 165,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/865027579.jpg?k=9438704912cf23c50e36a9eccc547f2ee63e10b87b08316101bef33e2af5bebe&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/865027579.jpg?k=9438704912cf23c50e36a9eccc547f2ee63e10b87b08316101bef33e2af5bebe&o=&hp=1",
@@ -14675,7 +14967,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -14717,7 +15009,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -14850,7 +15142,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "paradise-grand-cruise-lan-ha-bay",
     "name": "Paradise Grand Cruise - Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Paradise Grand Cruise - Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Paradise Grand Cruise - Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Paradise Grand Cruise - Lan Ha Bay",
     "tags": [
@@ -14862,7 +15154,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 9,
-    "startingPrice": 133,
+    "startingPrice": 175,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/485619778.jpg?k=33653e851dc70ecd3eeafe2cf4093c6a898f49956b8573cec37a579e5b916651&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/485619778.jpg?k=33653e851dc70ecd3eeafe2cf4093c6a898f49956b8573cec37a579e5b916651&o=&hp=1",
@@ -15387,7 +15679,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "calista-cruise-a-ha-long-bay-spectacle",
     "name": "Calista Cruise - A Ha Long Bay Spectacle",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Calista Cruise - A Ha Long Bay Spectacle.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Calista Cruise - A Ha Long Bay Spectacle.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Calista Cruise - A Ha Long Bay Spectacle",
     "tags": [
@@ -15399,7 +15691,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 18,
-    "startingPrice": 131,
+    "startingPrice": 141,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/904782584.jpg?k=6cc83550a6454a8d7fcaa6ed17cc88adad23a73c2a6a8eef4cb56a7c2fa75530&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/904782584.jpg?k=6cc83550a6454a8d7fcaa6ed17cc88adad23a73c2a6a8eef4cb56a7c2fa75530&o=&hp=1",
@@ -15669,7 +15961,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -15711,7 +16003,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -16118,7 +16410,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "mon-cheri-cruises",
     "name": "Mon Cheri Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Mon Cheri Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Mon Cheri Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Mon Cheri Cruises",
     "tags": [
@@ -16130,7 +16422,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 18,
-    "startingPrice": 121,
+    "startingPrice": 189,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398250.jpg?k=9884c81c8863f906e55c13b9370dad7673f67e433e5c246fe4ae41cf5fba1fc9&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398250.jpg?k=9884c81c8863f906e55c13b9370dad7673f67e433e5c246fe4ae41cf5fba1fc9&o=&hp=1",
@@ -16400,7 +16692,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -16442,7 +16734,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -16612,7 +16904,21 @@ export const mockCruises: Cruise[] = [
         "description": "Mon Chéri Suite Terrace - 2 Days 1 Night1 large double bed+Show prices",
         "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -16622,9 +16928,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed",
         "description": "Mon Chéri Suite Terrace - 3 Days 2 Nights1 extra-large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -16634,9 +16954,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 single bed, 1 extra-large double bed",
         "description": "Elegance Suite Triple - 2 Days 1 Night1 single bedand1 extra-large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -16646,9 +16980,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 single bed, 1 extra-large double bed",
         "description": "Elegance Suite Triple - 3 Days 2 Nights1 single bedand1 extra-large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398380.jpg?k=3e553da844501d70f328df97bf003878bab791f5da0062bffe25a4985770e88d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398381.jpg?k=48dd528246d0de1723086d919b5136a9e20d4053287d2005ec31d62afce4d4bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398468.jpg?k=3b40d5c09fb8487181c365fe55f83780c6fd25807b6ba8794525ef36c6b413cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222745555.jpg?k=92e0b013e2a762b247e624f4dcf0102b6858247af6edf66a3ad03987de6f36ba&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398466.jpg?k=1d03ee8bc3c85c38a7e59cc512521fdea45b77e39f7916856c3320f1586a049d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398462.jpg?k=216182e7a932b707cc04e38fc5c07cc26a9add025135c81bb23f6803d77bd626&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398523.jpg?k=27e8ed23c15789c358f086f06c91410a61ea874f1f3ff48ea2aaa39763392b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365398524.jpg?k=c8b20f9b8b3801c71d4765bbd9dde054a87e7c77ef3a07cfabe44d36b8a4424c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421598.jpg?k=061c51ade9c3ff8e563c562007ffcbd2f16cb80e345bc96f7944d580121a3d98&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365421594.jpg?k=12038d2db612a38a17e1151b5002887533104c7f40371664b79baeaf45da5bd8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/365461590.jpg?k=805034584b798e280a3668390e2fc4275040537b8f2c3ae74b9f99ee91a1f259&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089986.jpg?k=b0d85ac4502564a20811f75bef6f9be016b38a1752bf84b701c8fda3673233fa&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/378089984.jpg?k=12238000898dec5b2af2a415d86ad93c44004426d804e9643f7c991e18ff694c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980715.jpg?k=512355913ea57c312fe48ab0e44405431082da2d0f9f8d15f43a046f4173bfab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/382980717.jpg?k=c577df39cf1d6f2e497de7fc29b5056b00b56bbe198d02edbca33960f2829caf&o=&hp=1"
         ]
       },
       {
@@ -16781,7 +17129,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-arcadia-cruise",
     "name": "Halong Arcadia Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong Arcadia Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong Arcadia Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Halong Arcadia Cruise",
     "tags": [
@@ -16793,7 +17141,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 180,
+    "startingPrice": 175,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/540224451.jpg?k=1015f5923752b16eab73e8e896419ab77ae29aa013f98d66494bcc186f3b6c53&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/540224451.jpg?k=1015f5923752b16eab73e8e896419ab77ae29aa013f98d66494bcc186f3b6c53&o=&hp=1",
@@ -17073,7 +17421,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -17115,7 +17463,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -17282,7 +17630,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halora-nova-cruise",
     "name": "Halora Nova Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halora Nova Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halora Nova Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Halora Nova Cruise",
     "tags": [
@@ -17294,7 +17642,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 157,
+    "startingPrice": 152,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/782319755.jpg?k=a5c60f8d589df00b6a83bef5e2559638010ec28229b6be283c71f61a113fd6de&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/782319755.jpg?k=a5c60f8d589df00b6a83bef5e2559638010ec28229b6be283c71f61a113fd6de&o=&hp=1",
@@ -17554,7 +17902,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -17596,7 +17944,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -17792,7 +18140,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-fantasea-cruise",
     "name": "Halong Fantasea Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong Fantasea Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong Fantasea Cruise.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Halong Fantasea Cruise",
     "tags": [
@@ -17804,7 +18152,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 130,
+    "startingPrice": 174,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/492440737.jpg?k=aa558c8bf817a8c37ac138d440bb3643024ad9d96b737f030e5e078869f31219&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/492440737.jpg?k=aa558c8bf817a8c37ac138d440bb3643024ad9d96b737f030e5e078869f31219&o=&hp=1",
@@ -18300,7 +18648,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "bhaya-soul-wellness-inclusive-cruise",
     "name": "Bhaya Soul - Wellness Inclusive Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Bhaya Soul - Wellness Inclusive Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Bhaya Soul - Wellness Inclusive Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Bhaya Soul - Wellness Inclusive Cruise",
     "tags": [
@@ -18312,7 +18660,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 182,
+    "startingPrice": 131,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/773226460.jpg?k=b2265d0bd1003d0249a56113d0d3b5a685cd241664a2421a8510c03c362caedb&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/773226460.jpg?k=b2265d0bd1003d0249a56113d0d3b5a685cd241664a2421a8510c03c362caedb&o=&hp=1",
@@ -18582,7 +18930,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -18624,7 +18972,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -18834,7 +19182,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "cycad-cruise",
     "name": "Cycad cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Cycad cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Cycad cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Cycad cruise",
     "tags": [
@@ -18846,7 +19194,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 171,
+    "startingPrice": 156,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/838556933.jpg?k=8b1814986bab3a26ee7dfec1f8ba0527ea76bc2c201535022817c47716bdbf70&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/838556933.jpg?k=8b1814986bab3a26ee7dfec1f8ba0527ea76bc2c201535022817c47716bdbf70&o=&hp=1",
@@ -19116,7 +19464,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -19158,7 +19506,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -19331,7 +19679,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-pandora-boutique-cruises",
     "name": "La Pandora Boutique Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Pandora Boutique Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Pandora Boutique Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "La Pandora Boutique Cruises",
     "tags": [
@@ -19343,7 +19691,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 3,
-    "startingPrice": 144,
+    "startingPrice": 173,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/415422047.jpg?k=661de7d2253b9f89e16f82b0d362f2595c2193044a8f8e1d949aca0724e2e234&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/415422047.jpg?k=661de7d2253b9f89e16f82b0d362f2595c2193044a8f8e1d949aca0724e2e234&o=&hp=1",
@@ -19618,7 +19966,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -19660,7 +20008,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -19791,7 +20139,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-sapphire-cruises",
     "name": "Halong Sapphire Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong Sapphire Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong Sapphire Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Halong Sapphire Cruises",
     "tags": [
@@ -19803,7 +20151,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 9,
-    "startingPrice": 142,
+    "startingPrice": 157,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/522030338.jpg?k=e336b006568d0f2c1b893610d50236b0aae58cfe9b7742032396f474717b544f&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/522030338.jpg?k=e336b006568d0f2c1b893610d50236b0aae58cfe9b7742032396f474717b544f&o=&hp=1",
@@ -20064,7 +20412,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -20106,7 +20454,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -20344,7 +20692,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "fantasea-imperial-cruise",
     "name": "Fantasea Imperial Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Fantasea Imperial Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Fantasea Imperial Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Fantasea Imperial Cruise",
     "tags": [
@@ -20356,7 +20704,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 190,
+    "startingPrice": 172,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/485880580.jpg?k=6b8b9f55c28af1f8686b6d7461d4e83a18d802b38b8c485f4614d0c0fc47d0d2&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/145367002.jpg?k=c19554c3db6a966cadb4c83996e814fd4723b58bc309b2867b2ceff37438fb45&o=&hp=1",
@@ -20636,7 +20984,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -20678,7 +21026,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -20862,7 +21210,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "verdure-lotus-classic-cruise-on-lan-ha-bay",
     "name": "Verdure Lotus Classic Cruise on Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Verdure Lotus Classic Cruise on Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Verdure Lotus Classic Cruise on Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Verdure Lotus Classic Cruise on Lan Ha Bay",
     "tags": [
@@ -20874,7 +21222,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 188,
+    "startingPrice": 125,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848799249.jpg?k=e1622a6a6af9a91536fb7b1819f0760e4b04179a7a2fedb3ca911e53c4df4a10&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848799249.jpg?k=e1622a6a6af9a91536fb7b1819f0760e4b04179a7a2fedb3ca911e53c4df4a10&o=&hp=1",
@@ -21362,7 +21710,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "private-sail-ha-long-bai-tu-long",
     "name": "Private Sail Ha Long - Bai Tu Long",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Private Sail Ha Long - Bai Tu Long.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Private Sail Ha Long - Bai Tu Long.",
     "region": "Bai Tu Long Bay",
     "breadcrumbLabel": "Private Sail Ha Long - Bai Tu Long",
     "tags": [
@@ -21374,7 +21722,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 2,
-    "startingPrice": 124,
+    "startingPrice": 166,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/822323525.jpg?k=9ad2e5d5f8ff2aeeb0b3aeac7db5f3de3e580292c3d73c4ceffca0ba919bfa23&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/822323525.jpg?k=9ad2e5d5f8ff2aeeb0b3aeac7db5f3de3e580292c3d73c4ceffca0ba919bfa23&o=&hp=1",
@@ -21821,7 +22169,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "cozy-boutique-cruise",
     "name": "Cozy Boutique Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Cozy Boutique Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Cozy Boutique Cruise.",
     "region": "Lan Ha Bay & Cat Ba",
     "breadcrumbLabel": "Cozy Boutique Cruise",
     "tags": [
@@ -21833,7 +22181,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 192,
+    "startingPrice": 140,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/245138127.jpg?k=5e7d7bfddd3922c24df8e4a4857e0b5c25de34a1bd0fb101da64ded792f92ec1&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/245138127.jpg?k=5e7d7bfddd3922c24df8e4a4857e0b5c25de34a1bd0fb101da64ded792f92ec1&o=&hp=1",
@@ -22323,7 +22671,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "genesis-luxury-regal-cruise-by-premier-group",
     "name": "Genesis Luxury Regal Cruise by Premier Group",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Genesis Luxury Regal Cruise by Premier Group.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Genesis Luxury Regal Cruise by Premier Group.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Genesis Luxury Regal Cruise by Premier Group",
     "tags": [
@@ -22335,7 +22683,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 20,
-    "startingPrice": 157,
+    "startingPrice": 140,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.jpg?k=954daa92bedb9dc47652ed68580cb55dbf8f0303a0a4883af8ded79b2e0a5c0d&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.jpg?k=954daa92bedb9dc47652ed68580cb55dbf8f0303a0a4883af8ded79b2e0a5c0d&o=&hp=1",
@@ -22629,7 +22977,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -22671,7 +23019,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -22741,7 +23089,29 @@ export const mockCruises: Cruise[] = [
         "description": "Junior Suite Full Ocean View With Private Balcony- 2 Days 1 Night1 extra-large double bed+Show prices",
         "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -22751,9 +23121,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed",
         "description": "Junior Suite Full Ocean View With Private Balcony - 3 Days 2 Nights1 extra-large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -22853,9 +23245,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed, 2 single beds",
         "description": "Junior Connecting Suite Full Ocean View- Private Balcony- 2 Days 1 Night1 extra-large double bed2 single beds× 4+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/832469345.jpg?k=686f42486bdded10a45013df4a703c8b016816a25c891157dabaad36d3c6cb13&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/832469345.jpg?k=686f42486bdded10a45013df4a703c8b016816a25c891157dabaad36d3c6cb13&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -22865,9 +23279,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed, 2 single beds",
         "description": "Junior Connecting Suite Full Ocean View With Private Balcony- 3 Days 2 Nights1 extra-large double bed2 single beds× 4+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353857570.jpg?k=8bbe4873218e268622defb59415113caa39605a8a56061853e26625cf52c57b3&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353857570.jpg?k=8bbe4873218e268622defb59415113caa39605a8a56061853e26625cf52c57b3&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -22973,9 +23409,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bedS",
         "description": "Junior Wing Full Ocean View With Private Balcony- 2 Days 1 Night1 large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353859817.jpg?k=648f50adb2a200a12db4bca792baeb3852596b88c8da32af9829268c917fbcde&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/353859817.jpg?k=648f50adb2a200a12db4bca792baeb3852596b88c8da32af9829268c917fbcde&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -22985,9 +23443,31 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bedS",
         "description": "Junior Wing Full Ocean View With Private Balcony- 3 Days 2 Nights1 large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467922.jpg?k=cde6afc4338e09d8a5f23ef705da7146a5b141d0c4bba1a873d3f426b8abca86&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467922.jpg?k=cde6afc4338e09d8a5f23ef705da7146a5b141d0c4bba1a873d3f426b8abca86&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732928.jpg?k=75a9fcd8d7bd74d100cd1f98cea00c093cb8cd51199f269b6637828af3e30d60&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736490.jpg?k=060b6aec721f709ad88bf4aa02e7a62a1ed2e3a3ec49ae0df6b2a6317c2f60ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809312.jpg?k=eb28a2f7cd8ee892900951b0b6b5aa6e5bebf6f843599c0374416f8f72737d88&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733023.jpg?k=270b6b7cd1603a420b5781d63bf3d721b57f321d4dd28b3b5b50c929462350af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810613.jpg?k=fe81c5404cc353d23c7c88d88c37fb1b49dec6a2c847b5c52b70c65b87ec1326&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467334.jpg?k=a65947fb2c691810e50ba139501a29955861899e56a103515d424ad29d3b14db&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/389649877.jpg?k=643be857a174f5c0a2e904499311b2b67a5cc4486dda664ec5b92eb82604c8bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/224467320.jpg?k=2d5881ca36f645166410ad46ef270951519e8042ce9315b68f04e5c596551d86&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236218654.jpg?k=c6b46c19f4096f1b507e963c7f0523c1d1d8e53adf55b27f4b73c5add0c22001&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236216155.jpg?k=4ffc1fa41dbed43cc7519b3f8773f6949ec2b1a9a293051a598ecca792dbbd7a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501731951.jpg?k=7dfa54ae5f082de9f129582665598b85c22d6f4a8265482b5fc02a396e99ef2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732588.jpg?k=c539e2c18f4db101e6586132b251cda466fb9e6034472d1a798e77abfc904da9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733409.jpg?k=9a01b927c061e444bacff10b21176223786f3621c33a7e728c45157458692b19&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501732748.jpg?k=4a2a961a14cab773b55470c07c2ba137781e95ff05698d8d1601066471a08da7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733632.jpg?k=89e7efa8d7b909b7ce1629135cc95cbbc83fe71a5de0c56dfa56dc8aa57d39e2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501733781.jpg?k=5dbd25f1fa8a2dd5f8eb5c9749b841b8a332557a50d1b8a4d898c3b43aca6962&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501736668.jpg?k=e4034488cea0cee7c6be02f2180feef29b214d20399b432e14537f17e4bf16e1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502809830.jpg?k=e5fa1b42eee18836abca0b3987c5fd3470945f211777d16ec55b467b07f28c7c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810217.jpg?k=d2def8bb0e53ea69b80cd05b2627cbd9a7edde8cf122b7964dbab2d8a5ce1601&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/502810039.jpg?k=f2cb2a23e4d6bf624b104ab1768a3dc6426183156105060194ecb96d2417779d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236219412.jpg?k=47f31ed915cbf15f6960343e9c4dd1ee94858568ed86ebe1461a7d9ed0004d66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/501734303.jpg?k=c9902f6d0f19d442b9ade91a3ba8aabec34193d86052ee145506744e1b1936bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/502808308.jpg?k=deebf869a3ee123ba267672b74aefebdd520a104d004f218700544ccf944651d&o="
         ]
       },
       {
@@ -23035,7 +23515,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "cozy-bay-classic-cruise",
     "name": "Cozy Bay Classic Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Cozy Bay Classic Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Cozy Bay Classic Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Cozy Bay Classic Cruise",
     "tags": [
@@ -23047,7 +23527,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 187,
+    "startingPrice": 126,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/504580463.jpg?k=894b575279ee88b9c39dc48b716437a0bcc3b1951ee1a12ccd80bf790e386829&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/504580463.jpg?k=894b575279ee88b9c39dc48b716437a0bcc3b1951ee1a12ccd80bf790e386829&o=&hp=1",
@@ -23322,7 +23802,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -23364,7 +23844,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -23590,7 +24070,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-capellacruise-member-of-lyra-cruise-collection",
     "name": "Halong CAPELLACRUISE - Member of Lyra cruise collection",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong CAPELLACRUISE - Member of Lyra cruise collection.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong CAPELLACRUISE - Member of Lyra cruise collection.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Halong CAPELLACRUISE - Member of Lyra cruise collection",
     "tags": [
@@ -23602,7 +24082,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 25,
-    "startingPrice": 135,
+    "startingPrice": 170,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/672505782.jpg?k=af9a41363058cc5225607eaa23856f2106798b07358d4c2775d6e64d5fdb83a0&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/672505782.jpg?k=af9a41363058cc5225607eaa23856f2106798b07358d4c2775d6e64d5fdb83a0&o=&hp=1",
@@ -23872,7 +24352,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -23914,7 +24394,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -24276,9 +24756,30 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Small Double Room1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/374868059.jpg?k=10e4406774f2bb8ca7c0c8f9735772b0082b94a3dce201cc7e2e8073ea89ccf2&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848247590.jpg?k=24a9aff93b48c0a5df4d5a8ea53f987fc386d85074ed77a276626e5c7c4ddf95&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/374868059.jpg?k=10e4406774f2bb8ca7c0c8f9735772b0082b94a3dce201cc7e2e8073ea89ccf2&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848247590.jpg?k=24a9aff93b48c0a5df4d5a8ea53f987fc386d85074ed77a276626e5c7c4ddf95&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848247611.jpg?k=50eea3c242cc3e544021f0cd65090c5763ea5e592ff3cb73888ed4a3b10b4f16&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497087626.jpg?k=584f5684e837edf5deaab520a7c3cc5011d284e51b34216930206b9cfb12467e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497088424.jpg?k=ef25cab2cc34dfa2c8a0439c8ccef75d99aa0b0a93e0a33e99992587f93848af&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/375265193.jpg?k=d193e51bb645cef4969c1057cf4ebf97a4342156539262755d9eb05ff08239d5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/318440261.jpg?k=5aab527ff6c0b8b6932d4b56aeb6f77bfd45117db8a3a74703486f833b145b8a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/604993732.jpg?k=b2b60f14edd74c2a7ce136107e76995406b7d23b2e478567e5e876334519a94f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/375264022.jpg?k=6c515431db440014c4e2553c7f06eb1e7e9c71c1d4ffc2957df69294fe7ff1cc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/375263891.jpg?k=b64b80714247ed9551de17ef09ab5c389f234836add7c7e7d961ebec306b6913&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/375264010.jpg?k=dce71f32d6c66929c18f0a37441b2b9c0b0a4efc0daaabd503db255fc4c67e66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/375265395.jpg?k=9515a52d6944c3ff89465e10afcfe996bd6bebd3111311f02307c6cc087727e4&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/374868543.jpg?k=6fd25a8c62547a133f0c2f42499909a85a98e8631aa90f677a41f2dc022d8740&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/498302839.jpg?k=5b52b18346f78356fa1e72ad4366052b898da2ce415d909e529b0e72927539f1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/374868059.jpg?k=10e4406774f2bb8ca7c0c8f9735772b0082b94a3dce201cc7e2e8073ea89ccf2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/374868010.jpg?k=88cd40111767c294c650cab5c84a840ee168f14e601c6993fcb5e677692361ff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497093210.jpg?k=841cf215978167569d8b38abe69917b4ffaef3a48b9add1016dd67a0b5663092&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/318440258.jpg?k=62b532d84c76fcd5778eb7cf7fd2ff0a71398da3d3b70fe40f54423732d7f4ec&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497093217.jpg?k=736d54c1ca70f300668729f963dd7abb11211a7f57678e5295cbd902b443afa9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497093188.jpg?k=fc1e6e882e166b3865114ef0d1215d4e2824cc2eda5ca32bdd3f81d662d989d0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497093194.jpg?k=039051e5231da208c50387c22c4f666807bebe1b866e8a24e8800e0c08256f64&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497093205.jpg?k=16b55259f13abadf2b9ebfa5c51c04ee1460894bb1e7714df04a1408722503d1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/497088887.jpg?k=8da4b8ef92e8ca7da09e59d1837c59b76decdc56e9455e13d857e30265061498&o=&hp=1"
         ]
       },
       {
@@ -24344,7 +24845,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "oriental-sails-cruise",
     "name": "Oriental Sails Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Oriental Sails Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Oriental Sails Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Oriental Sails Cruise",
     "tags": [
@@ -24356,7 +24857,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 2,
-    "startingPrice": 150,
+    "startingPrice": 135,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/154737670.jpg?k=7ee0bd24aa6783c62916a471e3512f9037e195bd0683e26d957191a6f18e92c4&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/154737670.jpg?k=7ee0bd24aa6783c62916a471e3512f9037e195bd0683e26d957191a6f18e92c4&o=&hp=1",
@@ -24601,7 +25102,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -24643,7 +25144,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -24784,7 +25285,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "grand-pioneers-halong-bay-cruise-1",
     "name": "Grand Pioneers Halong Bay Cruise 1",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Grand Pioneers Halong Bay Cruise 1.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Grand Pioneers Halong Bay Cruise 1.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Grand Pioneers Halong Bay Cruise 1",
     "tags": [
@@ -24796,7 +25297,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 170,
+    "startingPrice": 133,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/598036986.jpg?k=c4e1a6957b15cfbb4441e1470d2860c560eb12eb7798ca91ceea877d0507ea5c&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/598036986.jpg?k=c4e1a6957b15cfbb4441e1470d2860c560eb12eb7798ca91ceea877d0507ea5c&o=&hp=1",
@@ -25086,7 +25587,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -25128,7 +25629,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -25203,7 +25704,34 @@ export const mockCruises: Cruise[] = [
         "description": "Ocean Suite with Balcony2 single bedsor1 extra-large double bedShow prices",
         "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523643373.jpg?k=2ae14b64cfe36f798b8b469967b45f2380f3a31dcb7b2923e1984145f8982033&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523643373.jpg?k=2ae14b64cfe36f798b8b469967b45f2380f3a31dcb7b2923e1984145f8982033&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523643373.jpg?k=2ae14b64cfe36f798b8b469967b45f2380f3a31dcb7b2923e1984145f8982033&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637765.jpg?k=35ff042ca7d58ea5e027286d1bd9f433961a2cce1df2a4112f6360956520fae8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/587980763.jpg?k=8a7269f78b459576403748fed9a2365542ca7eeb170114a148829f1317ae8461&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523643379.jpg?k=9c556902436b44a9b2b139c7174e58743a6cfb4be3a5939eceae2d726aa685d2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637316.jpg?k=ab46bfbd9d679cf0750534e796873ef6d8900f287662ee79e25b2bebdd70e78b&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637772.jpg?k=d83dcd069387ec4837c04206dd3381e643de79d6e80b929e9bb1837e3134a53c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523643402.jpg?k=71eec7c3b2cb473b63ee764ffed0cc79ac44672c6a81e17a9eb36bc1f357c72a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523643374.jpg?k=625a298914c2591059c97b2a5265ed5a1efa6cb82488badbd82fecec9b547ecc&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/531105207.jpg?k=8bdec1bfab9f818fd700b553f57302b3670ddfaeea49e1d8d952fdd3bce64c0d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637897.jpg?k=1066e4c60079f26b7e95a0faaa7104d2f2f7702bc30431f8f336ffec76e382b7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523639903.jpg?k=4029ab7e732b9d9fb4b6aff0606dde13a28aeaf9573fd842e9652673f60640ab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637570.jpg?k=272a5b3d2479753553497c3fad6772cc65c3093ba5a06905fe59c1e67a0a6629&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523639771.jpg?k=dac76269048c104726feb389db7e3a94a0e266d8214b73acbdcca8eee4ade9e3&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637555.jpg?k=90ffdb7b8e1b832da8185396c479a5b2a6c868132634480a29bb907325da774d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637556.jpg?k=dcf9b5be3ea96cf19d48db51950b006aa2214932fe008226dbd2ddc50b4275b1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637574.jpg?k=348be5e4c40dc6538dc6a2184b00379c1cc1ca43f1a0db57764a3ac278375a15&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523639764.jpg?k=bb573e3e3507210a0999afdad490bc652666bbbf4f1c4d2e5392ca2c48cad751&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637799.jpg?k=8a205c60e0875e7533e7bffe6da6babfbc1f0a7fbb33924ac9fdfc0b4fc29bad&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637813.jpg?k=092f0bad1eac660fbb847c9f6d94c15599b4c96ae1948a78d133256bc9236ecd&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637664.jpg?k=3c7d58e28e2f9f7be037ed28be0a79e3c0a1081f1be482c7b4d3384a3ebd6274&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637719.jpg?k=4ef0498a17a1e73c87a582e255193674da669c981cc1dae7756cc4d8a8835eee&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637314.jpg?k=1b9540d8200ae59efcd47e2187e70c4e15e22504cfd3871a45de3de9a7dd6f6f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637775.jpg?k=00cce14ccc7688bc1ba8d22a3e65524cdbb805d9bb8278b19762341cd0ed2c13&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637898.jpg?k=089dbe75c23e854d9f92c22bd1f2ab2149ffbbff4b2ab075e3e30de8aebf977a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637890.jpg?k=bce26bc216d05802908b7cb8f3bc3ef46cf500b4e545d4fa75774e810cd5196e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/523637889.jpg?k=cc4f9634c6e1ab67c73436876eb23955e25004e3cf76a6372164a5e03cb51582&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max500/598041108.jpg?k=5939435a190d64c808557f9a5beec07e8c8fa43804dd6df5def113c5f997ffb4&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/598040557.jpg?k=a1b19484a77fa79361617fa9c0aebdd4e2517e85a1ab391fa3b41571a6740415&o="
         ]
       },
       {
@@ -25317,7 +25845,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "hera-grand-luxury-cruise",
     "name": "Hera Grand Luxury Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Hera Grand Luxury Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Hera Grand Luxury Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Hera Grand Luxury Cruise",
     "tags": [
@@ -25329,7 +25857,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 183,
+    "startingPrice": 144,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/548334048.jpg?k=a62c1437808f9426ccd87dd7f43cab7853f1170a591e2cb15be02f3567a409bc&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/563228850.jpg?k=54f6121deaee6c2c206e5ef70c78b361d51f31b3d7d851733f0096d65096c675&o=&hp=1",
@@ -25599,7 +26127,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -25641,7 +26169,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -25823,7 +26351,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "erina-cruise-by-hag",
     "name": "Erina Cruise by HAG",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Erina Cruise by HAG.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Erina Cruise by HAG.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Erina Cruise by HAG",
     "tags": [
@@ -25835,7 +26363,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 181,
+    "startingPrice": 143,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.jpg?k=7d40b02a9dd34a2db5c878bccad255e2898f18564c10e790d1aa1b55f763e871&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.jpg?k=7d40b02a9dd34a2db5c878bccad255e2898f18564c10e790d1aa1b55f763e871&o=&hp=1",
@@ -26120,7 +26648,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -26162,7 +26690,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -26370,7 +26898,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "bhaya-legend-cruises",
     "name": "Bhaya Legend Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Bhaya Legend Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Bhaya Legend Cruises.",
     "region": "Lan Ha Bay & Cat Ba",
     "breadcrumbLabel": "Bhaya Legend Cruises",
     "tags": [
@@ -26382,7 +26910,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 173,
+    "startingPrice": 185,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/227058605.jpg?k=2ee1e21e75cba0f2a4424e0cabda9a74e3c5ae4baa4a289749f55ad011f0b711&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/227058605.jpg?k=2ee1e21e75cba0f2a4424e0cabda9a74e3c5ae4baa4a289749f55ad011f0b711&o=&hp=1",
@@ -26675,7 +27203,12 @@ export const mockCruises: Cruise[] = [
         "description": "Private 1 Cabin Legend Cruise - 2 Days 1 Night1 large double bedor2 single beds+Show prices",
         "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/648766276.jpg?k=81a823d8ab388d97556bd953f576c07b641a1e1b31981c72a38ba902e507568e&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/648766276.jpg?k=81a823d8ab388d97556bd953f576c07b641a1e1b31981c72a38ba902e507568e&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/648766276.jpg?k=81a823d8ab388d97556bd953f576c07b641a1e1b31981c72a38ba902e507568e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567516628.jpg?k=eb4627419e5428e52d89ec6ec44235b931bd039a29290c0225329202e9a68af4&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567349426.jpg?k=a5c6062c9176092e5e488f38067269469a8d276f33344e397787ebe388c6a93d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567345613.jpg?k=270685fd8ac4e15f307472bb0d11e207b0c46b4ac7c6d033e4cccbb74894daff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567349601.jpg?k=93577c042cbfdcfaebdbbe1877fd7c83b90dc38ac5950d53ec0e6231698dcba2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567345764.jpg?k=aeceb039b11b1ae54350877d1d1087beb1f0d997a9e3cf731a18ece88fa7fc6a&o=&hp=1"
         ]
       },
       {
@@ -26702,9 +27235,14 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bed, 2 single beds",
         "description": "Private 1 Cabin Legend Cruise - 3 Days 2 Nights1 large double bedor2 single beds+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/128966994.jpg?k=41a6075a65141f3324b9e65c7528bc4eecae37f3166e248f7415108855f25dd9&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/648766276.jpg?k=81a823d8ab388d97556bd953f576c07b641a1e1b31981c72a38ba902e507568e&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/128966994.jpg?k=41a6075a65141f3324b9e65c7528bc4eecae37f3166e248f7415108855f25dd9&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/648766276.jpg?k=81a823d8ab388d97556bd953f576c07b641a1e1b31981c72a38ba902e507568e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567516628.jpg?k=eb4627419e5428e52d89ec6ec44235b931bd039a29290c0225329202e9a68af4&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567349426.jpg?k=a5c6062c9176092e5e488f38067269469a8d276f33344e397787ebe388c6a93d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567345613.jpg?k=270685fd8ac4e15f307472bb0d11e207b0c46b4ac7c6d033e4cccbb74894daff&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567349601.jpg?k=93577c042cbfdcfaebdbbe1877fd7c83b90dc38ac5950d53ec0e6231698dcba2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567345764.jpg?k=aeceb039b11b1ae54350877d1d1087beb1f0d997a9e3cf731a18ece88fa7fc6a&o=&hp=1"
         ]
       },
       {
@@ -26758,7 +27296,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "ambassador-cruise-halong-bay",
     "name": "Ambassador Cruise Halong Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Ambassador Cruise Halong Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Ambassador Cruise Halong Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Ambassador Cruise Halong Bay",
     "tags": [
@@ -26770,7 +27308,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 156,
+    "startingPrice": 136,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749640851.jpg?k=59a80d39d6f3906638b2d6a3fb2224cc68d12ba2240da0f4f56625f9dcd9197b&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749640851.jpg?k=59a80d39d6f3906638b2d6a3fb2224cc68d12ba2240da0f4f56625f9dcd9197b&o=&hp=1",
@@ -27045,7 +27583,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -27087,7 +27625,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -27267,7 +27805,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "bhaya-halong-cruises",
     "name": "Bhaya Halong Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Bhaya Halong Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Bhaya Halong Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Bhaya Halong Cruises",
     "tags": [
@@ -27279,7 +27817,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 144,
+    "startingPrice": 197,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/563248651.jpg?k=3a6da3d27419fc466124023ed598168f9f7c07226a43949984d7ebd9716df5b5&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/561702097.jpg?k=7812f82e4fd7f51c596c4c0ff2cdd20154841d80efa679f99719c4bf6896e807&o=&hp=1",
@@ -27473,7 +28011,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -27515,7 +28053,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -27681,7 +28219,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "heritage-line-ginger-cruise-halong-bay-lan-ha-bay",
     "name": "Heritage Line Ginger Cruise - Halong Bay & Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Heritage Line Ginger Cruise - Halong Bay & Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Heritage Line Ginger Cruise - Halong Bay & Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Heritage Line Ginger Cruise - Halong Bay & Lan Ha Bay",
     "tags": [
@@ -27693,7 +28231,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 2,
-    "startingPrice": 183,
+    "startingPrice": 164,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/864031315.jpg?k=ed469fb217ac9ec5875f0b78da736a509fc4e043f762a3b665895f09a1f72be1&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/864031315.jpg?k=ed469fb217ac9ec5875f0b78da736a509fc4e043f762a3b665895f09a1f72be1&o=&hp=1",
@@ -28131,7 +28669,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "athena-royal-cruise-luxury-in-halong-bay",
     "name": "Athena Royal Cruise - Luxury in Halong Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Athena Royal Cruise - Luxury in Halong Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Athena Royal Cruise - Luxury in Halong Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Athena Royal Cruise - Luxury in Halong Bay",
     "tags": [
@@ -28143,7 +28681,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 10,
-    "startingPrice": 123,
+    "startingPrice": 189,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/577398827.jpg?k=a4599d6ac4aaa8d8c8bc639ae970a1d3ff1ff6f83c148a7b4cb2619d2b8d69dc&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/577398827.jpg?k=a4599d6ac4aaa8d8c8bc639ae970a1d3ff1ff6f83c148a7b4cb2619d2b8d69dc&o=&hp=1",
@@ -28423,7 +28961,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -28465,7 +29003,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -28739,7 +29277,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "signature-royal-halong-cruise",
     "name": "Signature Royal Halong Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Signature Royal Halong Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Signature Royal Halong Cruise.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Signature Royal Halong Cruise",
     "tags": [
@@ -28751,7 +29289,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 10,
-    "startingPrice": 121,
+    "startingPrice": 179,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/647197619.jpg?k=fcdcc541ee355645534bedbd362b4070ac2ff31381fd113cfdeaf385acc99a93&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/647197619.jpg?k=fcdcc541ee355645534bedbd362b4070ac2ff31381fd113cfdeaf385acc99a93&o=&hp=1",
@@ -29329,7 +29867,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-athena-cruise",
     "name": "Halong Athena Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong Athena Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong Athena Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Halong Athena Cruise",
     "tags": [
@@ -29341,7 +29879,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 10,
-    "startingPrice": 196,
+    "startingPrice": 162,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/733759307.jpg?k=0c8371cfcb82f773e6705767142a62658bb29d60a0c197d9417158ebd749f4b4&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/733759307.jpg?k=0c8371cfcb82f773e6705767142a62658bb29d60a0c197d9417158ebd749f4b4&o=&hp=1",
@@ -29610,7 +30148,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -29652,7 +30190,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -29893,7 +30431,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "aimee-cruises-halong-bay",
     "name": "AIME'E CRUISES - Halong Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard AIME'E CRUISES - Halong Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard AIME'E CRUISES - Halong Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "AIME'E CRUISES - Halong Bay",
     "tags": [
@@ -29905,7 +30443,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 167,
+    "startingPrice": 191,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/827143430.jpg?k=b880b80fd35279f21173df0be7b40d678acbaa74137d0070e3dfce14b633cdb3&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/827143430.jpg?k=b880b80fd35279f21173df0be7b40d678acbaa74137d0070e3dfce14b633cdb3&o=&hp=1",
@@ -30195,7 +30733,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -30237,7 +30775,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -30448,7 +30986,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "indochine-cruise-lan-ha-bay",
     "name": "Indochine Cruise Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Indochine Cruise Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Indochine Cruise Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Indochine Cruise Lan Ha Bay",
     "tags": [
@@ -30460,7 +30998,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 9,
-    "startingPrice": 144,
+    "startingPrice": 168,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/440469960.jpg?k=98ff57dd8c5259eefb3f7aa73ca614cf7a5d12776b311e5d33673b89fe526e8e&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/440469960.jpg?k=98ff57dd8c5259eefb3f7aa73ca614cf7a5d12776b311e5d33673b89fe526e8e&o=&hp=1",
@@ -30918,9 +31456,32 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 single bed, 1 large double bed",
         "description": "Family Connecting Room With Sea View - 2 Days 1 Night1 single bedand1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116631.jpg?k=f3c56f30a5e259c0178889f6ba5e7f6ab4a58f891965881c1bc7622faec21b59&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555047835.jpg?k=c4fd65270de3c659142ab89be52c880e0c4a24b4235419c62b03de09a941e603&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116631.jpg?k=f3c56f30a5e259c0178889f6ba5e7f6ab4a58f891965881c1bc7622faec21b59&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555047835.jpg?k=c4fd65270de3c659142ab89be52c880e0c4a24b4235419c62b03de09a941e603&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223541466.jpg?k=31ae8f413a1fd12eb0e2dd26626170d635a48b64c7be30d0cd10719caf4df945&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116631.jpg?k=f3c56f30a5e259c0178889f6ba5e7f6ab4a58f891965881c1bc7622faec21b59&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555046714.jpg?k=707190f22503c021203d3c657c53ae397f8efd528a782c39fcf30cadcbbcf1d4&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545119352.jpg?k=136d797863cf0faba13f8bd89e4aca81db0989766346b49ee61b8d5877b6f740&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116624.jpg?k=ebb98d0287dd0b540e8358fd0648f4d1f7ec3c2e4fe658ebfe775c5ffc35fd1d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/204432115.jpg?k=b8bf3d3044b198e3366fe905c8768b1645536494fe82f395de767a0a03bcd99e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116632.jpg?k=8ed2deda58a69f4c61da3c9a5a2df3e59441c9457b7d9b6b8f69d220e267b2f2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223246845.jpg?k=523b052b1e2a8044eed85ad6e8925fdcfaf3c1a3913b45fbe0f81365e8153436&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/431407416.jpg?k=d2532555564bea06e673d9fbd9a4140e98c6e200c1cda376ca71ff9bf33d6cb5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/470279318.jpg?k=5d212cf3e53d5d2f4fb867f7bbe0f8aa89678fc2f50324a867a6c068c29df464&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555086949.jpg?k=34b0969a6906f1463dfa76440e89cb2afcf0fa3becee8f7143150ce8b628d583&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223246996.jpg?k=cdefb86601ae360612b7bdd4439ad6412d5e1ab35cca548897f7dbeb3a692a61&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/431407464.jpg?k=eae61c3d209fa2811f18fd18861b3dc08a28ce41e71590b9b3cfe83fbf9d084a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/232064689.jpg?k=e3c81ea5e19abfdb3dcde93a934864463bb86a46154eba344f450d7a92f1089a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/204430224.jpg?k=e3c57b9f98308d09e732b0cc266c619c2d258112ce2246147c64bebb8c4849d8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/431407336.jpg?k=19130bb2468e9a7036cbddaf66092f5773a96b2af272cd4ac84689de8504d109&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223247001.jpg?k=e7ff5573a489c09c14747f1ebb01829f648c45b00db35c9030af7b1c75cf12bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223247055.jpg?k=05d24d789454b68157a957f6dfe77790d1464f9df5cd02fec4a0173558567063&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/197829830.jpg?k=e4ebf9bfbf3dfb70aeb68cfe000a12886d7624018894293540e7890573055a06&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/462723644.jpg?k=6648708f21f03ef1383942a53df9be60f318138265cf0878889303cc14ca31d1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/462723690.jpg?k=889d7cea58f0e09d91d4d8d281f4f9c874dec3a62a2b8f96480690680d4b3ddd&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/462723814.jpg?k=084cfe7c07316e52f67f8e039dbdbfcb542e146e758688a9837904c6f41f4e80&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/555049855.jpg?k=436bc49fe27e334c4a983aaeaaa85a3dacbeb465fbec5590128e8970f37cea0b&o="
         ]
       },
       {
@@ -30973,9 +31534,32 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 single bed, 1 large double bed",
         "description": "Family Connecting Room With Sea View - 3 Days 2 Nights1 single bedand1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/204432115.jpg?k=b8bf3d3044b198e3366fe905c8768b1645536494fe82f395de767a0a03bcd99e&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555047835.jpg?k=c4fd65270de3c659142ab89be52c880e0c4a24b4235419c62b03de09a941e603&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/204432115.jpg?k=b8bf3d3044b198e3366fe905c8768b1645536494fe82f395de767a0a03bcd99e&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555047835.jpg?k=c4fd65270de3c659142ab89be52c880e0c4a24b4235419c62b03de09a941e603&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223541466.jpg?k=31ae8f413a1fd12eb0e2dd26626170d635a48b64c7be30d0cd10719caf4df945&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116631.jpg?k=f3c56f30a5e259c0178889f6ba5e7f6ab4a58f891965881c1bc7622faec21b59&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555046714.jpg?k=707190f22503c021203d3c657c53ae397f8efd528a782c39fcf30cadcbbcf1d4&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545119352.jpg?k=136d797863cf0faba13f8bd89e4aca81db0989766346b49ee61b8d5877b6f740&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116624.jpg?k=ebb98d0287dd0b540e8358fd0648f4d1f7ec3c2e4fe658ebfe775c5ffc35fd1d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/204432115.jpg?k=b8bf3d3044b198e3366fe905c8768b1645536494fe82f395de767a0a03bcd99e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/545116632.jpg?k=8ed2deda58a69f4c61da3c9a5a2df3e59441c9457b7d9b6b8f69d220e267b2f2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223246845.jpg?k=523b052b1e2a8044eed85ad6e8925fdcfaf3c1a3913b45fbe0f81365e8153436&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/431407416.jpg?k=d2532555564bea06e673d9fbd9a4140e98c6e200c1cda376ca71ff9bf33d6cb5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/470279318.jpg?k=5d212cf3e53d5d2f4fb867f7bbe0f8aa89678fc2f50324a867a6c068c29df464&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555086949.jpg?k=34b0969a6906f1463dfa76440e89cb2afcf0fa3becee8f7143150ce8b628d583&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223246996.jpg?k=cdefb86601ae360612b7bdd4439ad6412d5e1ab35cca548897f7dbeb3a692a61&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/431407464.jpg?k=eae61c3d209fa2811f18fd18861b3dc08a28ce41e71590b9b3cfe83fbf9d084a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/232064689.jpg?k=e3c81ea5e19abfdb3dcde93a934864463bb86a46154eba344f450d7a92f1089a&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/204430224.jpg?k=e3c57b9f98308d09e732b0cc266c619c2d258112ce2246147c64bebb8c4849d8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/431407336.jpg?k=19130bb2468e9a7036cbddaf66092f5773a96b2af272cd4ac84689de8504d109&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223247001.jpg?k=e7ff5573a489c09c14747f1ebb01829f648c45b00db35c9030af7b1c75cf12bb&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/223247055.jpg?k=05d24d789454b68157a957f6dfe77790d1464f9df5cd02fec4a0173558567063&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/197829830.jpg?k=e4ebf9bfbf3dfb70aeb68cfe000a12886d7624018894293540e7890573055a06&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/462723644.jpg?k=6648708f21f03ef1383942a53df9be60f318138265cf0878889303cc14ca31d1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/462723690.jpg?k=889d7cea58f0e09d91d4d8d281f4f9c874dec3a62a2b8f96480690680d4b3ddd&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/462723814.jpg?k=084cfe7c07316e52f67f8e039dbdbfcb542e146e758688a9837904c6f41f4e80&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/555049855.jpg?k=436bc49fe27e334c4a983aaeaaa85a3dacbeb465fbec5590128e8970f37cea0b&o="
         ]
       }
     ],
@@ -30999,7 +31583,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-casta-5-star-cruise-2d1n-lan-ha-bay-jacuzzi",
     "name": "La Casta 5-Star Cruise 2D1N - Lan Ha Bay - Jacuzzi",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Casta 5-Star Cruise 2D1N - Lan Ha Bay - Jacuzzi.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Casta 5-Star Cruise 2D1N - Lan Ha Bay - Jacuzzi.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "La Casta 5-Star Cruise 2D1N - Lan Ha Bay - Jacuzzi",
     "tags": [
@@ -31011,7 +31595,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 185,
+    "startingPrice": 192,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/871614257.jpg?k=2d7a5a1a73f9c50ae31a8512e147612d381a8dfe770edb582c5688438b27f394&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/871614257.jpg?k=2d7a5a1a73f9c50ae31a8512e147612d381a8dfe770edb582c5688438b27f394&o=&hp=1",
@@ -31525,7 +32109,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "new-la-casta-star-6-star-cruise-lan-ha-bay-bathtub-ocean-view",
     "name": "New La Casta Star 6-Star Cruise Lan Ha Bay - Bathtub Ocean View",
-    "tagline": "Experience northern Vietnam's pristine waters aboard New La Casta Star 6-Star Cruise Lan Ha Bay - Bathtub Ocean View.",
+    "tagline": "Experience northern Vietnam pristine waters aboard New La Casta Star 6-Star Cruise Lan Ha Bay - Bathtub Ocean View.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "New La Casta Star 6-Star Cruise Lan Ha Bay - Bathtub Ocean View",
     "tags": [
@@ -31537,7 +32121,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 169,
+    "startingPrice": 192,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/891655435.jpg?k=0d5abdc03a6c6b3a44e79f88aca0b020ded82cd85719a38288ef564e00a95a2f&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/891655435.jpg?k=0d5abdc03a6c6b3a44e79f88aca0b020ded82cd85719a38288ef564e00a95a2f&o=&hp=1",
@@ -32045,7 +32629,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "doris-cruise-by-hag",
     "name": "Doris Cruise by HAG",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Doris Cruise by HAG.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Doris Cruise by HAG.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Doris Cruise by HAG",
     "tags": [
@@ -32057,7 +32641,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 192,
+    "startingPrice": 158,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/452298108.jpg?k=0701b7c9af40c342242042fd27bb8f85b82e19eeb6c2520f2b554496011b2226&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/372163736.jpg?k=2ee4b3beaacbf560619940ef3ed9fdb268d80310ab6cebea72e12b164cd4a2d4&o=&hp=1",
@@ -32342,7 +32926,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -32384,7 +32968,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -32632,7 +33216,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "le-journey-elegance-cruise",
     "name": "Le Journey Elegance Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Le Journey Elegance Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Le Journey Elegance Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Le Journey Elegance Cruise",
     "tags": [
@@ -32644,7 +33228,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 135,
+    "startingPrice": 138,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/655713109.jpg?k=b23c096a9a076f53936452b98933427f8245c2cf89ba7e352b551371ce8b04f6&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/655713109.jpg?k=b23c096a9a076f53936452b98933427f8245c2cf89ba7e352b551371ce8b04f6&o=&hp=1",
@@ -32904,7 +33488,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -32946,7 +33530,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -33131,7 +33715,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-casta-regal-5-star-2d1n-lan-ha-balcony-pool",
     "name": "La Casta Regal 5-Star 2D1N - Lan Ha - Balcony & Pool",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Casta Regal 5-Star 2D1N - Lan Ha - Balcony & Pool.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Casta Regal 5-Star 2D1N - Lan Ha - Balcony & Pool.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "La Casta Regal 5-Star 2D1N - Lan Ha - Balcony & Pool",
     "tags": [
@@ -33143,7 +33727,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 129,
+    "startingPrice": 131,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/849250591.jpg?k=6a8df7ef27b7517eff6e93764986fb0953c2cfd89550326c95f3c130ac8069ff&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/849250591.jpg?k=6a8df7ef27b7517eff6e93764986fb0953c2cfd89550326c95f3c130ac8069ff&o=&hp=1",
@@ -33567,7 +34151,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "orchid-classic-cruise",
     "name": "Orchid Classic Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Orchid Classic Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Orchid Classic Cruise.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Orchid Classic Cruise",
     "tags": [
@@ -33579,7 +34163,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 147,
+    "startingPrice": 150,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=&hp=1",
@@ -34125,7 +34709,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "amanda-luxury-cruise",
     "name": "Amanda Luxury Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Amanda Luxury Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Amanda Luxury Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Amanda Luxury Cruise",
     "tags": [
@@ -34137,7 +34721,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 172,
+    "startingPrice": 134,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/569623475.jpg?k=3958c246f8272266d6e74cb499b27632b9e884a7d079a4cc498bf4c766a7efcb&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/687524958.jpg?k=a8a88246c9a5d9bf05230a4a9a7f0cca7f445c6dda149b307555dbd4027ab995&o=&hp=1",
@@ -34407,7 +34991,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -34449,7 +35033,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -34623,7 +35207,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "paradise-legacy-cruise-halong",
     "name": "Paradise Legacy Cruise Halong",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Paradise Legacy Cruise Halong.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Paradise Legacy Cruise Halong.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Paradise Legacy Cruise Halong",
     "tags": [
@@ -34635,7 +35219,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 163,
+    "startingPrice": 149,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/766944454.jpg?k=8148bac8ca02186b662cdbc5c01eb9040e929a6ee7ed19d1faaeff1915695bbf&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/904362313.jpg?k=b39dd15615b4d33f6538fadff2a49520e22305397aadc6c5526d0c2d94b952ff&o=&hp=1",
@@ -34920,7 +35504,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -34962,7 +35546,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -35136,7 +35720,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-bai-tu-long-cruises",
     "name": "Halong & Bai Tu Long Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong & Bai Tu Long Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong & Bai Tu Long Cruises.",
     "region": "Bai Tu Long Bay",
     "breadcrumbLabel": "Halong & Bai Tu Long Cruises",
     "tags": [
@@ -35148,7 +35732,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 159,
+    "startingPrice": 189,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/817296991.jpg?k=26664959aad7a320b1c4d27fe734deb0fc3abc0cfaf62170aacb187dca048b5c&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/817296991.jpg?k=26664959aad7a320b1c4d27fe734deb0fc3abc0cfaf62170aacb187dca048b5c&o=&hp=1",
@@ -35589,7 +36173,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-regina-legend-cruise",
     "name": "La Regina Legend Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Regina Legend Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Regina Legend Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "La Regina Legend Cruise",
     "tags": [
@@ -35601,7 +36185,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 127,
+    "startingPrice": 193,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/665274235.jpg?k=49636f6b46b207d3f528c7a9f2fe8ccabe3018512c05d240c091da984cb33489&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/665274235.jpg?k=49636f6b46b207d3f528c7a9f2fe8ccabe3018512c05d240c091da984cb33489&o=&hp=1",
@@ -35872,7 +36456,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -35914,7 +36498,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -36128,7 +36712,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "dora-cruise-by-hag",
     "name": "Dora Cruise by HAG",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Dora Cruise by HAG.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Dora Cruise by HAG.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Dora Cruise by HAG",
     "tags": [
@@ -36140,7 +36724,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 162,
+    "startingPrice": 127,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/903309623.jpg?k=4f116ee7e64d443b1cb43150e04b843cc20b2dccd0d3d4bfebf51a84a103bfa4&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/903309623.jpg?k=4f116ee7e64d443b1cb43150e04b843cc20b2dccd0d3d4bfebf51a84a103bfa4&o=&hp=1",
@@ -36410,7 +36994,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -36452,7 +37036,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -36630,7 +37214,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "hermes-cruises",
     "name": "Hermes Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Hermes Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Hermes Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Hermes Cruises",
     "tags": [
@@ -36642,7 +37226,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 11,
-    "startingPrice": 177,
+    "startingPrice": 158,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/405250833.jpg?k=351f168b6ddab9890567cb4ac8a7656454d529995b2e6aea97b540b5d40a99b6&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/405250833.jpg?k=351f168b6ddab9890567cb4ac8a7656454d529995b2e6aea97b540b5d40a99b6&o=&hp=1",
@@ -36922,7 +37506,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -36964,7 +37548,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -37227,7 +37811,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "halong-luxury-cruise",
     "name": "Halong Luxury Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Halong Luxury Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Halong Luxury Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Halong Luxury Cruise",
     "tags": [
@@ -37239,7 +37823,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 3,
-    "startingPrice": 177,
+    "startingPrice": 145,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567787546.jpg?k=5be9da990b2824c6f5a625243f4f60f8c4db26828af2555bdd6c21faf1a9a4df&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/567787546.jpg?k=5be9da990b2824c6f5a625243f4f60f8c4db26828af2555bdd6c21faf1a9a4df&o=&hp=1",
@@ -37323,7 +37907,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -37365,7 +37949,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -37478,7 +38062,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "venus-cruises-halong-bay-by-venus-group",
     "name": "Venus Cruises Halong Bay by Venus Group",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Venus Cruises Halong Bay by Venus Group.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Venus Cruises Halong Bay by Venus Group.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Venus Cruises Halong Bay by Venus Group",
     "tags": [
@@ -37490,7 +38074,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 153,
+    "startingPrice": 183,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/898381347.jpg?k=aa011ce989be60ed3b84dec88478b17fe30c08f7b7008a7a2be333cbf3c8e204&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/898381347.jpg?k=aa011ce989be60ed3b84dec88478b17fe30c08f7b7008a7a2be333cbf3c8e204&o=&hp=1",
@@ -37761,7 +38345,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -37803,7 +38387,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -37991,7 +38575,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-regina-classic-cruise",
     "name": "La Regina Classic Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Regina Classic Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Regina Classic Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "La Regina Classic Cruise",
     "tags": [
@@ -38003,7 +38587,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 164,
+    "startingPrice": 125,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/817910485.jpg?k=f6aebff779c6fb8fac5bb31b49c692c6392b76ba0daaa972c4d6ec38acb871dc&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/817910485.jpg?k=f6aebff779c6fb8fac5bb31b49c692c6392b76ba0daaa972c4d6ec38acb871dc&o=&hp=1",
@@ -38233,7 +38817,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -38275,7 +38859,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -38418,7 +39002,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "grand-pioneers-halong-bay-cruise-2",
     "name": "Grand Pioneers Halong Bay Cruise 2",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Grand Pioneers Halong Bay Cruise 2.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Grand Pioneers Halong Bay Cruise 2.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Grand Pioneers Halong Bay Cruise 2",
     "tags": [
@@ -38430,7 +39014,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 9,
-    "startingPrice": 168,
+    "startingPrice": 193,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/597966694.jpg?k=3197d26d1bb616f865bf5f24a7b29e8535b5ebcf6c711887fbc30ab4058b569e&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/597966694.jpg?k=3197d26d1bb616f865bf5f24a7b29e8535b5ebcf6c711887fbc30ab4058b569e&o=&hp=1",
@@ -38710,7 +39294,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -38752,7 +39336,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -38972,7 +39556,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "ambassador-signature-cruise-lan-ha-bay",
     "name": "Ambassador Signature Cruise - Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Ambassador Signature Cruise - Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Ambassador Signature Cruise - Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Ambassador Signature Cruise - Lan Ha Bay",
     "tags": [
@@ -38984,7 +39568,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 156,
+    "startingPrice": 137,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/490922776.jpg?k=c02d35c1741d015c2cfdac787ee9fe877949f439c0271a051b51c5895018055c&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/490922776.jpg?k=c02d35c1741d015c2cfdac787ee9fe877949f439c0271a051b51c5895018055c&o=&hp=1",
@@ -39455,7 +40039,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "indochine-premium-halong-bay",
     "name": "Indochine Premium Halong Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Indochine Premium Halong Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Indochine Premium Halong Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Indochine Premium Halong Bay",
     "tags": [
@@ -39467,7 +40051,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 7,
-    "startingPrice": 139,
+    "startingPrice": 178,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555827126.jpg?k=494ff2aaf4f73fd8237abff252da50e0adb4045bf94d2d477622259e65532a1c&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/555827126.jpg?k=494ff2aaf4f73fd8237abff252da50e0adb4045bf94d2d477622259e65532a1c&o=&hp=1",
@@ -39743,7 +40327,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -39785,7 +40369,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -39985,7 +40569,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "verdure-lotus-grandeur-cruise-on-ha-long-bay",
     "name": "Verdure Lotus Grandeur Cruise on Ha Long Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Verdure Lotus Grandeur Cruise on Ha Long Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Verdure Lotus Grandeur Cruise on Ha Long Bay.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Verdure Lotus Grandeur Cruise on Ha Long Bay",
     "tags": [
@@ -39997,7 +40581,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 144,
+    "startingPrice": 142,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848811745.jpg?k=f8768714958bd46dcc96fa366a1906d6c56e5daaa1e9fa4961ee83400dc76d84&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/848811745.jpg?k=f8768714958bd46dcc96fa366a1906d6c56e5daaa1e9fa4961ee83400dc76d84&o=&hp=1",
@@ -40267,7 +40851,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -40309,7 +40893,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -40540,7 +41124,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "victory-star-cruise",
     "name": "Victory Star Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Victory Star Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Victory Star Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Victory Star Cruise",
     "tags": [
@@ -40552,7 +41136,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 147,
+    "startingPrice": 129,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/481635531.jpg?k=c6944bb1920534f3ada446e36057f6df925e5b7aba1fafe10b4046fc469dbc9a&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/376810389.jpg?k=3a13cfef0f90553c3b5a8f64cb818aa11d3903daafa7e143d18ea34ca49fe02e&o=&hp=1",
@@ -40842,7 +41426,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -40884,7 +41468,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -41025,7 +41609,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "majesty-luxury-prime-cruise-by-premier-group",
     "name": "Majesty Luxury Prime Cruise by Premier Group",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Majesty Luxury Prime Cruise by Premier Group.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Majesty Luxury Prime Cruise by Premier Group.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Majesty Luxury Prime Cruise by Premier Group",
     "tags": [
@@ -41037,7 +41621,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 24,
-    "startingPrice": 168,
+    "startingPrice": 139,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
@@ -41322,7 +41906,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -41364,7 +41948,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -41794,7 +42378,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "stellar-of-the-seas-cruise",
     "name": "Stellar of the Seas Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Stellar of the Seas Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Stellar of the Seas Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Stellar of the Seas Cruise",
     "tags": [
@@ -41806,7 +42390,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 16,
-    "startingPrice": 125,
+    "startingPrice": 127,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169601147.jpg?k=0537a9464c9cb0dc686bf0e7c9fc69d0639651feb651a7a3821f8647696bb708&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/686063228.jpg?k=45d06fc3e70b4ecc274538d272fc3f2ad70b945dbb12261925d118fec8c99bd1&o=&hp=1",
@@ -42096,7 +42680,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -42138,7 +42722,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -42271,9 +42855,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "2 single beds, 1 large double bed",
         "description": "Junior Suite with Private Balcony - 3 Days 2 Nights2 single bedsor1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169601564.jpg?k=2973c143047b3df8a9d765492cad49b23f6394fa48d66fc16a2d2096ceef3c20&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093044.jpg?k=37ecab4b8d04457784ae949128f0c2e46adab8bd1b5daf61ddf3608e11235bc6&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169601564.jpg?k=2973c143047b3df8a9d765492cad49b23f6394fa48d66fc16a2d2096ceef3c20&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093044.jpg?k=37ecab4b8d04457784ae949128f0c2e46adab8bd1b5daf61ddf3608e11235bc6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600574.jpg?k=41d766565593d77bc45952d27c2ecb459c4b950991f6e3227f89a06afe0cad4b&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600584.jpg?k=daca2c10b22130394e1c435ede889481c996eb4921411887f626b8fd55ad8a01&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600601.jpg?k=77b7f47fd2db7dc328985da99c11de627530f0bf69f622661c8c0bd25b12c43e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093027.jpg?k=374e181cad475cfdab6873d91911ff8202b8d8fbdca1c4d3e7bc1bc7f15351b2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/215756622.jpg?k=26965c6efa82333674ea4f5c2a22d7ea132aa764ab4fd3e9d3c1d24157308fab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236091245.jpg?k=2f7508747d2d98f1ee0640c22955f2d459b5dc019422e63eea104674199d8555&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093554.jpg?k=dd60f2a4f21059f57f77d0e45a585dae3d43b7d15667ce65996a2fa6ce1675ca&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093002.jpg?k=00b0c8a2cfb7d8ab4f61b42186d252f5e4d3948fc73413c7c1ea983b3d07490c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093565.jpg?k=bf01644769addb3dfd5431fe6e32890c3514ba51778169992ac0cd7e2187c0b6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/243445726.jpg?k=b424f8d6c23145e989e59845a0a07ecfb3fafff5e6cf185d56f758932d875046&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/243445740.jpg?k=592e3fb18964c8646078b30de9b5d8a229eee787aa95c8089585fea06c8aad39&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093556.jpg?k=49af2dff32c73843ef8bb42b11c127e1ec13e7b8e0ef40ef2db480d1e27d6318&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/181099541.jpg?k=b8236ee67e00c77980488d47154569f31ca4f9e5f5b4ba9fa556851e6c10609e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236094560.jpg?k=58d83bff11b76c22e1572d2a8dd3e496be9759fd43795921c3c47611a2c61b6a&o=&hp=1"
         ]
       },
       {
@@ -42346,9 +42944,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "2 single beds, 1 large double bed",
         "description": "Junior Suite with Private Balcony - 4 Days 3 Nights2 single bedsor1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261527702.jpg?k=f0ee0bf938246176fede6698914ed683e892c920c4aaaea2e7559e31c20c4462&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093044.jpg?k=37ecab4b8d04457784ae949128f0c2e46adab8bd1b5daf61ddf3608e11235bc6&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/261527702.jpg?k=f0ee0bf938246176fede6698914ed683e892c920c4aaaea2e7559e31c20c4462&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093044.jpg?k=37ecab4b8d04457784ae949128f0c2e46adab8bd1b5daf61ddf3608e11235bc6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600574.jpg?k=41d766565593d77bc45952d27c2ecb459c4b950991f6e3227f89a06afe0cad4b&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600584.jpg?k=daca2c10b22130394e1c435ede889481c996eb4921411887f626b8fd55ad8a01&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600601.jpg?k=77b7f47fd2db7dc328985da99c11de627530f0bf69f622661c8c0bd25b12c43e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093027.jpg?k=374e181cad475cfdab6873d91911ff8202b8d8fbdca1c4d3e7bc1bc7f15351b2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/215756622.jpg?k=26965c6efa82333674ea4f5c2a22d7ea132aa764ab4fd3e9d3c1d24157308fab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236091245.jpg?k=2f7508747d2d98f1ee0640c22955f2d459b5dc019422e63eea104674199d8555&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093554.jpg?k=dd60f2a4f21059f57f77d0e45a585dae3d43b7d15667ce65996a2fa6ce1675ca&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093002.jpg?k=00b0c8a2cfb7d8ab4f61b42186d252f5e4d3948fc73413c7c1ea983b3d07490c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093565.jpg?k=bf01644769addb3dfd5431fe6e32890c3514ba51778169992ac0cd7e2187c0b6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/243445726.jpg?k=b424f8d6c23145e989e59845a0a07ecfb3fafff5e6cf185d56f758932d875046&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/243445740.jpg?k=592e3fb18964c8646078b30de9b5d8a229eee787aa95c8089585fea06c8aad39&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093556.jpg?k=49af2dff32c73843ef8bb42b11c127e1ec13e7b8e0ef40ef2db480d1e27d6318&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/181099541.jpg?k=b8236ee67e00c77980488d47154569f31ca4f9e5f5b4ba9fa556851e6c10609e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236094560.jpg?k=58d83bff11b76c22e1572d2a8dd3e496be9759fd43795921c3c47611a2c61b6a&o=&hp=1"
         ]
       },
       {
@@ -42389,9 +43001,23 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bed",
         "description": "Junior Suite with Private Balcony - 5 Days 4 Nights1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600584.jpg?k=daca2c10b22130394e1c435ede889481c996eb4921411887f626b8fd55ad8a01&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093044.jpg?k=37ecab4b8d04457784ae949128f0c2e46adab8bd1b5daf61ddf3608e11235bc6&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600584.jpg?k=daca2c10b22130394e1c435ede889481c996eb4921411887f626b8fd55ad8a01&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093044.jpg?k=37ecab4b8d04457784ae949128f0c2e46adab8bd1b5daf61ddf3608e11235bc6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600574.jpg?k=41d766565593d77bc45952d27c2ecb459c4b950991f6e3227f89a06afe0cad4b&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600584.jpg?k=daca2c10b22130394e1c435ede889481c996eb4921411887f626b8fd55ad8a01&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/169600601.jpg?k=77b7f47fd2db7dc328985da99c11de627530f0bf69f622661c8c0bd25b12c43e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093027.jpg?k=374e181cad475cfdab6873d91911ff8202b8d8fbdca1c4d3e7bc1bc7f15351b2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/215756622.jpg?k=26965c6efa82333674ea4f5c2a22d7ea132aa764ab4fd3e9d3c1d24157308fab&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236091245.jpg?k=2f7508747d2d98f1ee0640c22955f2d459b5dc019422e63eea104674199d8555&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093554.jpg?k=dd60f2a4f21059f57f77d0e45a585dae3d43b7d15667ce65996a2fa6ce1675ca&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093002.jpg?k=00b0c8a2cfb7d8ab4f61b42186d252f5e4d3948fc73413c7c1ea983b3d07490c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093565.jpg?k=bf01644769addb3dfd5431fe6e32890c3514ba51778169992ac0cd7e2187c0b6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/243445726.jpg?k=b424f8d6c23145e989e59845a0a07ecfb3fafff5e6cf185d56f758932d875046&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/243445740.jpg?k=592e3fb18964c8646078b30de9b5d8a229eee787aa95c8089585fea06c8aad39&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236093556.jpg?k=49af2dff32c73843ef8bb42b11c127e1ec13e7b8e0ef40ef2db480d1e27d6318&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/181099541.jpg?k=b8236ee67e00c77980488d47154569f31ca4f9e5f5b4ba9fa556851e6c10609e&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/236094560.jpg?k=58d83bff11b76c22e1572d2a8dd3e496be9759fd43795921c3c47611a2c61b6a&o=&hp=1"
         ]
       },
       {
@@ -42464,7 +43090,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "starlight-cruise",
     "name": "Starlight Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Starlight Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Starlight Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Starlight Cruise",
     "tags": [
@@ -42476,7 +43102,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 147,
+    "startingPrice": 121,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/27027996.jpg?k=5049a904551aa2a4a68f7cf9507b828ff9a9b8e33ad37f454019a86a96c22a7f&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/27027996.jpg?k=5049a904551aa2a4a68f7cf9507b828ff9a9b8e33ad37f454019a86a96c22a7f&o=&hp=1",
@@ -42746,7 +43372,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -42788,7 +43414,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -42951,7 +43577,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "ruby-premium-cruise",
     "name": "Ruby Premium Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Ruby Premium Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Ruby Premium Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Ruby Premium Cruise",
     "tags": [
@@ -42963,7 +43589,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 4,
-    "startingPrice": 158,
+    "startingPrice": 128,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/841826476.jpg?k=938b9526f6879efd2a829a9e09da0cf452404bf7867bb9b8a68b519046961bd3&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/841826138.jpg?k=a3bd67e68e521cfa25a5eda61c2e3a3a516bc5c1ef557bc1d6d3dae91e0f8243&o=&hp=1",
@@ -43243,7 +43869,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -43285,7 +43911,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -43442,7 +44068,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-regina-royal-cruise",
     "name": "La Regina Royal Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Regina Royal Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Regina Royal Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "La Regina Royal Cruise",
     "tags": [
@@ -43454,7 +44080,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 121,
+    "startingPrice": 131,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/188681639.jpg?k=663d9024bdcbc1483fbd25d87d9245fbb77cc5a19ab364ed5ce64c49afb1fa53&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/188681639.jpg?k=663d9024bdcbc1483fbd25d87d9245fbb77cc5a19ab364ed5ce64c49afb1fa53&o=&hp=1",
@@ -43734,7 +44360,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -43776,7 +44402,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -43943,7 +44569,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "alisa-cruise-halong",
     "name": "Alisa Cruise Halong",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Alisa Cruise Halong.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Alisa Cruise Halong.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Alisa Cruise Halong",
     "tags": [
@@ -43955,7 +44581,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 11,
-    "startingPrice": 129,
+    "startingPrice": 138,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/788060958.jpg?k=3e5b37363ba319e532037b832ba2f39b2ab3acdd3c9c8eba899326f0d10ae08c&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/788060958.jpg?k=3e5b37363ba319e532037b832ba2f39b2ab3acdd3c9c8eba899326f0d10ae08c&o=&hp=1",
@@ -44236,7 +44862,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -44278,7 +44904,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -44527,7 +45153,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "velar-of-the-sea-cruise",
     "name": "Velar of the Sea Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Velar of the Sea Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Velar of the Sea Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Velar of the Sea Cruise",
     "tags": [
@@ -44539,7 +45165,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 192,
+    "startingPrice": 134,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/579489079.jpg?k=b0445a5dd6c5f561a3b6264429c39d71b09803be276254341dde012cc1526405&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/579489079.jpg?k=b0445a5dd6c5f561a3b6264429c39d71b09803be276254341dde012cc1526405&o=&hp=1",
@@ -44814,7 +45440,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -44856,7 +45482,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -45023,7 +45649,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "la-regina-grand-cruise",
     "name": "La Regina Grand Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard La Regina Grand Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard La Regina Grand Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "La Regina Grand Cruise",
     "tags": [
@@ -45035,7 +45661,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 12,
-    "startingPrice": 137,
+    "startingPrice": 195,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/554317841.jpg?k=26c6d006d4a26bd267924e711d1e341bd1cc8434210ca593e8d6577f3fae353f&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/554317841.jpg?k=26c6d006d4a26bd267924e711d1e341bd1cc8434210ca593e8d6577f3fae353f&o=&hp=1",
@@ -45330,7 +45956,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -45372,7 +45998,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -45657,7 +46283,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "orchid-trendy-cruise",
     "name": "Orchid Trendy Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Orchid Trendy Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Orchid Trendy Cruise.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Orchid Trendy Cruise",
     "tags": [
@@ -45669,7 +46295,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 10,
-    "startingPrice": 122,
+    "startingPrice": 129,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/121409303.jpg?k=e7b8f154ae87921475f63aafeb13a215c77ccc70ee72dc10823bbc88e4f71cab&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/121409303.jpg?k=e7b8f154ae87921475f63aafeb13a215c77ccc70ee72dc10823bbc88e4f71cab&o=&hp=1",
@@ -46209,7 +46835,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "indochine-grand-lan-ha-bay",
     "name": "Indochine Grand Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Indochine Grand Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Indochine Grand Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Indochine Grand Lan Ha Bay",
     "tags": [
@@ -46221,7 +46847,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 8,
-    "startingPrice": 199,
+    "startingPrice": 153,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/651458383.jpg?k=d4ab3afe84c23178e95e427f86b734381f8b59b897b2ab05c0d1976af115e54d&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/651458383.jpg?k=d4ab3afe84c23178e95e427f86b734381f8b59b897b2ab05c0d1976af115e54d&o=&hp=1",
@@ -46742,7 +47368,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "renea-cruises-halong",
     "name": "Renea Cruises Halong",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Renea Cruises Halong.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Renea Cruises Halong.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Renea Cruises Halong",
     "tags": [
@@ -46754,7 +47380,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 122,
+    "startingPrice": 158,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/598870860.jpg?k=3062f7814d73c364fadbd7f007c6b27759af03e0926159961ebff350a89b0db2&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/598870860.jpg?k=3062f7814d73c364fadbd7f007c6b27759af03e0926159961ebff350a89b0db2&o=&hp=1",
@@ -47024,7 +47650,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -47066,7 +47692,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -47278,7 +47904,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "calypso-cruises",
     "name": "Calypso Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Calypso Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Calypso Cruises.",
     "region": "Lan Ha Bay & Cat Ba",
     "breadcrumbLabel": "Calypso Cruises",
     "tags": [
@@ -47290,7 +47916,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 181,
+    "startingPrice": 188,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/205919837.jpg?k=a8f34aafed2429fdba82bf4adbdc5699732e1cd8d4eab97934bce1f45c5d2a4a&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/205919837.jpg?k=a8f34aafed2429fdba82bf4adbdc5699732e1cd8d4eab97934bce1f45c5d2a4a&o=&hp=1",
@@ -47776,7 +48402,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "negin-coral-ha-long-cruise",
     "name": "NEGIN Coral Ha Long Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard NEGIN Coral Ha Long Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard NEGIN Coral Ha Long Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "NEGIN Coral Ha Long Cruise",
     "tags": [
@@ -47788,7 +48414,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 1,
-    "startingPrice": 120,
+    "startingPrice": 133,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/902404688.jpg?k=927b99d213ff630c6c31c961642d7a508944e3ccebbeda7d646a2254768b0af3&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/902404688.jpg?k=927b99d213ff630c6c31c961642d7a508944e3ccebbeda7d646a2254768b0af3&o=&hp=1",
@@ -47923,7 +48549,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -47965,7 +48591,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -48076,7 +48702,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "heritage-cruises-binh-chuan-cat-ba-archipelago",
     "name": "Heritage Cruises Binh Chuan Cat Ba Archipelago",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Heritage Cruises Binh Chuan Cat Ba Archipelago.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Heritage Cruises Binh Chuan Cat Ba Archipelago.",
     "region": "Lan Ha Bay & Cat Ba",
     "breadcrumbLabel": "Heritage Cruises Binh Chuan Cat Ba Archipelago",
     "tags": [
@@ -48088,7 +48714,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 145,
+    "startingPrice": 197,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/336163417.jpg?k=ef99f224399def17893c76960fb892dd7336f9f0fad5495557fd8e7d1fea7f8b&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/336163417.jpg?k=ef99f224399def17893c76960fb892dd7336f9f0fad5495557fd8e7d1fea7f8b&o=&hp=1",
@@ -48562,7 +49188,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "victory-cruise",
     "name": "Victory Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Victory Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Victory Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Victory Cruise",
     "tags": [
@@ -48574,7 +49200,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 3,
-    "startingPrice": 151,
+    "startingPrice": 129,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/54776513.jpg?k=8022b4315fdee1a08a0ba4baaef9e0e6524bfa408239a21528e40d36fa517bbe&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/54776513.jpg?k=8022b4315fdee1a08a0ba4baaef9e0e6524bfa408239a21528e40d36fa517bbe&o=&hp=1",
@@ -48850,7 +49476,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -48892,7 +49518,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -49001,9 +49627,28 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "2 single beds, 1 large double bed",
         "description": "Family Room with Sea View2 single bedsand1 large double bed× 4+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222327153.jpg?k=30d53c1f6dbf1289a4d97083b8226a299facc7fbaa52bff3bb01251be42427d6&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241063.jpg?k=1d8e8bf056001754a1f692e77a46de4f5c32416996f4fc4fc21ebe1d43d8d854&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222327153.jpg?k=30d53c1f6dbf1289a4d97083b8226a299facc7fbaa52bff3bb01251be42427d6&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241063.jpg?k=1d8e8bf056001754a1f692e77a46de4f5c32416996f4fc4fc21ebe1d43d8d854&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/222327164.jpg?k=f1b908cd6e89240a822e4b170361c65b944ce2432f8ec3aee92c30acf26b27f2&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235939.jpg?k=23ad762d3fa18a98550757bf6a10d335ccc156c07bca8873c2bdd872a943d439&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241053.jpg?k=7dff7634751a3a05311b640f8f512da472c7565d0fb578a59349929692b25bed&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235937.jpg?k=7beafcbbed4c68354da914338821d648e2f46380f3cba37154ed9bc02b1c9843&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235933.jpg?k=7a92903afe4a9cd89e1b25112f96450f692c8734fc6b56e7e84e2b3320c30b3d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235929.jpg?k=e67facd5f92bb5417841bc6993d1212f7862f87a0cf3729d13336d8e81a8f6e7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235925.jpg?k=4165397c58512fffe1959b08807322ec41397b4fbc3d1302040537f19fbb7ae8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235924.jpg?k=d31b57a3efa2da04bf66449c5f153d8a3406629c32ade7bf2157570c8c94e3c4&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235923.jpg?k=5b7859805dc4a4a60bcb6edce2b214561afca66c7c27cef2f576296756f45523&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235921.jpg?k=24706ebaf224d3021c401f6a2f38d5428574b295c6837f48ee423f959690442d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235916.jpg?k=097d8d7797315297b219445e3b6ae737c4128f46d6fd1200060752e2d76c3834&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386235914.jpg?k=ae15b8f24b78c0b5425dc4e41650bd639e7bbdc2b13ddb86ba58ea1e33de6346&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241061.jpg?k=d76763fe5d54d8798db3118a7410de465e5c400cfde2bbabc33734dfefb1c77f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241059.jpg?k=3595112805fa42bd9369673a0ffb449576ec14bcdc34d8f88ee795a79b93af4c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241060.jpg?k=169337de2a3192e325234d768d1bcc523bb1914b04fb13a741c2cdf2efe328f9&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241058.jpg?k=0144907b81b4509a66129579abc41578b34b60f0bcffe5bad645d205b243cbb5&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241055.jpg?k=594d3e49d19dde71d7529d8e958b0dae148b75fa4b47958d176cc5bfbc605f2f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241051.jpg?k=b776886b7446ead6f83a2acc51288bd68ebfdb3880dbad88bf2579b340c191f3&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/386241049.jpg?k=89d7607c5f02b04dc3d2b7a1e3101187a97dd9de661fcfba9b7b894c67dc46ef&o=&hp=1"
         ]
       }
     ],
@@ -49027,7 +49672,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "era-cruise-lan-ha-bay",
     "name": "Era Cruise Lan Ha Bay",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Era Cruise Lan Ha Bay.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Era Cruise Lan Ha Bay.",
     "region": "Lan Ha Bay",
     "breadcrumbLabel": "Era Cruise Lan Ha Bay",
     "tags": [
@@ -49039,7 +49684,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 6,
-    "startingPrice": 128,
+    "startingPrice": 178,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/701937439.jpg?k=9823f8b5ad6382b3d637b405fc375f66d85aade69dbbcd1903136783da33ed17&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/701937439.jpg?k=9823f8b5ad6382b3d637b405fc375f66d85aade69dbbcd1903136783da33ed17&o=&hp=1",
@@ -49532,7 +50177,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "emeraude-classic-cruises",
     "name": "Emeraude Classic Cruises",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Emeraude Classic Cruises.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Emeraude Classic Cruises.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Emeraude Classic Cruises",
     "tags": [
@@ -49544,7 +50189,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 12,
-    "startingPrice": 165,
+    "startingPrice": 177,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/173685764.jpg?k=892b9b40c9573b082f89277143080cd5d716fee97aa856d4e1325a9c1c90d900&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/173685764.jpg?k=892b9b40c9573b082f89277143080cd5d716fee97aa856d4e1325a9c1c90d900&o=&hp=1",
@@ -49816,7 +50461,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -49858,7 +50503,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -50054,9 +50699,20 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bed",
         "description": "Suite with Sea View1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/172058651.jpg?k=ead8924537b25852ff3148f942577d8892e3b244545a17d9514acdbd2593f7df&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/51379660.jpg?k=899f633bc0b46ad2b32e06a92024dfa25bf6edd3a080d00f238fb7b64c650783&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/172058651.jpg?k=ead8924537b25852ff3148f942577d8892e3b244545a17d9514acdbd2593f7df&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/51379660.jpg?k=899f633bc0b46ad2b32e06a92024dfa25bf6edd3a080d00f238fb7b64c650783&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789788246.jpg?k=bfb74d987688ca0e79ff53b3dfead4c4b9acade512278c1650682c41460bead8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789834249.jpg?k=4b0c688993ff7fe25001939b39269aaaba10d6350bf027b57c334b96d873b72c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789839393.jpg?k=eb8999d22daa5a5a1d6b43ea3374a2ee896d8c14783305bd5e939c2097208647&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789834241.jpg?k=a2f41955b1af7440d317cdf18553f810451b36cc1749b78282c35c4e2c8b4320&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789838042.jpg?k=218bf07961cb0c2b1efe4eff4314c8d64427f51a6eec7f94e2582c9e3f6a0eb0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789838047.jpg?k=8a45aa67fb78a14401ab50c0a74b98e8af1f1f53003b9ad20bc8fb6c024e4885&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789834363.jpg?k=cc16abdc52ff0cf5fdf85942710668adf69d33f21be08642059677bce6bc50f3&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/791942430.jpg?k=96a7a5d64a4036c1a93667e95d59b7f9bcfcab804f70b6f8d06321e81ab6bacd&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789860198.jpg?k=df0735992498912e1396d98ae50acf077d85d393ca603e068e4e85b720fbb279&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/791942006.jpg?k=af1e6e55f21280e1101a2c8665a904f1124370e4a23c335d1a651a8ae558a5f1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789791186.jpg?k=4dc2b8f8c24fe2f5f99e73066577ffd6609c7e7d26b3f8be2a0024afdb8a1c8a&o=&hp=1"
         ]
       },
       {
@@ -50066,9 +50722,20 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 large double bed",
         "description": "Premium Suite with Sea View - 2 Days 1 Night1 large double bed+Show prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/51379718.jpg?k=34a7897376a79649d3d14e0e751261c24b2ef41b95cef2588b18740aede2c89c&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/51379660.jpg?k=899f633bc0b46ad2b32e06a92024dfa25bf6edd3a080d00f238fb7b64c650783&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/51379718.jpg?k=34a7897376a79649d3d14e0e751261c24b2ef41b95cef2588b18740aede2c89c&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/51379660.jpg?k=899f633bc0b46ad2b32e06a92024dfa25bf6edd3a080d00f238fb7b64c650783&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789788246.jpg?k=bfb74d987688ca0e79ff53b3dfead4c4b9acade512278c1650682c41460bead8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789834249.jpg?k=4b0c688993ff7fe25001939b39269aaaba10d6350bf027b57c334b96d873b72c&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789839393.jpg?k=eb8999d22daa5a5a1d6b43ea3374a2ee896d8c14783305bd5e939c2097208647&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789834241.jpg?k=a2f41955b1af7440d317cdf18553f810451b36cc1749b78282c35c4e2c8b4320&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789838042.jpg?k=218bf07961cb0c2b1efe4eff4314c8d64427f51a6eec7f94e2582c9e3f6a0eb0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789838047.jpg?k=8a45aa67fb78a14401ab50c0a74b98e8af1f1f53003b9ad20bc8fb6c024e4885&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789834363.jpg?k=cc16abdc52ff0cf5fdf85942710668adf69d33f21be08642059677bce6bc50f3&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/791942430.jpg?k=96a7a5d64a4036c1a93667e95d59b7f9bcfcab804f70b6f8d06321e81ab6bacd&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789860198.jpg?k=df0735992498912e1396d98ae50acf077d85d393ca603e068e4e85b720fbb279&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/791942006.jpg?k=af1e6e55f21280e1101a2c8665a904f1124370e4a23c335d1a651a8ae558a5f1&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/789791186.jpg?k=4dc2b8f8c24fe2f5f99e73066577ffd6609c7e7d26b3f8be2a0024afdb8a1c8a&o=&hp=1"
         ]
       },
       {
@@ -50105,7 +50772,7 @@ export const mockCruises: Cruise[] = [
   {
     "slug": "rosa-cruise",
     "name": "Rosa Cruise",
-    "tagline": "Experience northern Vietnam's pristine waters aboard Rosa Cruise.",
+    "tagline": "Experience northern Vietnam pristine waters aboard Rosa Cruise.",
     "region": "Ha Long Bay",
     "breadcrumbLabel": "Rosa Cruise",
     "tags": [
@@ -50117,7 +50784,7 @@ export const mockCruises: Cruise[] = [
     "durationNights": 1,
     "guestsMax": 48,
     "cabinCount": 5,
-    "startingPrice": 165,
+    "startingPrice": 137,
     "heroImage": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652415900.jpg?k=4042a508e0047190136d5a93cfd58eacf5832323e03995703a13775b95496075&o=&hp=1",
     "galleryImages": [
       "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652415900.jpg?k=4042a508e0047190136d5a93cfd58eacf5832323e03995703a13775b95496075&o=&hp=1",
@@ -50407,7 +51074,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -50449,7 +51116,7 @@ export const mockCruises: Cruise[] = [
               },
               {
                 "period": "EVE",
-                "text": "19:00 - Chef's signature dinner. 21:00 - Night squid fishing."
+                "text": "19:00 - Chef signature dinner. 21:00 - Night squid fishing."
               }
             ]
           },
@@ -50592,9 +51259,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bed, 1 sofa bedS",
         "description": "Presidential Suite1 extra-large double bed1 sofa bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414343.jpg?k=e18b627e3787bc0c9f9db132789926ca4a97942640eed1ab1e3e9d5be002b3c0&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414312.jpg?k=eb3d6f306fd0914fa0e9b9b3f734e528f264c730077c58998d0b3d411c4d6738&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414343.jpg?k=e18b627e3787bc0c9f9db132789926ca4a97942640eed1ab1e3e9d5be002b3c0&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414312.jpg?k=eb3d6f306fd0914fa0e9b9b3f734e528f264c730077c58998d0b3d411c4d6738&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414346.jpg?k=eb32dc1990f38efe2558942ee13aec516505920b6c5b389b88acfb6182140b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414343.jpg?k=e18b627e3787bc0c9f9db132789926ca4a97942640eed1ab1e3e9d5be002b3c0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414350.jpg?k=725723140c9850bcafc788eae5d57a606f61a60b6404964263f04acf42eb01ed&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414357.jpg?k=70d52f3558dee56b8fd2ca09d2602e8ff3e963ede36390fb30a8ec15ee06bdc6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414331.jpg?k=6288a7e9b16466f7a1232f9ec2fd4d821221418409768b2a4c420218cc9a4d3d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414376.jpg?k=910d8f1717c18757642e3a6e5904308b206ced3c3cca3c3a0851fd7331708a14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414369.jpg?k=a808a55bc5f5b5a8adf7dc35005061bbd3e4a9d039cc17108a1db9e97aa8d7a8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414327.jpg?k=2827ad42168b31ec381bbd28150bbe25c39ed718411e20a449f789d9a74786f0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414383.jpg?k=4f86c0e68fa6d9c2bc80453614b511c5b8c3c28377348ea81a44f946fbf6b68f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414386.jpg?k=59ecc62e15e7136dad27102a7791b26e7c73265b1788aae629a29dc0572f27c7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414320.jpg?k=73c86ed4e0db8ef030eb58b004c17ec495004fd15c1917752fa66ac3772290f3&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414396.jpg?k=2c201de473c42911ebcbbeb78353dd790f5749f48291e0b3c0284d47f7c4b2a8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414399.jpg?k=a629346066730e4edabd0e8a80550b2b88681a149cc1509b72a905c9572cb9bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max500/652429563.jpg?k=62d59ac916932db3a99dc3692148b60ef2b2407dfae2799ca5a26c5fcb0b2da4&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/652428054.jpg?k=3f6ab5e403949811f66716970b504176f2b98c9c551d89b2c209989b5b3e3e1f&o="
         ]
       },
       {
@@ -50604,9 +51286,24 @@ export const mockCruises: Cruise[] = [
         "size": "32 m²",
         "beds": "1 extra-large double bedS",
         "description": "Queen Suite with Sea View1 extra-large double bedShow prices",
-        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414350.jpg?k=725723140c9850bcafc788eae5d57a606f61a60b6404964263f04acf42eb01ed&o=&hp=1",
+        "image": "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414312.jpg?k=eb3d6f306fd0914fa0e9b9b3f734e528f264c730077c58998d0b3d411c4d6738&o=&hp=1",
         "galleryImages": [
-          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414350.jpg?k=725723140c9850bcafc788eae5d57a606f61a60b6404964263f04acf42eb01ed&o=&hp=1"
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414312.jpg?k=eb3d6f306fd0914fa0e9b9b3f734e528f264c730077c58998d0b3d411c4d6738&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414346.jpg?k=eb32dc1990f38efe2558942ee13aec516505920b6c5b389b88acfb6182140b66&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414343.jpg?k=e18b627e3787bc0c9f9db132789926ca4a97942640eed1ab1e3e9d5be002b3c0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414350.jpg?k=725723140c9850bcafc788eae5d57a606f61a60b6404964263f04acf42eb01ed&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414357.jpg?k=70d52f3558dee56b8fd2ca09d2602e8ff3e963ede36390fb30a8ec15ee06bdc6&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414331.jpg?k=6288a7e9b16466f7a1232f9ec2fd4d821221418409768b2a4c420218cc9a4d3d&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414376.jpg?k=910d8f1717c18757642e3a6e5904308b206ced3c3cca3c3a0851fd7331708a14&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414369.jpg?k=a808a55bc5f5b5a8adf7dc35005061bbd3e4a9d039cc17108a1db9e97aa8d7a8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414327.jpg?k=2827ad42168b31ec381bbd28150bbe25c39ed718411e20a449f789d9a74786f0&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414383.jpg?k=4f86c0e68fa6d9c2bc80453614b511c5b8c3c28377348ea81a44f946fbf6b68f&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414386.jpg?k=59ecc62e15e7136dad27102a7791b26e7c73265b1788aae629a29dc0572f27c7&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414320.jpg?k=73c86ed4e0db8ef030eb58b004c17ec495004fd15c1917752fa66ac3772290f3&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414396.jpg?k=2c201de473c42911ebcbbeb78353dd790f5749f48291e0b3c0284d47f7c4b2a8&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max1280x900/652414399.jpg?k=a629346066730e4edabd0e8a80550b2b88681a149cc1509b72a905c9572cb9bf&o=&hp=1",
+          "https://cf.bstatic.com/xdata/images/hotel/max500/652429563.jpg?k=62d59ac916932db3a99dc3692148b60ef2b2407dfae2799ca5a26c5fcb0b2da4&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max300/652428054.jpg?k=3f6ab5e403949811f66716970b504176f2b98c9c551d89b2c209989b5b3e3e1f&o="
         ]
       }
     ],
@@ -50628,161 +51325,86 @@ export const mockCruises: Cruise[] = [
     ]
   }
 ];
+export const cruises = mockCruises;
 
 export function getMockBySlug(slug: string): Cruise | undefined {
-  return cruises.find((c) => c.slug === slug);
+  return mockCruises.find((c) => c.slug === slug);
 }
 
+export function getCruiseBySlug(slug: string): Cruise | undefined {
+  return getMockBySlug(slug);
+}
 
-export const pressLogos = [
-  { name: "CNN Travel" },
-  { name: "National Geographic" },
-  { name: "Travel + Leisure" },
-  { name: "Lonely Planet" },
-  { name: "BBC Travel" },
-];
+export const pressLogos = ["Condé Nast Traveler", "Travel + Leisure", "National Geographic", "AFAR"];
 
-export const mockTourCollections = [
+export const mockTourCollections: TourCollection[] = [
   {
-    slug: "halong-bay",
-    type: "region" as const,
-    eyebrow: "The Icon of Vietnam",
-    title: "Ha Long Bay",
-    subtitle: "Emerald waters and thousands of towering limestone islands.",
-    heroImage: "https://cf.bstatic.com/xdata/images/hotel/max1920x1080/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=",
+    slug: "ha-long-bay",
+    type: "region",
+    eyebrow: "UNESCO World Heritage Site",
+    title: "Ha Long Bay Cruises",
+    subtitle: "The iconic seascape of emerald waters and thousands of towering limestone karsts.",
+    heroImage: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
     descriptionParagraphs: [
-      "Ha Long Bay is Vietnam's premier World Heritage site, famous for thousands of towering karst pillars, emerald calm waters, and ancient floating villages.",
-      "Sail through legendary passages, explore Sung Sot Cave, and kayak under limestone arches."
+      "Ha Long Bay is Vietnam flagship natural wonder. Sailing through its calm emerald waters reveals ancient limestone pillars topped with rainforests, hidden grottoes, and tranquil floating fishing communities.",
+      "Our curated fleet of small luxury ships navigates both popular routes and secluded passages, ensuring an intimate connection with this magnificent landscape."
     ],
-    keyHighlights: ["Sung Sot (Surprise) Cave", "Titop Island & Viewpoint", "Luon Cave Kayaking"],
-    priceRangeText: "From  / person",
-    bestMonthsText: "October to April",
-    expertAdvice: "Choose a 2-day or 3-day luxury cruise to experience sunrise over the karst peaks.",
-    faqs: [
-      { question: "When is the best time to visit Ha Long Bay?", answer: "October to April offers mild weather and clear blue skies." }
-    ]
-  },
-  {
-    slug: "lan-ha-bay",
-    type: "region" as const,
-    eyebrow: "The Serene Escapade",
-    title: "Lan Ha Bay",
-    subtitle: "Pristine white sand beaches and quiet emerald bays south of Ha Long.",
-    heroImage: "https://cf.bstatic.com/xdata/images/hotel/max1920x1080/121409303.jpg?k=e7b8f154ae87921475f63aafeb13a215c77ccc70ee72dc10823bbc88e4f71cab&o=",
-    descriptionParagraphs: [
-      "Lan Ha Bay offers all the natural beauty of Ha Long Bay with a fraction of the cruise traffic and over 139 sandy beaches.",
-      "Enjoy quiet kayaking through Dark & Bright Cave and cycling in Viet Hai Village."
+    keyHighlights: [
+      "Explore Sung Sot (Surprise) Cave, the largest cave system in the bay",
+      "Hike to the panoramic peak of Titop Island for 360-degree views",
+      "Kayaking through Luon Cave inner lagoon"
     ],
-    keyHighlights: ["Dark & Bright Cave", "Ba Trai Dao Beaches", "Viet Hai Village Cycling"],
-    priceRangeText: "From  / person",
-    bestMonthsText: "Year-round",
-    expertAdvice: "Lan Ha Bay is ideal for couples and luxury travelers seeking tranquil waters.",
+    priceRangeText: "$120 - $450 / person",
+    bestMonthsText: "October to April (cool, dry season)",
+    expertAdvice: "Book early for peak season (November - February). Consider 3-day 2-night itineraries to venture into quieter outer bays.",
     faqs: [
-      { question: "How is Lan Ha Bay different from Ha Long Bay?", answer: "Lan Ha Bay is less crowded and has many natural sandy beaches." }
-    ]
-  },
-  {
-    slug: "bai-tu-long-bay",
-    type: "region" as const,
-    eyebrow: "The Untouched Realm",
-    title: "Bai Tu Long Bay",
-    subtitle: "Unspoiled scenery, secluded lagoons, and authentic fishing culture.",
-    heroImage: "https://cf.bstatic.com/xdata/images/hotel/max1920x1080/598036986.jpg?k=c4e1a6957b15cfbb4441e1470d2860c560eb12eb7798ca91ceea877d0507ea5c&o=",
-    descriptionParagraphs: [
-      "Bai Tu Long Bay occupies the northeastern portion of Halong Bay, featuring wild nature and tranquil floating fishing villages.",
-      "Discover Cong Dam geological park and Thien Canh Son cave."
-    ],
-    keyHighlights: ["Vung Vieng Fishing Village", "Thien Canh Son Cave", "Cong Dam Lagoon"],
-    priceRangeText: "From  / person",
-    bestMonthsText: "September to May",
-    expertAdvice: "Perfect for off-the-beaten-path adventurers seeking authentic tranquility.",
-    faqs: [
-      { question: "Is Bai Tu Long Bay less crowded?", answer: "Yes, Bai Tu Long has strict visitor limits and very few cruise vessels." }
+      { question: "How far is Ha Long Bay from Hanoi?", answer: "About 2.5 hours via the modern expressway. Luxury transfer vans pick up directly from hotels in Hanoi Old Quarter." },
+      { question: "What is included in a typical cruise package?", answer: "All meals on board, en-suite cabin, kayaking/bamboo boat excursions, entrance fees, and English-speaking guide." }
     ]
   }
 ];
 
-export const mockHomepageContent = {
-  heroTitle: "Discover Northern Vietnam's World-Class Cruises",
+export const mockHomepageContent: HomepageContent = {
+  heroTitle: "Discover Northern Vietnam World-Class Cruises",
   heroSubtitle: "Book luxury small-ship sailings through Ha Long Bay, Lan Ha Bay, and Bai Tu Long Bay.",
-  heroBackground: "https://cf.bstatic.com/xdata/images/hotel/max1920x1080/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=",
-  tripTypesTitle: "Curated Sailings",
-  tripTypesDescription: "Find the perfect journey tailored to your travel style.",
+  heroBackground: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
+  tripTypesTitle: "Choose Your Sailing Style",
+  tripTypesDescription: "From ultra-luxury 5-star vessels to boutique traditional wooden junks.",
   selectedStyles: mockTourCollections,
-  regionsTitle: "The Three Bays",
-  regionsDescription: "Explore the distinct landscapes of northern Vietnam.",
+  regionsTitle: "Explore Northern Vietnam Bays",
+  regionsDescription: "Ha Long Bay, Lan Ha Bay, and Bai Tu Long Bay each offer unique karsts and beaches.",
   selectedRegions: mockTourCollections,
-  featuredTitle: "Featured Ships",
-  featuredCruises: [],
-  testimonialsTitle: "Guest Experiences",
+  featuredTitle: "Featured Luxury Cruises",
+  featuredCruises: mockCruises.slice(0, 6),
+  testimonialsTitle: "What Our Guests Say",
   testimonials: [
-    { quote: "An unforgettable sailing through Lan Ha Bay. The balcony suite view was breathtaking.", author: "Sarah Jenkins", location: "Australia" },
-    { quote: "Flawless service, delicious seafood, and kayaking through karst arches.", author: "Markus Weber", location: "Germany" }
+    { quote: "Unforgettable experience sailing through Lan Ha Bay. The balcony suite view was unreal!", author: "Sarah M.", location: "Australia" },
+    { quote: "Exceptional service and exquisite local seafood. Kayaking into Dark & Bright cave was the highlight.", author: "David K.", location: "United Kingdom" }
   ],
-  guidesTitle: "Cruise Guides & Advice",
+  guidesTitle: "Ha Long Travel Guides",
   guidesList: [
-    { title: "Ha Long Bay vs Lan Ha Bay: Which Cruise to Choose?", url: "/guides/bay-comparison", image: "https://cf.bstatic.com/xdata/images/hotel/max1920x1080/121409303.jpg?k=e7b8f154ae87921475f63aafeb13a215c77ccc70ee72dc10823bbc88e4f71cab&o=", date: "May 2026", readTime: "5 min read" }
+    { title: "Best Time to Visit Ha Long Bay", url: "/guides/best-time-to-visit", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg", date: "August 2026", readTime: "5 min read" }
   ],
-  headerMenu: {
-    cruises: [
-      { href: "/cruises", label: "All Cruises" },
-      { href: "/cruises/best-value", label: "Best Value" },
-      { href: "/cruises/luxury", label: "Luxury Cruises" }
-    ],
-    tours: [
-      { href: "/tours/2-days-1-night", label: "2 Days 1 Night" },
-      { href: "/tours/halong-bay", label: "Ha Long Bay" }
-    ],
-    guides: [
-      { href: "/guides/best-cruises", label: "Best Ha Long Bay Cruises" }
-    ]
-  },
-  footerData: {
-    address: "Tuan Chau Marina, Ha Long, Vietnam",
-    phone: "+84 988600388",
-    email: "sales@halongbestcruises.com",
-    cruises: [
-      { href: "/cruises", label: "All Cruises" },
-      { href: "/cruises/luxury", label: "Luxury Cruises" }
-    ],
-    tours: [
-      { href: "/tours/day-cruises", label: "Day Cruises" }
-    ],
-    guides: [
-      { href: "/guides/best-cruises", label: "Best Cruises" }
-    ]
-  },
-  seoBlock: {
-    title: "Ha Long Bay Cruises — A Specialist Guide",
-    text: "Ha Long Bay, a UNESCO World Heritage Site in northeastern Vietnam, is home to nearly 2,000 limestone karst islands rising dramatically from the emerald water of the Gulf of Tonkin. The best way to experience it is by cruise."
-  },
   announcementBar: {
     text: "2 x 1 Special Offer & Summer Promotion aboard",
     linkText: "Ha Long & Lan Ha Luxury Cruises",
     linkUrl: "/cruises"
   },
   categoryTilesSection: {
-    eyebrow: "Choose your style",
-    title: "Find your perfect cruise.",
-    description: "Same stunning bay, sorted by what matters most to you.",
+    eyebrow: "CURATED COLLECTIONS",
+    title: "Browse by Sailing Style",
+    description: "Whether seeking 5-star opulence, family adventure, or romantic seclusion, explore our hand-picked cruise categories.",
     tiles: [
-      { label: "Best Value", subtitle: "From $99 · Well-run ships", href: "/cruises/best-value", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/467942185.webp?k=9580531eb28c9c8e634700d2a64b6adbf3e920885c2bd5a97ead535c5b191cf5&o=", badge: "Most Popular" },
-      { label: "Deluxe", subtitle: "$150–$350 · Comfortable & stylish", href: "/cruises/deluxe", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.webp?k=332fd8224c34a103fadc0be18c2fd4fd3cc281dc81ca0777a453eacede034e92&o=", badge: "" },
-      { label: "Luxury", subtitle: "$400+ · Premium service", href: "/cruises/luxury", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/749638399.webp?k=9d3aefd241f0c12537840e57970e2567330167d4a516f3746826967a5bb54164&o=", badge: "" },
-      { label: "Family", subtitle: "Family suites · Child activities", href: "/cruises/family", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/420229710.webp?k=e7bdebdef0306a9d17bac45171c99ae969f974aff2911f37248e3e2ca570f025&o=", badge: "" },
-      { label: "Couples", subtitle: "Romance · Honeymoon · Sunsets", href: "/cruises/couples", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/411409062.webp?k=dd0f7b9297bb345b5350265a4466db99778914c17805d5a46a25ab5db2f8df33&o=", badge: "Honeymoon ♥" },
-      { label: "Group", subtitle: "8+ people · Charter options", href: "/cruises/group", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/540224451.webp?k=9275ad9f8fdad3bc9867f4f78fce11784317bb543b6539c8255cb7f4bd1ff16d&o=", badge: "" },
-      { label: "Small Ship", subtitle: "Under 20 cabins · Quiet bays", href: "/cruises/small-ship", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/895524639.webp?k=ad1836bbd6de1032a92737816e5a95038c5d8fd9e649979d98a9f722afb4acdd&o=", badge: "" }
+      { label: "Ultra Luxury", subtitle: "5-Star Suites & Spas", href: "/cruises/luxury", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1", badge: "LUXURY" },
+      { label: "Boutique Ships", subtitle: "Intimate 10-20 Cabins", href: "/cruises/boutique", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783924563.jpg?k=a0d48a2293f3571e21b105f812db19e32e2bcbaf230265aeb05a952bc38e6a48&o=&hp=1", badge: "BOUTIQUE" },
+      { label: "Family Expeditions", subtitle: "Connecting Cabins & Kayaking", href: "/cruises/family", image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/784071520.jpg?k=31b1d21db5f33cfa693f5ab9a6f6a700d1012452cf2c9bd06ca620ba5b261391&o=&hp=1", badge: "FAMILY" }
     ]
   },
   leadCapture: {
-    shortlistTitle: "Get my cruise shortlist",
-    shortlistSubtitle: "Free, no obligation",
-    shortlistDesc: "Tell us your dates, budget and travel style — we'll send you 3–5 perfectly matched cruises within 2 hours.",
-    stickyCtaText: "Need advice? Chat with a local expert",
+    shortlistTitle: "Get Your Custom Cruise Shortlist in 3 Hours",
+    shortlistSubtitle: "Tell us your travel dates, budget, and party size. Our Hanoi-based cruise specialists curate 3 ideal options with exclusive perks.",
+    shortlistDesc: "Free cancellation options & instant WhatsApp support.",
+    stickyCtaText: "64 Ha Long Bay cruises",
     stickyCtaWhatsapp: "84988600388"
   }
 };
-
-export const cruises = normalizeCruiseCatalog(mockCruises);
-export const getCruiseBySlug = getMockBySlug;

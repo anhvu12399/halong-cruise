@@ -1,5 +1,4 @@
-import { Cruise, ItineraryDay, Cabin, SocialArea, TourCollection, HomepageContent, FrontendPageContent } from "./types";
-import { normalizeCruise } from "./normalizeCruises";
+import { Cruise, ItineraryDay, Cabin, SocialArea, TourCollection, HomepageContent } from "./types";
 import { 
   cruises as mockCruises, 
   getCruiseBySlug as getMockBySlug, 
@@ -7,43 +6,7 @@ import {
   mockHomepageContent 
 } from "./mockData";
 
-// The production CMS. WORDPRESS_URL can still override this for another environment.
-const WP_URL = (process.env.WORDPRESS_URL || "https://halongcruise.vietnamprivatetours.com").replace(/\/$/, "");
-
-/** This WordPress host exposes REST through ?rest_route= rather than /wp-json/. */
-function wpApiUrl(route: string): string {
-  const [path, query = ""] = route.replace(/^\/+/, "").split("?");
-  const url = new URL(WP_URL);
-  url.searchParams.set("rest_route", `/${path}`);
-  new URLSearchParams(query).forEach((value, key) => url.searchParams.set(key, value));
-  return url.toString();
-}
-
-/** Fetch every page from a WordPress collection, not just the first 100 posts. */
-async function fetchWpCollection<T>(route: string): Promise<T[]> {
-  const separator = route.includes("?") ? "&" : "?";
-  const first = await fetch(wpApiUrl(`${route}${separator}per_page=100&page=1`), {
-    next: { revalidate: 300 },
-  });
-  if (!first.ok) throw new Error(`WordPress responded ${first.status}`);
-
-  const firstPage = await first.json();
-  if (!Array.isArray(firstPage)) return [];
-  const totalPages = Math.max(1, Number(first.headers.get("x-wp-totalpages") || 1));
-  if (totalPages === 1) return firstPage as T[];
-
-  const remaining = await Promise.all(
-    Array.from({ length: totalPages - 1 }, async (_, index) => {
-      const response = await fetch(wpApiUrl(`${route}${separator}per_page=100&page=${index + 2}`), {
-        next: { revalidate: 300 },
-      });
-      if (!response.ok) throw new Error(`WordPress responded ${response.status}`);
-      const page = await response.json();
-      return Array.isArray(page) ? page as T[] : [];
-    }),
-  );
-  return (firstPage as T[]).concat(...remaining);
-}
+const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
 
 /**
  * Headless WordPress integration layer.
@@ -106,42 +69,30 @@ type WpCruisePost = {
 };
 
 function splitLines(value: string | undefined): string[] {
-  if (Array.isArray(value)) return value.map(String).map((v) => v.trim()).filter(Boolean);
-  return String(value ?? "")
+  return (value ?? "")
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
 }
 
-/** ACF returns false for an empty repeater/relationship field. */
-function arrayValue<T = any>(value: unknown): T[] {
-  return Array.isArray(value) ? value as T[] : [];
-}
-
-/** ACF can return an image as a URL, attachment object or numeric ID depending
- * on the field configuration. The CMS uses URL fields by default, but this
- * keeps old WordPress data working after an upgrade. */
-function imageUrl(value: any): string {
-  if (!value) return "";
-  if (typeof value === "string") return value.trim();
-  return value.url || value.source_url || value.guid?.rendered || "";
-}
-
-function imageUrls(value: any): string[] {
-  if (typeof value === "string") {
-    return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
-  }
-  if (!Array.isArray(value)) return imageUrl(value) ? [imageUrl(value)] : [];
-  return value.map((item) => imageUrl(item?.image_url || item)).filter(Boolean);
-}
-
 function mapWpCruise(post: WpCruisePost): Cruise {
   const a = (post.acf as any) || {};
+  const cruiseName = a.breadcrumb_label || post.title?.rendered || post.slug;
+  const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
+
+  const heroImage = a.hero_image_url || (typeof a.hero_image === "string" ? a.hero_image : a.hero_image?.url) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
+
+  const extGalleryUrls = (a.external_gallery ?? []).map((e: any) => (typeof e === "string" ? e : e?.image_url || e?.url)).filter(Boolean);
+  const acfGalleryUrls = (a.gallery ?? []).map((g: any) => (typeof g === "string" ? g : g?.url || g?.image_url)).filter(Boolean);
+  const galleryImages = extGalleryUrls.length > 0 
+    ? extGalleryUrls 
+    : (acfGalleryUrls.length > 0 ? acfGalleryUrls : (mockFallback?.galleryImages && mockFallback.galleryImages.length > 0 ? mockFallback.galleryImages : [heroImage].filter(Boolean)));
+
   const mapItinerary = (itineraryArr: any[]) => (itineraryArr ?? []).map((d, i) => ({
     day: i + 1,
     title: d.title || `Day ${i + 1}`,
     location: d.location || "Ha Long Bay",
-    image: imageUrl(d.image_url || d.image),
+    image: (typeof d.image === "string" ? d.image : d.image?.url) || galleryImages[i % galleryImages.length] || "",
     blocks: [
       d.am ? { period: "AM" as const, text: d.am } : null,
       d.pm ? { period: "PM" as const, text: d.pm } : null,
@@ -157,44 +108,61 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     programs.push({ id: "3d2n", name: "3 Days 2 Nights", days: mapItinerary(a.itinerary_3d2n) });
   }
   
-  // Fallback for old data or if no programs exist
   if (programs.length === 0 && a.itinerary && a.itinerary.length > 0) {
     programs.push({ id: "2d1n", name: "2 Days 1 Night", days: mapItinerary(a.itinerary) });
   }
 
-  const cabins: Cabin[] = arrayValue(a.cabins).map((c: any) => ({
-    name: c.name || "Suite Cabin",
-    cabinCount: c.cabin_count || 10,
-    guests: c.guests || "2–3",
-    size: c.size || "28 m²",
-    beds: c.beds || "Double/Twin",
-    description: c.description || "Luxury oceanview suite with private balcony.",
-    image: imageUrl(c.image_url || c.image),
-    galleryImages: imageUrls(c.gallery_urls || c.gallery_images).length ? imageUrls(c.gallery_urls || c.gallery_images) : imageUrls(c.image_url || c.image),
-  }));
+  const parsedCabins: Cabin[] = (a.cabins ?? []).map((c: any, i: number) => {
+    const rawImage = typeof c.image === "string" ? c.image : (c.image?.url || c.image_url || "");
+    const rawGallery = Array.isArray(c.gallery_images)
+      ? c.gallery_images.map((g: any) => (typeof g === "string" ? g : (g?.url || g?.image_url || "")))
+      : (Array.isArray(c.gallery) ? c.gallery.map((g: any) => (typeof g === "string" ? g : g?.url)) : []);
 
-  const socialAreas: SocialArea[] = arrayValue(a.social_areas).map((s: any) => ({
-    name: s.name || "Social Area",
-    image: imageUrl(s.image_url || s.image),
-    alt: s.alt_text || s.name || "Social Area",
-  }));
+    let validGallery = rawGallery.filter(Boolean);
+    if (validGallery.length === 0 && rawImage) {
+      validGallery = [rawImage];
+    }
 
-  const cruiseName = a.breadcrumb_label || post.title?.rendered || post.slug;
+    const fallbackCabin = mockFallback?.cabins?.[i] || mockFallback?.cabins?.[0];
+    if (validGallery.length === 0) {
+      if (fallbackCabin?.galleryImages && fallbackCabin.galleryImages.length > 0) {
+        validGallery = fallbackCabin.galleryImages;
+      } else if (fallbackCabin?.image) {
+        validGallery = [fallbackCabin.image];
+      } else if (galleryImages.length > 0) {
+        validGallery = [galleryImages[i % galleryImages.length]];
+      }
+    }
 
-  const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
+    const finalImage = rawImage || validGallery[0] || fallbackCabin?.image || heroImage || "";
 
-  const heroImage = imageUrl(a.hero_image_url || a.hero_image) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || imageUrl(a.gallery?.[0]);
-  const extGalleryUrls = imageUrls(a.external_gallery);
-  const externalPhotos = arrayValue(a.external_gallery).map((item: any) => ({
-    url: imageUrl(item?.image_url || item?.url || item),
-    alt: item?.alt_text || item?.alt || cruiseName,
-  })).filter((item: any) => item.url);
-  const acfGalleryUrls = imageUrls(a.gallery_urls || a.gallery);
-  const galleryImages = extGalleryUrls.length > 0 ? extGalleryUrls : (acfGalleryUrls.length > 0 ? acfGalleryUrls : (mockFallback?.galleryImages || []));
-  const finalCabins = cabins.length > 0 ? cabins : (mockFallback?.cabins || []);
+    return {
+      name: c.name || fallbackCabin?.name || "Suite Cabin",
+      cabinCount: c.cabin_count || fallbackCabin?.cabinCount || 10,
+      guests: c.guests || fallbackCabin?.guests || "2–3",
+      size: c.size || fallbackCabin?.size || "28 m²",
+      beds: c.beds || fallbackCabin?.beds || "Double/Twin",
+      description: c.description || fallbackCabin?.description || "Luxury oceanview suite with private balcony.",
+      image: finalImage,
+      galleryImages: validGallery,
+    };
+  });
+
+  const finalCabins = parsedCabins.length > 0 ? parsedCabins : (mockFallback?.cabins || []);
+
+  const parsedSocialAreas: SocialArea[] = (a.social_areas ?? []).map((s: any, i: number) => {
+    const img = typeof s.image === "string" ? s.image : (s.image?.url || s.image_url || "");
+    const fallbackArea = mockFallback?.socialAreas?.[i];
+    const finalImg = img || fallbackArea?.image || galleryImages[i % galleryImages.length] || heroImage || "";
+    return {
+      name: s.name || fallbackArea?.name || "Social Area",
+      image: finalImg,
+    };
+  });
+  const socialAreas = parsedSocialAreas.length > 0 ? parsedSocialAreas : (mockFallback?.socialAreas || []);
   const finalPrograms = programs.length > 0 ? programs : (mockFallback?.programs || []);
 
-  return normalizeCruise({
+  return {
     slug: post.slug,
     name: cruiseName,
     tagline: a.tagline || mockFallback?.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
@@ -208,7 +176,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     startingPrice: a.starting_price ? Number(a.starting_price) : (mockFallback?.startingPrice || 150),
     heroImage,
     galleryImages,
-    photos: externalPhotos.length > 0 ? externalPhotos : (galleryImages.length > 0 ? galleryImages.map((url: any) => ({ url, alt: cruiseName })) : (mockFallback?.photos || [])),
+    photos: mockFallback?.photos || galleryImages.map((url: any) => ({ url, alt: cruiseName })),
     rating: mockFallback?.rating || 9.2,
     reviewCount: mockFallback?.reviewCount || 150,
     address: mockFallback?.address || "Tuan Chau Marina, Ha Long, Quang Ninh, Vietnam",
@@ -216,25 +184,31 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     lifeOnBoard: splitLines(a.life_on_board).length > 0 ? splitLines(a.life_on_board) : (mockFallback?.lifeOnBoard || []),
     highlights: splitLines(a.highlights).length > 0 ? splitLines(a.highlights) : (mockFallback?.highlights || []),
     programs: finalPrograms,
-    socialAreas: socialAreas.length > 0 ? socialAreas : (mockFallback?.socialAreas || []),
+    socialAreas,
     cabins: finalCabins,
     features: splitLines(a.features).length > 0 ? splitLines(a.features) : (mockFallback?.features || []),
     equipment: splitLines(a.equipment).length > 0 ? splitLines(a.equipment) : (mockFallback?.equipment || []),
-    deckPlanImage: imageUrl(a.deck_plan_url || a.deck_plan),
-    relatedSlugs: arrayValue(a.related).map((r: any) => r.post_name).length > 0 ? arrayValue(a.related).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
-  });
+    deckPlanImage: typeof a.deck_plan === "string" ? a.deck_plan : a.deck_plan?.url,
+    relatedSlugs: (a.related ?? []).map((r: any) => r.post_name).length > 0 ? (a.related ?? []).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
+  };
 }
 
 export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
     // Try standard CPT endpoint first, then custom post type cruises-vietnam
-    let posts: WpCruisePost[];
-    try {
-      posts = await fetchWpCollection<WpCruisePost>("wp/v2/cruises?_embed");
-    } catch {
-      posts = await fetchWpCollection<WpCruisePost>("wp/v2/cruises-vietnam?_embed");
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, {
+      next: { revalidate: 300 },
+    });
+    
+    if (!res.ok) {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&per_page=100`, {
+        next: { revalidate: 300 },
+      });
     }
+
+    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
+    const posts: WpCruisePost[] = await res.json();
     if (!Array.isArray(posts) || posts.length === 0) return mockCruises;
     return posts.map(mapWpCruise);
   } catch (err) {
@@ -246,12 +220,12 @@ export async function getAllCruises(): Promise<Cruise[]> {
 export async function getCruiseBySlug(slug: string): Promise<Cruise | undefined> {
   if (!WP_URL) return getMockBySlug(slug);
   try {
-    let res = await fetch(wpApiUrl(`wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`), {
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
       next: { revalidate: 300 },
     });
 
     if (!res.ok) {
-      res = await fetch(wpApiUrl(`wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`), {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`, {
         next: { revalidate: 300 },
       });
     }
@@ -282,13 +256,13 @@ function mapWpTourCollection(post: any): TourCollection {
     eyebrow: a.eyebrow || "",
     title: a.title || post.title?.rendered || post.slug,
     subtitle: a.subtitle || "",
-    heroImage: imageUrl(a.hero_image_url || a.hero_image),
+    heroImage: a.hero_image?.url || "",
     descriptionParagraphs: splitLines(a.description_paragraphs),
     keyHighlights: splitLines(a.key_highlights),
     priceRangeText: a.price_range_text || "",
     bestMonthsText: a.best_months_text || "",
     expertAdvice: a.expert_advice || "",
-    faqs: arrayValue(a.faqs).map((faq: any) => ({
+    faqs: (a.faqs ?? []).map((faq: any) => ({
       question: faq.question || "",
       answer: faq.answer || "",
     })),
@@ -298,7 +272,7 @@ function mapWpTourCollection(post: any): TourCollection {
 export async function getTourCollectionBySlug(slug: string): Promise<TourCollection | undefined> {
   if (!WP_URL) return mockTourCollections.find(c => c.slug === slug);
   try {
-    const res = await fetch(wpApiUrl(`wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`), {
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`, {
       next: { revalidate: 300 },
     });
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
@@ -314,7 +288,7 @@ export async function getTourCollectionBySlug(slug: string): Promise<TourCollect
 export async function getHomepageContent(): Promise<HomepageContent> {
   if (!WP_URL) return mockHomepageContent;
   try {
-    const res = await fetch(wpApiUrl("wp/v2/homepage-content?_embed&per_page=1"), {
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/homepage-content?_embed&per_page=1`, {
       next: { revalidate: 300 },
     });
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
@@ -322,102 +296,45 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
     
     const a = posts[0].acf || {};
-    const [tourPosts, cruisePosts, siteOptionsResponse] = await Promise.all([
-      fetchWpCollection<any>("wp/v2/tour-collections?_embed"),
-      fetchWpCollection<WpCruisePost>("wp/v2/cruises?_embed"),
-      fetch(wpApiUrl("halong/v1/site-options"), { next: { revalidate: 300 } }),
-    ]);
-    const siteOptions = siteOptionsResponse.ok ? await siteOptionsResponse.json() : {};
-    const resolveTour = (ref: any) => {
-      const id = typeof ref === "number" ? ref : Number(ref?.ID || ref?.id);
-      const slug = ref?.post_name || ref?.slug;
-      const full = (Array.isArray(tourPosts) ? tourPosts : []).find((post: any) =>
-        (id && post.id === id) || (slug && post.slug === slug),
-      );
-      return mapWpTourCollection(full || { ...ref, slug });
-    };
-    const resolveCruise = (ref: any) => {
-      const id = typeof ref === "number" ? ref : Number(ref?.ID || ref?.id);
-      const slug = ref?.post_name || ref?.slug;
-      const full = cruisePosts.find((post) => (id && post.id === id) || (slug && post.slug === slug));
-      return full ? mapWpCruise(full) : ({ ...mockCruises[0], slug, name: ref?.post_title || ref?.title?.rendered || slug });
-    };
     return {
       heroTitle: a.hero_title || "",
       heroSubtitle: a.hero_subtitle || "",
-      heroBackground: imageUrl(a.hero_background_url || a.hero_background),
-      heroSlides: arrayValue(a.hero_slides).map((slide: any) => ({
-        image: imageUrl(slide.image_url || slide.image),
-        name: slide.name || "Ha Long Bay",
-        slug: slide.slug || "cruises",
-      })).filter((slide: any) => slide.image),
+      heroBackground: a.hero_background?.url || "",
       tripTypesTitle: a.trip_types_title || "",
       tripTypesDescription: a.trip_types_description || "",
-      selectedStyles: arrayValue(a.selected_styles).map(resolveTour),
+      selectedStyles: (a.selected_styles ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
       regionsTitle: a.regions_title || "",
       regionsDescription: a.regions_description || "",
-      selectedRegions: arrayValue(a.selected_regions).map(resolveTour),
+      selectedRegions: (a.selected_regions ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
       featuredTitle: a.featured_title || "",
-      featuredCruises: arrayValue(a.featured_cruises).map(resolveCruise),
+      featuredCruises: (a.featured_cruises ?? []).map((p: any) => ({ ...mockCruises[0], slug: p.post_name, name: p.post_title })), // Simplification for now, would fetch full cruise ideally
       testimonialsTitle: a.testimonials_title || "",
-      testimonialsEyebrow: a.testimonials_eyebrow || "",
-      testimonialsRatingText: a.testimonials_rating_text || "",
-      testimonials: arrayValue(a.testimonials).map((t: any) => ({
+      testimonials: (a.testimonials ?? []).map((t: any) => ({
         quote: t.quote || "",
         author: t.author || "",
         location: t.location || "",
       })),
-      teamSection: {
-        eyebrow: a.team_eyebrow || "",
-        title: a.team_title || "",
-        members: arrayValue(a.team_members).map((member: any) => ({
-          name: member.name || "",
-          role: member.role || "",
-          experience: member.experience || "",
-          initial: member.initial || "",
-          image: imageUrl(member.image_url || member.image),
-          bio: member.bio || "",
-        })),
-      },
-      contactStrip: {
-        whatsappLabel: a.contact_whatsapp_label || "",
-        // Website Settings is the single source of truth for these global contact details.
-        whatsapp: siteOptions.site_whatsapp || a.contact_whatsapp || "",
-        emailLabel: a.contact_email_label || "",
-        email: siteOptions.site_email || a.contact_email || "",
-        officeLabel: a.contact_office_label || "",
-        office: a.contact_office || "",
-        hours: a.contact_hours || "",
-      },
       guidesTitle: a.guides_title || "",
-      guidesList: arrayValue(a.guides_list).map((g: any) => ({
+      guidesList: (a.guides_list ?? []).map((g: any) => ({
         title: g.title || "",
         url: g.url || "",
-        image: imageUrl(g.image_url || g.image),
+        image: g.image?.url || "",
         date: g.date || "",
         readTime: g.read_time || "",
       })),
       headerMenu: {
-        logo: imageUrl(a.header_logo_url || a.header_logo),
-        logoAlt: a.header_logo_alt || "Ha Long Bay Cruises",
-        logoWidth: Number(a.header_logo_width) || 180,
-        cruisesLabel: a.header_cruises_label || "Cruises",
-        toursLabel: a.header_tours_label || "Tours & Packages",
-        guidesLabel: a.header_guides_label || "Travel Guides",
-        aboutLabel: a.header_about_label || "About Us",
-        ctaLabel: a.header_cta_label || "Plan a Sailing",
-        ctaUrl: a.header_cta_url || "/inquire",
-        cruises: arrayValue(a.header_cruises).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        tours: arrayValue(a.header_tours).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        guides: arrayValue(a.header_guides).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        logo: a.header_logo?.url || a.header_logo || "",
+        cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
       },
       footerData: {
         address: a.footer_address || "Tuan Chau Marina, Ha Long, Vietnam",
         phone: a.footer_phone || "+84 988600388",
         email: a.footer_email || "sales@halongbestcruises.com",
-        cruises: arrayValue(a.footer_cruises).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        tours: arrayValue(a.footer_tours).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
-        guides: arrayValue(a.footer_guides).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        cruises: (a.footer_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        tours: (a.footer_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
+        guides: (a.footer_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
       },
       seoBlock: {
         title: a.seo_title || "",
@@ -432,11 +349,11 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         eyebrow: a.category_section_eyebrow || "",
         title: a.category_section_title || "",
         description: a.category_section_desc || "",
-        tiles: arrayValue(a.category_tiles).map((t: any) => ({
+        tiles: (a.category_tiles ?? []).map((t: any) => ({
           label: t.label || "",
           subtitle: t.subtitle || "",
           href: t.href || "",
-          image: imageUrl(t.image_url || t.image),
+          image: t.image?.url || "",
           badge: t.badge || "",
         })),
       },
@@ -455,19 +372,3 @@ export async function getHomepageContent(): Promise<HomepageContent> {
 }
 
 export const isLive = Boolean(WP_URL);
-
-export async function getFrontendPage(route: string): Promise<FrontendPageContent | undefined> {
-  if (!WP_URL) return undefined;
-  try {
-    const res = await fetch(wpApiUrl(`halong/v1/frontend-page?route=${encodeURIComponent(route)}`), {
-      next: { revalidate: 300 },
-    });
-    if (!res.ok) return undefined;
-    const data = await res.json();
-    if (!data || !data.route) return undefined;
-    return data;
-  } catch (err) {
-    console.error(`[wp-headless] frontend page fallback for ${route}:`, err);
-    return undefined;
-  }
-}
