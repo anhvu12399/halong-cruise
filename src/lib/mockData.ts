@@ -50738,8 +50738,8 @@ export const mockHomepageContent = {
   },
   footerData: {
     address: "Tuan Chau Marina, Ha Long, Vietnam",
-    phone: "+84 123 456 789",
-    email: "hello@halongbestcruises.com",
+    phone: "+84 988600388",
+    email: "sales@halongbestcruises.com",
     cruises: [
       { href: "/cruises", label: "All Cruises" },
       { href: "/cruises/luxury", label: "Luxury Cruises" }
@@ -50779,7 +50779,7 @@ export const mockHomepageContent = {
     shortlistSubtitle: "Free, no obligation",
     shortlistDesc: "Tell us your dates, budget and travel style — we'll send you 3–5 perfectly matched cruises within 2 hours.",
     stickyCtaText: "Need advice? Chat with a local expert",
-    stickyCtaWhatsapp: "84905999888"
+    stickyCtaWhatsapp: "84988600388"
   }
 };
 

@@ -104,6 +104,7 @@ export type HomepageContent = {
   guidesTitle: string;
   guidesList: { title: string; url: string; image: string; date: string; readTime: string }[];
   headerMenu?: {
+    logo?: string;
     cruises: { label: string; href: string }[];
     tours: { label: string; href: string }[];
     guides: { label: string; href: string }[];

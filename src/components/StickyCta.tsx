@@ -50,7 +50,7 @@ export default function StickyCta({ data }: { data?: any }) {
         <div className="flex w-full items-center gap-3 md:w-auto">
           <a
             id="sticky-whatsapp"
-            href={`https://wa.me/${data?.stickyCtaWhatsapp || "84905999888"}?text=Hi%2C+I%27d+like+a+Ha+Long+Bay+cruise+shortlist`}
+            href={`https://wa.me/${data?.stickyCtaWhatsapp || "84988600388"}?text=Hi%2C+I%27d+like+a+Ha+Long+Bay+cruise+shortlist`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={trackWhatsApp}

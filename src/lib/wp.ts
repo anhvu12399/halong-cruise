@@ -289,14 +289,15 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         readTime: g.read_time || "",
       })),
       headerMenu: {
+        logo: a.header_logo?.url || a.header_logo || "",
         cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
       },
       footerData: {
-        address: a.footer_address || "",
-        phone: a.footer_phone || "",
-        email: a.footer_email || "",
+        address: a.footer_address || "Tuan Chau Marina, Ha Long, Vietnam",
+        phone: a.footer_phone || "+84 988600388",
+        email: a.footer_email || "sales@halongbestcruises.com",
         cruises: (a.footer_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         tours: (a.footer_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         guides: (a.footer_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
@@ -327,7 +328,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         shortlistSubtitle: a.shortlist_form_subtitle || "",
         shortlistDesc: a.shortlist_form_desc || "",
         stickyCtaText: a.sticky_cta_text || "",
-        stickyCtaWhatsapp: a.sticky_cta_whatsapp || "",
+        stickyCtaWhatsapp: a.sticky_cta_whatsapp || "84988600388",
       },
     };
   } catch (err) {

@@ -73,8 +73,8 @@ export default function Footer({ data }: { data?: any }) {
           </ul>
           <p className="mt-4 text-xs text-sand-100/60 leading-relaxed">
             {data?.address || "Tuan Chau Marina, Ha Long, Vietnam"} <br />
-            {data?.phone || "+84 123 456 789"} <br />
-            {data?.email || "hello@halongbestcruises.com"}
+            {data?.phone || "+84 988600388"} <br />
+            {data?.email || "sales@halongbestcruises.com"}
           </p>
         </div>
       </div>
