@@ -130,13 +130,9 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
 
       {/* ── Header Navbar ── */}
       <header
-        className={`inset-x-0 top-0 z-40 transition-all duration-300 transform ${
+        className={`sticky top-0 z-40 transition-all duration-300 transform ${
           isVisible ? "translate-y-0" : "-translate-y-full"
-        } ${
-          isAtTop
-            ? "absolute bg-teal-950/72 backdrop-blur-[2px] border-b border-sand-50/10 shadow-none"
-            : "fixed bg-teal-950/92 backdrop-blur-md border-b border-teal-800/80 shadow-2xl"
-        }`}
+        } bg-teal-950/95 backdrop-blur-md border-b border-teal-800/80 shadow-2xl`}
         onMouseLeave={() => setActiveDropdown(null)}
       >
         <div className="container-content flex h-20 items-center justify-between">
@@ -145,9 +141,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
             {menu?.logo ? (
               <img
                 src={menu.logo}
-                alt={menu.logoAlt || "Ha Long Bay Cruises"}
-                width={menu.logoWidth || 180}
-                height={48}
+                alt="Ha Long Bay Cruises"
                 className="h-10 max-h-12 w-auto object-contain"
               />
             ) : (
@@ -166,7 +160,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
           <nav className="hidden items-center gap-8 md:flex">
             <NavItem
               id="cruises"
-              label={menu?.cruisesLabel || "Cruises"}
+              label="Cruises"
               href="/cruises"
               active={activeDropdown === "cruises"}
               onEnter={setActiveDropdown}
@@ -178,7 +172,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
 
             <NavItem
               id="tours"
-              label={menu?.toursLabel || "Tours & Packages"}
+              label="Tours & Packages"
               active={activeDropdown === "tours"}
               onEnter={setActiveDropdown}
             >
@@ -189,7 +183,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
 
             <NavItem
               id="guides"
-              label={menu?.guidesLabel || "Travel Guides"}
+              label="Travel Guides"
               href="/planning"
               active={activeDropdown === "guides"}
               onEnter={setActiveDropdown}
@@ -212,19 +206,19 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
               href="/about"
               className="text-xs font-bold uppercase tracking-[0.18em] text-sand-50 transition hover:text-brass-300"
             >
-              {menu?.aboutLabel || "About Us"}
+              About Us
             </Link>
           </nav>
 
           {/* ── CTA ── */}
           <Link
-            href={menu?.ctaUrl || "/inquire"}
+            href="/inquire"
             className="hidden items-center gap-2 rounded-full bg-brass-400 px-6 py-3 text-xs font-bold uppercase tracking-wider text-teal-950 transition hover:bg-brass-300 md:flex shadow-sm"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
               <path d="M6 1L6 11M1 6L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            {menu?.ctaLabel || "PLAN A SAILING"}
+            PLAN A SAILING
           </Link>
 
           {/* ── Mobile burger ── */}

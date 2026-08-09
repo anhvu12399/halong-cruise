@@ -53,7 +53,7 @@ export default function HeroSlideshow({
   if (slides.length === 0) return null;
 
   return (
-    <section className="relative flex min-h-[calc(100svh-7rem)] items-end overflow-hidden bg-[#0B2224]">
+    <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-[#0B2224]">
       {/* Slideshow background — FULL CLARITY, 100% natural photo colors */}
       {slides.map((slide, idx) => {
         if (idx !== 0 && !mounted) return null;
@@ -70,18 +70,18 @@ export default function HeroSlideshow({
               priority={idx === 0}
               loading={idx === 0 ? 'eager' : 'lazy'}
               sizes="100vw"
-              className="object-contain object-top"
+              className="object-cover object-center"
             />
           </div>
         );
       })}
 
-      {/* Subtle bottom vignette only — preserves 100% photo sky clarity */}
+      {/* Dark Overlay Gradient — guarantees crisp text readability against bright sky photos */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to top, rgba(11,34,36,0.88) 0%, rgba(11,34,36,0.25) 40%, transparent 80%)',
+            'linear-gradient(to top, rgba(11,34,36,0.92) 0%, rgba(11,34,36,0.4) 45%, rgba(11,34,36,0.65) 100%)',
           zIndex: 1,
         }}
       />
@@ -89,9 +89,11 @@ export default function HeroSlideshow({
 
       {/* Content */}
       <div className="container-content relative pb-16 pt-36" style={{ zIndex: 2 }}>
-        <p className="eyebrow mb-4 text-brass-300 font-bold tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-          Ha Long Bay Cruise Specialist · Since 2015
-        </p>
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-brass-400/40 bg-teal-950/80 px-4 py-1.5 backdrop-blur-md shadow-lg">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-brass-300">
+            Ha Long Bay Cruise Specialist · Since 2015
+          </span>
+        </div>
         <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-sand-50 drop-shadow-[0_4px_14px_rgba(0,0,0,0.9)] md:text-7xl">
           {heroTitle || 'Sail the Karsts.'}
         </h1>
