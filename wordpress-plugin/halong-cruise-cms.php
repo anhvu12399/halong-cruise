@@ -72,7 +72,7 @@ add_action('acf/include_field_types', function () {
                 $this->render_input($base_name . '[' . $index . '][' . $sub_name . ']', $sub, $row[$sub_name] ?? '');
                 echo '</div>';
             }
-            echo '</div><button type="button" class="button-link-delete halong-remove-row">Xóa</button></div>';
+            echo '</div><div class="halong-row-actions"><button type="button" class="button halong-move-up" title="Đưa lên">↑</button><button type="button" class="button halong-move-down" title="Đưa xuống">↓</button><button type="button" class="button-link-delete halong-remove-row">Xóa</button></div></div>';
         }
 
         public function update_value($value, $post_id, $field) {
@@ -105,7 +105,7 @@ add_action('acf/include_field_types', function () {
 add_action('acf/input/admin_footer', function () {
     ?>
     <style>
-        .halong-free-repeater{border:1px solid #ccd0d4;padding:12px;background:#f6f7f7}.halong-repeater-row{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #dcdcde;padding:12px;margin-bottom:10px}.halong-repeater-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;flex:1}.halong-repeater-cell input,.halong-repeater-cell textarea,.halong-repeater-cell select{width:100%}.halong-cell-label{display:block;font-weight:600;margin-bottom:4px}.halong-drag{cursor:grab;color:#8c8f94;font-size:18px}.halong-add-row{margin-top:4px}
+        .halong-free-repeater{border:1px solid #ccd0d4;padding:12px;background:#f6f7f7}.halong-repeater-row{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #dcdcde;padding:12px;margin-bottom:10px}.halong-repeater-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;flex:1}.halong-repeater-cell input,.halong-repeater-cell textarea,.halong-repeater-cell select{width:100%}.halong-cell-label{display:block;font-weight:600;margin-bottom:4px}.halong-drag{color:#8c8f94;font-size:18px}.halong-add-row{margin-top:4px}.halong-row-actions{display:flex;flex-direction:column;gap:6px;align-items:center}.halong-row-actions .button{min-width:32px;padding:0}
     </style>
     <script>
     (function(){
@@ -115,7 +115,12 @@ add_action('acf/input/admin_footer', function () {
         root.querySelector('.halong-add-row').addEventListener('click',function(){
           var index=rows.children.length, html=template.innerHTML.replaceAll('__INDEX__',index); rows.insertAdjacentHTML('beforeend',html);
         });
-        root.addEventListener('click',function(e){if(e.target.classList.contains('halong-remove-row')) e.target.closest('.halong-repeater-row').remove();});
+        root.addEventListener('click',function(e){
+          var row=e.target.closest('.halong-repeater-row'); if(!row) return;
+          if(e.target.classList.contains('halong-remove-row')) row.remove();
+          if(e.target.classList.contains('halong-move-up') && row.previousElementSibling) rows.insertBefore(row,row.previousElementSibling);
+          if(e.target.classList.contains('halong-move-down') && row.nextElementSibling) rows.insertBefore(row.nextElementSibling,row);
+        });
       }
       function scan(){document.querySelectorAll('.halong-free-repeater').forEach(init)}
       document.addEventListener('DOMContentLoaded',scan); document.addEventListener('acf/setup_fields',scan); scan();
