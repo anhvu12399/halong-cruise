@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 
 export const metadata: Metadata = {
   title: "What to Pack for a Ha Long Bay Cruise — Packing List 2025",
@@ -63,7 +65,9 @@ const DONT_PACK = [
   "Books you can't bear to lose (the sea air is humid — books warp)",
 ];
 
-export default function WhatToPackPage() {
+export default async function WhatToPackPage() {
+  const cmsPage = await getFrontendPage("/guides/what-to-pack");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <>
       <script

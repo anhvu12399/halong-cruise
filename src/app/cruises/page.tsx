@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getAllCruises } from "@/lib/wp";
+import { getAllCruises, getFrontendPage } from "@/lib/wp";
 import CruiseCard from "@/components/CruiseCard";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
 
 export const metadata = { title: "All Cruises" };
 
@@ -22,6 +23,10 @@ export default async function CruisesPage({
 }: {
   searchParams: { region?: string; days?: string; tag?: string; q?: string };
 }) {
+  const cmsPage = await getFrontendPage("/cruises");
+  if (cmsPage && !searchParams.q && !searchParams.region && !searchParams.days && !searchParams.tag) {
+    return <FrontendCmsPage page={cmsPage} />;
+  }
   const cruises = await getAllCruises();
   const q = searchParams.q?.trim().toLowerCase();
 

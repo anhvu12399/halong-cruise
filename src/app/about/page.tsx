@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import DividerHeading from "@/components/DividerHeading";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 
 export const metadata = {
   title: "About Us | Local Ha Long Bay Cruise Experts & License",
@@ -8,7 +10,9 @@ export const metadata = {
     "Learn about Ha Long Bay Cruises. Licensed local Vietnamese cruise desk, local expertise, unbiased advice, responsible travel & 24/7 guest support.",
 };
 
-export default function AboutUsPage() {
+export default async function AboutUsPage() {
+  const cmsPage = await getFrontendPage("/about");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <div className="bg-sand-50">
       {/* Hero */}

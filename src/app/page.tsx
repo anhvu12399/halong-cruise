@@ -64,7 +64,7 @@ export default async function HomePage() {
 
   const fourthSlide = slideCruises[3] || slideCruises[0] || cruises[0];
 
-  const heroSlides = [
+  const fallbackHeroSlides = [
     {
       image: '/images/hero-ai-banner-1.png',
       name: 'Ha Long Odyssey Luxury Sunset Voyage',
@@ -86,6 +86,7 @@ export default async function HomePage() {
       slug: fourthSlide?.slug || 'cruises',
     },
   ];
+  const heroSlides = content.heroSlides && content.heroSlides.length > 0 ? content.heroSlides : fallbackHeroSlides;
 
   return (
     <>

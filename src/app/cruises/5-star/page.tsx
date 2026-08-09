@@ -12,6 +12,7 @@ export default async function FiveStarCruisesPage() {
 
   return (
     <CategoryListingPage
+      cmsSlug="5-star"
       title="5-Star Halong Bay Cruises"
       eyebrow="Certified 5-Star Vessel Selection"
       subtitle="Discover our selection of officially rated 5-star ships in Ha Long Bay, offering flawless safety standards, plush oceanfront cabins, and comprehensive 5-star hospitality."

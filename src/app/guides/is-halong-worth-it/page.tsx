@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 
 export const metadata: Metadata = {
   title: "Is Ha Long Bay Worth Visiting? — An Honest Answer",
@@ -36,7 +38,9 @@ const VERDICT_POINTS = [
   },
 ];
 
-export default function IsHalongWorthItPage() {
+export default async function IsHalongWorthItPage() {
+  const cmsPage = await getFrontendPage("/guides/is-halong-worth-it");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <>
       <script

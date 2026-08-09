@@ -1,4 +1,6 @@
 import Image from "next/image";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 import Link from "next/link";
 import DividerHeading from "@/components/DividerHeading";
 
@@ -8,7 +10,9 @@ export const metadata = {
     "How much does a Ha Long Bay cruise cost? Transparent price guide for 5-star luxury, boutique, 2D1N, 3D2N, day cruises, hidden fees & money-saving tips.",
 };
 
-export default function CruisePricesGuidePage() {
+export default async function CruisePricesGuidePage() {
+  const cmsPage = await getFrontendPage("/guides/cruise-prices");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <div className="bg-sand-50">
       {/* Hero */}

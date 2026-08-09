@@ -3,8 +3,10 @@ import Link from "next/link";
 import { Cruise } from "@/lib/types";
 import DividerHeading from "@/components/DividerHeading";
 import AmenityIcons from "@/components/AmenityIcons";
+import { getTourCollectionBySlug } from "@/lib/wp";
 
 export type CategoryPageProps = {
+  cmsSlug?: string;
   title: string;
   eyebrow: string;
   subtitle: string;
@@ -19,7 +21,8 @@ export type CategoryPageProps = {
   faqs?: { q: string; a: string }[];
 };
 
-export default function CategoryListingPage({
+export default async function CategoryListingPage({
+  cmsSlug,
   title,
   eyebrow,
   subtitle,
@@ -33,6 +36,17 @@ export default function CategoryListingPage({
   expertAdvice,
   faqs,
 }: CategoryPageProps) {
+  const cms = cmsSlug ? await getTourCollectionBySlug(cmsSlug) : undefined;
+  title = cms?.title || title;
+  eyebrow = cms?.eyebrow || eyebrow;
+  subtitle = cms?.subtitle || subtitle;
+  heroImage = cms?.heroImage || heroImage;
+  descriptionParagraphs = cms?.descriptionParagraphs?.length ? cms.descriptionParagraphs : descriptionParagraphs;
+  keyHighlights = cms?.keyHighlights?.length ? cms.keyHighlights : keyHighlights;
+  priceRangeText = cms?.priceRangeText || priceRangeText;
+  bestMonthsText = cms?.bestMonthsText || bestMonthsText;
+  expertAdvice = cms?.expertAdvice || expertAdvice;
+  faqs = cms?.faqs?.length ? cms.faqs.map((faq) => ({ q: faq.question, a: faq.answer })) : faqs;
   const filtered = allCruises.filter(filterFn);
   const displayCruises = filtered.length > 0 ? filtered : allCruises.slice(0, 12);
 

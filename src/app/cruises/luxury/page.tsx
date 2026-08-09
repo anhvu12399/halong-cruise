@@ -12,6 +12,7 @@ export default async function LuxuryCruisesPage() {
 
   return (
     <CategoryListingPage
+      cmsSlug="luxury"
       title="Luxury Halong Bay Cruises"
       eyebrow="Ultra Luxury &amp; 5-Star Fleet"
       subtitle="Experience Vietnam’s iconic bay aboard world-class 5-star ships featuring floor-to-ceiling panoramic glass, private balcony suites, gourmet multi-course dining, and heated infinity pools."

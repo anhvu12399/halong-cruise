@@ -12,6 +12,7 @@ export default async function BoutiqueCruisesPage() {
 
   return (
     <CategoryListingPage
+      cmsSlug="boutique"
       title="Boutique Halong Bay Cruises"
       eyebrow="Small Ships &amp; Intimate Atmosphere"
       subtitle="Escape the crowds on small boutique vessels featuring under 20 handcrafted cabins, warm personalized service, and authentic Indochine heritage design."

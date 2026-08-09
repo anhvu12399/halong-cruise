@@ -91,6 +91,7 @@ export type HomepageContent = {
   heroTitle: string;
   heroSubtitle: string;
   heroBackground: string;
+  heroSlides?: { image: string; name: string; slug: string }[];
   tripTypesTitle: string;
   tripTypesDescription: string;
   selectedStyles: TourCollection[];
@@ -139,4 +140,16 @@ export type HomepageContent = {
     stickyCtaText: string;
     stickyCtaWhatsapp: string;
   };
+};
+
+export type FrontendPageContent = {
+  route: string;
+  eyebrow: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  heroImage: string;
+  contentHtml: string;
+  sections: { title: string; text: string; image: string }[];
+  metaTitle?: string;
+  metaDescription?: string;
 };
