@@ -329,13 +329,17 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     ]);
     const siteOptions = siteOptionsResponse.ok ? await siteOptionsResponse.json() : {};
     const resolveTour = (ref: any) => {
+      const id = typeof ref === "number" ? ref : Number(ref?.ID || ref?.id);
       const slug = ref?.post_name || ref?.slug;
-      const full = (Array.isArray(tourPosts) ? tourPosts : []).find((post: any) => post.slug === slug);
+      const full = (Array.isArray(tourPosts) ? tourPosts : []).find((post: any) =>
+        (id && post.id === id) || (slug && post.slug === slug),
+      );
       return mapWpTourCollection(full || { ...ref, slug });
     };
     const resolveCruise = (ref: any) => {
+      const id = typeof ref === "number" ? ref : Number(ref?.ID || ref?.id);
       const slug = ref?.post_name || ref?.slug;
-      const full = cruisePosts.find((post) => post.slug === slug);
+      const full = cruisePosts.find((post) => (id && post.id === id) || (slug && post.slug === slug));
       return full ? mapWpCruise(full) : ({ ...mockCruises[0], slug, name: ref?.post_title || ref?.title?.rendered || slug });
     };
     return {
