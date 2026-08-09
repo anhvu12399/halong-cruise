@@ -8,6 +8,19 @@ import {
 
 const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
 
+const DEFAULT_HEADER_MENU = {
+  cruises: [
+    { href: "/cruises", label: "All Cruises" },
+    { href: "/cruises/best-value", label: "Best Value" },
+    { href: "/cruises/luxury", label: "Luxury Cruises" },
+  ],
+  tours: [
+    { href: "/tours/2-days-1-night", label: "2 Days 1 Night" },
+    { href: "/tours/halong-bay", label: "Ha Long Bay" },
+  ],
+  guides: [{ href: "/guides/best-cruises", label: "Best Ha Long Bay Cruises" }],
+};
+
 /**
  * Headless WordPress integration layer.
  * 
@@ -326,13 +339,13 @@ export async function getHomepageContent(): Promise<HomepageContent> {
         logo: a.header_logo?.url || a.header_logo || "",
         cruises: Array.isArray(a.header_cruises) && a.header_cruises.length > 0
           ? a.header_cruises.map((i: any) => ({ label: i.label || "", href: i.href || "" }))
-          : mockHomepageContent.headerMenu.cruises,
+          : DEFAULT_HEADER_MENU.cruises,
         tours: Array.isArray(a.header_tours) && a.header_tours.length > 0
           ? a.header_tours.map((i: any) => ({ label: i.label || "", href: i.href || "" }))
-          : mockHomepageContent.headerMenu.tours,
+          : DEFAULT_HEADER_MENU.tours,
         guides: Array.isArray(a.header_guides) && a.header_guides.length > 0
           ? a.header_guides.map((i: any) => ({ label: i.label || "", href: i.href || "" }))
-          : mockHomepageContent.headerMenu.guides,
+          : DEFAULT_HEADER_MENU.guides,
       },
       footerData: {
         address: a.footer_address || "Tuan Chau Marina, Ha Long, Vietnam",
