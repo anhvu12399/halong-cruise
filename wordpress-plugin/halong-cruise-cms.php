@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Ha Long Cruise CMS
- * Description: Quản lý toàn bộ frontend Headless Next.js. Có Repeater riêng chạy với ACF Free, hỗ trợ ảnh URL/CDN và tương thích ACF PRO.
- * Version: 5.1.0
+ * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
+ * Version: 6.0.0
  * Author: Ha Long Best Cruises
  */
 
@@ -19,7 +19,7 @@ add_action('acf/include_field_types', function () {
             $this->name = 'repeater';
             $this->label = 'Repeater (Ha Long CMS / ACF Free)';
             $this->category = 'layout';
-            $this->defaults = ['sub_fields' => [], 'button_label' => 'Thêm dòng'];
+            $this->defaults = ['sub_fields' => [], 'button_label' => 'Add Row'];
             parent::__construct();
         }
 
@@ -59,20 +59,20 @@ add_action('acf/include_field_types', function () {
             echo '<template class="halong-repeater-template">';
             $this->render_row($field['name'], $sub_fields, [], '__INDEX__');
             echo '</template>';
-            echo '<button type="button" class="button halong-add-row">' . esc_html($field['button_label'] ?: 'Thêm dòng') . '</button>';
+            echo '<button type="button" class="button halong-add-row">' . esc_html($field['button_label'] ?: 'Add Row') . '</button>';
             echo '</div>';
         }
 
         private function render_row($base_name, $sub_fields, $row, $index) {
             echo '<div class="halong-repeater-row">';
-            echo '<span class="halong-drag" title="Kéo để sắp xếp">⋮⋮</span><div class="halong-repeater-grid">';
+            echo '<span class="halong-drag" title="Row order">⋮⋮</span><div class="halong-repeater-grid">';
             foreach ($sub_fields as $sub) {
                 $sub_name = $sub['name'] ?? $sub['key'];
                 echo '<div class="halong-repeater-cell">';
                 $this->render_input($base_name . '[' . $index . '][' . $sub_name . ']', $sub, $row[$sub_name] ?? '');
                 echo '</div>';
             }
-            echo '</div><div class="halong-row-actions"><button type="button" class="button halong-move-up" title="Đưa lên">↑</button><button type="button" class="button halong-move-down" title="Đưa xuống">↓</button><button type="button" class="button-link-delete halong-remove-row">Xóa</button></div></div>';
+            echo '</div><div class="halong-row-actions"><button type="button" class="button halong-move-up" title="Move up">↑</button><button type="button" class="button halong-move-down" title="Move down">↓</button><button type="button" class="button-link-delete halong-remove-row">Remove</button></div></div>';
         }
 
         public function update_value($value, $post_id, $field) {
@@ -129,20 +129,54 @@ add_action('acf/input/admin_footer', function () {
     <?php
 });
 
+/* Live previews for direct image URLs, including the website logo. */
+add_action('admin_footer', function () {
+    if (!function_exists('get_current_screen')) return;
+    $screen = get_current_screen();
+    if (!$screen || !in_array($screen->post_type, ['cruise', 'tour_collection', 'homepage_content', 'frontend_page'], true)) return;
+    ?>
+    <style>
+      .halong-image-preview{display:block;max-width:240px;max-height:150px;margin-top:8px;border:1px solid #c3c4c7;border-radius:8px;background:#fff;object-fit:contain;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+      .halong-image-preview.is-logo{max-height:80px;background:#102f31}
+    </style>
+    <script>
+    (function(){
+      function looksLikeImageField(input){
+        var name=(input.name||'').toLowerCase(), field=input.closest('.acf-field'), label=field?field.textContent.toLowerCase():'';
+        return name.includes('image')||name.includes('logo')||name.includes('gallery')||label.includes('image url')||label.includes('logo');
+      }
+      function preview(input){
+        if(!looksLikeImageField(input)) return;
+        var value=(input.value||'').trim(), old=input.parentNode.querySelector(':scope > .halong-image-preview');
+        if(!/^https?:\/\//i.test(value)){if(old) old.remove();return;}
+        var image=old||document.createElement('img');
+        image.className='halong-image-preview'+((input.name||'').toLowerCase().includes('logo')?' is-logo':'');
+        image.alt='Image preview'; image.onerror=function(){this.style.display='none'}; image.onload=function(){this.style.display='block'};
+        image.src=value; if(!old) input.insertAdjacentElement('afterend',image);
+      }
+      function scan(){document.querySelectorAll('.acf-field input[type="url"],.acf-field input[type="text"],.halong-free-repeater input[type="url"]').forEach(preview)}
+      document.addEventListener('input',function(e){if(e.target.matches('input[type="url"],input[type="text"]')) preview(e.target)});
+      document.addEventListener('change',function(e){if(e.target.matches('input[type="url"],input[type="text"]')) preview(e.target)});
+      document.addEventListener('DOMContentLoaded',scan); setTimeout(scan,500); setTimeout(scan,1500);
+    })();
+    </script>
+    <?php
+});
+
 /* ------------------------------------------------------------------ */
-/* 1. Đăng ký Custom Post Type: Cruises, Inquiries & Page Settings    */
+/* 1. Custom Post Types                                               */
 /* ------------------------------------------------------------------ */
 add_action('init', function () {
     register_post_type('cruise', [
-        'label' => 'Du Thuyền Hạ Long',
+        'label' => 'Cruises',
         'labels' => [
-            'name' => '🚢 Du Thuyền',
-            'singular_name' => 'Du Thuyền',
-            'add_new' => 'Thêm Tàu Mới',
-            'add_new_item' => 'Thêm Tàu Mới',
-            'edit_item' => 'Chỉnh Sửa Du Thuyền',
-            'new_item' => 'Tàu Mới',
-            'all_items' => 'Tất Cả Du Thuyền',
+            'name' => 'Cruises',
+            'singular_name' => 'Cruise',
+            'add_new' => 'Add New',
+            'add_new_item' => 'Add New Cruise',
+            'edit_item' => 'Edit Cruise',
+            'new_item' => 'New Cruise',
+            'all_items' => 'All Cruises',
         ],
         'public' => true,
         'show_in_rest' => true,
@@ -154,10 +188,10 @@ add_action('init', function () {
     ]);
 
     register_post_type('inquiry', [
-        'label' => 'Yêu Cầu Đặt Tàu',
+        'label' => 'Inquiries',
         'labels' => [
-            'name' => '✉️ Đơn Đặt Tàu & Tư Vấn',
-            'singular_name' => 'Yêu Cầu',
+            'name' => 'Inquiries',
+            'singular_name' => 'Inquiry',
         ],
         'public' => false,
         'show_ui' => true,
@@ -167,21 +201,21 @@ add_action('init', function () {
     ]);
 
     register_post_type('tour_collection', [
-        'labels' => ['name' => '🗺️ Trang Tour & Danh Mục', 'singular_name' => 'Trang Tour', 'add_new_item' => 'Thêm Trang Tour'],
+        'labels' => ['name' => 'Tour Collections', 'singular_name' => 'Tour Collection', 'add_new_item' => 'Add Tour Collection', 'edit_item' => 'Edit Tour Collection'],
         'public' => true, 'show_in_rest' => true, 'rest_base' => 'tour-collections',
         'menu_icon' => 'dashicons-location-alt', 'supports' => ['title', 'revisions'],
         'rewrite' => ['slug' => 'tour-collections'],
     ]);
 
     register_post_type('homepage_content', [
-        'labels' => ['name' => '🏠 Nội Dung Trang Chủ', 'singular_name' => 'Trang Chủ', 'add_new_item' => 'Tạo Nội Dung Trang Chủ'],
+        'labels' => ['name' => 'Homepage & Global', 'singular_name' => 'Homepage Settings', 'add_new_item' => 'Add Homepage Settings', 'edit_item' => 'Edit Homepage Settings'],
         'public' => true, 'show_in_rest' => true, 'rest_base' => 'homepage-content',
         'menu_icon' => 'dashicons-admin-home', 'supports' => ['title', 'revisions'],
         'rewrite' => false,
     ]);
 
     register_post_type('frontend_page', [
-        'labels' => ['name' => '📄 Nội Dung Các Trang', 'singular_name' => 'Trang Frontend', 'add_new_item' => 'Thêm Trang Frontend'],
+        'labels' => ['name' => 'Frontend Pages', 'singular_name' => 'Frontend Page', 'add_new_item' => 'Add Frontend Page', 'edit_item' => 'Edit Frontend Page'],
         'public' => true, 'show_in_rest' => true, 'rest_base' => 'frontend-pages',
         'menu_icon' => 'dashicons-layout', 'supports' => ['title', 'editor', 'revisions'],
         'rewrite' => false,
@@ -189,13 +223,12 @@ add_action('init', function () {
 });
 
 /* ------------------------------------------------------------------ */
-/* 2. Đăng Ký Menu "🌐 Cấu Hình Trang Chủ" Trên WordPress Admin Menu   */
-/*    (Tương thích 100% với cả ACF Free lẫn ACF PRO)                  */
+/* 2. Quick Website Settings (compatible with ACF Free and ACF PRO)  */
 /* ------------------------------------------------------------------ */
 add_action('admin_menu', function () {
     add_menu_page(
-        'Cấu Hình Trang Chủ & Website',
-        '🌐 Cấu Hình Trang Chủ',
+        'Website Quick Settings',
+        'Website Settings',
         'edit_posts',
         'site-homepage-settings',
         'render_halong_cms_homepage_settings',
@@ -218,7 +251,7 @@ function render_halong_cms_homepage_settings() {
                 update_option($field, sanitize_text_field($_POST[$field]));
             }
         }
-        echo '<div class="notice notice-success is-dismissible"><p><strong>✅ Đã lưu cấu hình Trang Chủ & Các Trang Tour thành công!</strong></p></div>';
+        echo '<div class="notice notice-success is-dismissible"><p><strong>Website settings saved successfully.</strong></p></div>';
     }
 
     $hero_title = get_option('home_hero_title', 'Every budget. Every travel style. One bay you\'ll never forget.');
@@ -235,66 +268,66 @@ function render_halong_cms_homepage_settings() {
     $tour_btl   = get_option('tour_baitulong_title', 'Bai Tu Long Bay Cruises');
     ?>
     <div class="wrap">
-        <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 20px;">🌐 Quản Lý Nội Dung Trang Chủ & Các Trang Tour</h1>
+        <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 20px;">Website Quick Settings</h1>
         <form method="post" action="">
             <?php wp_nonce_field('halong_options_verify'); ?>
             <div style="background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #ccd0d4; max-w: 900px;">
-                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 0;">🏠 1. Cấu Hình Banner Trang Chủ (Homepage Hero)</h2>
+                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 0;">1. Homepage Hero</h2>
                 
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><label for="home_hero_title">Tiêu Đề Banner Chính (H1)</label></th>
+                        <th scope="row"><label for="home_hero_title">Main Hero Title (H1)</label></th>
                         <td><input name="home_hero_title" type="text" id="home_hero_title" value="<?php echo esc_attr($hero_title); ?>" class="regular-text" style="width: 100%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="home_hero_subtitle">Mô Tả Phụ Giới Thiệu</label></th>
+                        <th scope="row"><label for="home_hero_subtitle">Hero Subtitle</label></th>
                         <td><textarea name="home_hero_subtitle" id="home_hero_subtitle" rows="3" class="large-text" style="width: 100%;"><?php echo esc_textarea($hero_sub); ?></textarea></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="home_hero_image">Link Ảnh Banner Nền Trang Chủ</label></th>
+                        <th scope="row"><label for="home_hero_image">Hero Background Image URL</label></th>
                         <td><input name="home_hero_image" type="text" id="home_hero_image" value="<?php echo esc_attr($hero_img); ?>" class="regular-text" style="width: 100%;"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="site_whatsapp">Số WhatsApp Tư Vấn</label></th>
+                        <th scope="row"><label for="site_whatsapp">WhatsApp Number</label></th>
                         <td><input name="site_whatsapp" type="text" id="site_whatsapp" value="<?php echo esc_attr($whatsapp); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="site_email">Email Liên Hệ</label></th>
+                        <th scope="row"><label for="site_email">Contact Email</label></th>
                         <td><input name="site_email" type="text" id="site_email" value="<?php echo esc_attr($email); ?>" class="regular-text"></td>
                     </tr>
                 </table>
 
-                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 30px;">🚢 2. Tiêu Đề Các Trang Tour & Điểm Đến</h2>
+                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 30px;">2. Tour and Destination Page Titles</h2>
                 
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><label for="tour_day_title">Trang Day Cruises</label></th>
+                        <th scope="row"><label for="tour_day_title">Day Cruises Page</label></th>
                         <td><input name="tour_day_title" type="text" id="tour_day_title" value="<?php echo esc_attr($tour_day); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="tour_2d1n_title">Trang 2 Days 1 Night</label></th>
+                        <th scope="row"><label for="tour_2d1n_title">2 Days / 1 Night Page</label></th>
                         <td><input name="tour_2d1n_title" type="text" id="tour_2d1n_title" value="<?php echo esc_attr($tour_2d1n); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="tour_3d2n_title">Trang 3 Days 2 Nights</label></th>
+                        <th scope="row"><label for="tour_3d2n_title">3 Days / 2 Nights Page</label></th>
                         <td><input name="tour_3d2n_title" type="text" id="tour_3d2n_title" value="<?php echo esc_attr($tour_3d2n); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="tour_halong_title">Trang Vịnh Hạ Long</label></th>
+                        <th scope="row"><label for="tour_halong_title">Ha Long Bay Page</label></th>
                         <td><input name="tour_halong_title" type="text" id="tour_halong_title" value="<?php echo esc_attr($tour_hl); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="tour_lanha_title">Trang Vịnh Lan Hạ</label></th>
+                        <th scope="row"><label for="tour_lanha_title">Lan Ha Bay Page</label></th>
                         <td><input name="tour_lanha_title" type="text" id="tour_lanha_title" value="<?php echo esc_attr($tour_lh); ?>" class="regular-text"></td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="tour_baitulong_title">Trang Vịnh Bái Tử Long</label></th>
+                        <th scope="row"><label for="tour_baitulong_title">Bai Tu Long Bay Page</label></th>
                         <td><input name="tour_baitulong_title" type="text" id="tour_baitulong_title" value="<?php echo esc_attr($tour_btl); ?>" class="regular-text"></td>
                     </tr>
                 </table>
 
                 <p class="submit" style="margin-top: 25px;">
-                    <input type="submit" name="save_halong_options" id="submit" class="button button-primary button-large" value="💾 Lưu Cấu Hình Website">
+                    <input type="submit" name="save_halong_options" id="submit" class="button button-primary button-large" value="Save Website Settings">
                 </p>
             </div>
         </form>
@@ -303,14 +336,14 @@ function render_halong_cms_homepage_settings() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Cấu hình Trường Dữ Liệu ACF Trực Quan Cho Bài Viết Du Thuyền    */
+/* 3. Cruise Fields                                                   */
 /* ------------------------------------------------------------------ */
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field_group')) return;
 
     acf_add_local_field_group([
         'key' => 'group_cruise_cms',
-        'title' => '⚙️ CẤU HÌNH CHI TIẾT DU THUYỀN',
+        'title' => 'Cruise Details',
         'show_in_rest' => 1,
         'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'cruise']]],
         'menu_order' => 0,
@@ -320,207 +353,243 @@ add_action('acf/init', function () {
         'instruction_placement' => 'label',
         'fields' => [
 
-            /* TAB 1: THÔNG TIN CHUNG */
-            ['key' => 'tab_general', 'label' => '📌 Thông Tin Chung & Giá', 'type' => 'tab'],
-            ['key' => 'field_tagline', 'name' => 'tagline', 'label' => 'Dòng Giới Thiệu Ngắn (Tagline)', 'type' => 'text',
-                'instructions' => '1 câu ngắn gọn hiển thị dưới tên tàu trên Banner.'],
-            ['key' => 'field_region', 'name' => 'region', 'label' => 'Khu Vực Hành Trình', 'type' => 'select',
+            /* TAB 1: GENERAL */
+            ['key' => 'tab_general', 'label' => 'General & Pricing', 'type' => 'tab'],
+            ['key' => 'field_tagline', 'name' => 'tagline', 'label' => 'Tagline', 'type' => 'text',
+                'instructions' => 'A short sentence displayed below the cruise name on the hero banner.'],
+            ['key' => 'field_breadcrumb', 'name' => 'breadcrumb_label', 'label' => 'Display Name', 'type' => 'text',
+                'instructions' => 'Optional display name used in breadcrumbs and cruise cards.'],
+            ['key' => 'field_region', 'name' => 'region', 'label' => 'Cruising Region', 'type' => 'select',
                 'choices' => ['Ha Long Bay' => 'Ha Long Bay', 'Lan Ha Bay' => 'Lan Ha Bay', 'Bai Tu Long Bay' => 'Bai Tu Long Bay', 'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay']],
-            ['key' => 'field_price', 'name' => 'starting_price', 'label' => 'Giá Bắt Đầu ($ USD/khách)', 'type' => 'number',
-                'instructions' => 'Bỏ trống nếu muốn hiển thị "Price on request".'],
-            ['key' => 'field_days', 'name' => 'duration_days', 'label' => 'Số Ngày', 'type' => 'number', 'default_value' => 2],
-            ['key' => 'field_nights', 'name' => 'duration_nights', 'label' => 'Số Đêm', 'type' => 'number', 'default_value' => 1],
-            ['key' => 'field_cabin_count', 'name' => 'cabin_count', 'label' => 'Tổng Số Phòng Trên Tàu', 'type' => 'number'],
-            ['key' => 'field_guests', 'name' => 'guests_max', 'label' => 'Sức Chứa Tối Đa (Khách)', 'type' => 'number'],
-            ['key' => 'field_tags', 'name' => 'tags', 'label' => 'Nhãn Phân Loại (Tags)', 'type' => 'checkbox',
+            ['key' => 'field_price', 'name' => 'starting_price', 'label' => 'Starting Price (USD per guest)', 'type' => 'number',
+                'instructions' => 'Leave blank to display "Price on request".'],
+            ['key' => 'field_days', 'name' => 'duration_days', 'label' => 'Duration — Days', 'type' => 'number', 'default_value' => 2],
+            ['key' => 'field_nights', 'name' => 'duration_nights', 'label' => 'Duration — Nights', 'type' => 'number', 'default_value' => 1],
+            ['key' => 'field_cabin_count', 'name' => 'cabin_count', 'label' => 'Total Cabins', 'type' => 'number'],
+            ['key' => 'field_guests', 'name' => 'guests_max', 'label' => 'Maximum Guests', 'type' => 'number'],
+            ['key' => 'field_tags', 'name' => 'tags', 'label' => 'Category Tags', 'type' => 'checkbox',
                 'choices' => [
-                    'best-value' => 'Best Value (Giá Tốt)',
-                    'deluxe' => 'Deluxe (Cao Cấp)',
-                    'luxury' => 'Luxury (Sang Trọng)',
-                    'family' => 'Family (Gia Đình)',
-                    'couples' => 'Couples/Honeymoon (Cặp Đôi)',
-                    'group' => 'Group/Charter (Đoàn/Bao Tàu)',
-                    'small-ship' => 'Small Ship (Tàu Nhỏ Quây Quần)',
-                    'newest' => 'Newest (Tàu Mới Ra Mắt)',
+                    'best-value' => 'Best Value', 'best' => 'Best Cruise', 'deluxe' => 'Deluxe',
+                    'luxury' => 'Luxury', '5-star' => '5-Star', 'boutique' => 'Boutique',
+                    'family' => 'Family', 'couples' => 'Couples / Honeymoon',
+                    'group' => 'Group / Charter', 'private-charter' => 'Private Charter',
+                    'small-ship' => 'Small Ship', 'newest' => 'Newest', 'popular' => 'Popular',
                 ]],
 
-            /* TAB 2: NỘI DUNG & NỔI BẬT */
-            ['key' => 'tab_content', 'label' => '📝 Tổng Quan & Điểm Nổi Bật', 'type' => 'tab'],
-            ['key' => 'field_overview', 'name' => 'overview', 'label' => 'Mô Tả Tổng Quan', 'type' => 'wysiwyg',
-                'instructions' => 'Giới thiệu về du thuyền, phong cách thiết kế và trải nghiệm.'],
-            ['key' => 'field_highlights', 'name' => 'highlights', 'label' => 'Điểm Nổi Bật Mấy Hàng', 'type' => 'textarea',
-                'instructions' => 'Mỗi dòng 1 gạch đầu dòng nổi bật (ví dụ: Bồn tắm kính hướng biển, Sân golf mini trên boong...).', 'rows' => 5],
-            ['key' => 'field_life', 'name' => 'life_on_board', 'label' => 'Trải Nghiệm Trên Tàu (Life on board)', 'type' => 'textarea',
-                'instructions' => 'Ẩm thực, Spa, chèo thuyền Kayak, câu mực đêm...', 'rows' => 5],
+            /* TAB 2: CONTENT */
+            ['key' => 'tab_content', 'label' => 'Overview & Highlights', 'type' => 'tab'],
+            ['key' => 'field_overview', 'name' => 'overview', 'label' => 'Overview', 'type' => 'wysiwyg',
+                'instructions' => 'Introduce the cruise, design style, service, and guest experience.'],
+            ['key' => 'field_highlights', 'name' => 'highlights', 'label' => 'Highlights', 'type' => 'textarea',
+                'instructions' => 'Enter one highlight per line.', 'rows' => 5],
+            ['key' => 'field_life', 'name' => 'life_on_board', 'label' => 'Life on Board', 'type' => 'textarea',
+                'instructions' => 'Dining, spa, kayaking, entertainment, and onboard activities. Enter one item per line.', 'rows' => 5],
 
-            ['key' => 'tab_cruise_urls', 'label' => '🔗 Ảnh bằng URL', 'type' => 'tab'],
-            ['key' => 'field_hero_image_url', 'name' => 'hero_image_url', 'label' => 'URL Ảnh Hero / Ảnh Đại Diện', 'type' => 'url',
-                'instructions' => 'Dán URL ảnh đầy đủ, ví dụ https://.../image.webp'],
-            ['key' => 'field_external_gallery', 'name' => 'external_gallery', 'label' => 'Gallery Ảnh URL', 'type' => 'repeater', 'button_label' => '➕ Thêm URL ảnh',
+            ['key' => 'tab_cruise_urls', 'label' => 'Images & Gallery', 'type' => 'tab'],
+            ['key' => 'field_hero_image_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url',
+                'instructions' => 'Paste the full exterior cruise image URL. A live preview is displayed below the field.'],
+            ['key' => 'field_external_gallery', 'name' => 'external_gallery', 'label' => 'Direct Image URL Gallery', 'type' => 'repeater', 'button_label' => 'Add Gallery Image',
                 'sub_fields' => [
-                    ['key' => 'field_external_gallery_url', 'name' => 'image_url', 'label' => 'URL ảnh', 'type' => 'url', 'required' => 1],
+                    ['key' => 'field_external_gallery_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url', 'required' => 1],
+                    ['key' => 'field_external_gallery_alt', 'name' => 'alt_text', 'label' => 'Alt Text / Description', 'type' => 'text'],
                 ]],
 
-            /* TAB 3: DANH SÁCH HẠNG PHÒNG */
-            ['key' => 'tab_cabins', 'label' => '🛏️ Các Hạng Phòng (Cabins)', 'type' => 'tab'],
-            ['key' => 'field_cabins', 'name' => 'cabins', 'label' => 'Danh Sách Hạng Phòng', 'type' => 'repeater',
-                'button_label' => '➕ Thêm Hạng Phòng Mới',
+            /* TAB 3: CABINS */
+            ['key' => 'tab_cabins', 'label' => 'Cabin Categories', 'type' => 'tab'],
+            ['key' => 'field_cabins', 'name' => 'cabins', 'label' => 'Cabin Categories', 'type' => 'repeater',
+                'button_label' => 'Add Cabin Category',
                 'sub_fields' => [
-                    ['key' => 'field_cb_name', 'name' => 'name', 'label' => 'Tên Hạng Phòng', 'type' => 'text', 'required' => 1],
-                    ['key' => 'field_cb_size', 'name' => 'size', 'label' => 'Diện Tích (vd: 28 m²)', 'type' => 'text'],
-                    ['key' => 'field_cb_guests', 'name' => 'guests', 'label' => 'Số Khách (vd: 2-3 người)', 'type' => 'text'],
-                    ['key' => 'field_cb_beds', 'name' => 'beds', 'label' => 'Loại Giường (vd: Double / Twin)', 'type' => 'text'],
-                    ['key' => 'field_cb_desc', 'name' => 'description', 'label' => 'Mô Tả Chi Tiết Phòng', 'type' => 'textarea', 'rows' => 3],
-                    ['key' => 'field_cb_image', 'name' => 'image_url', 'label' => 'URL Ảnh Đại Diện Phòng', 'type' => 'url'],
-                    ['key' => 'field_cb_gallery', 'name' => 'gallery_urls', 'label' => 'Bộ URL Ảnh Phòng', 'type' => 'repeater', 'button_label' => '➕ Thêm URL ảnh',
-                        'sub_fields' => [['key' => 'field_cb_gallery_url', 'name' => 'image_url', 'label' => 'URL ảnh', 'type' => 'url']]],
+                    ['key' => 'field_cb_name', 'name' => 'name', 'label' => 'Category Name', 'type' => 'text', 'required' => 1],
+                    ['key' => 'field_cb_count', 'name' => 'cabin_count', 'label' => 'Number of Cabins', 'type' => 'number'],
+                    ['key' => 'field_cb_size', 'name' => 'size', 'label' => 'Cabin Size (for example: 28 m²)', 'type' => 'text'],
+                    ['key' => 'field_cb_guests', 'name' => 'guests', 'label' => 'Guests (for example: 2–3)', 'type' => 'text'],
+                    ['key' => 'field_cb_beds', 'name' => 'beds', 'label' => 'Bed Type (for example: Double / Twin)', 'type' => 'text'],
+                    ['key' => 'field_cb_desc', 'name' => 'description', 'label' => 'Description', 'type' => 'textarea', 'rows' => 3],
+                    ['key' => 'field_cb_image', 'name' => 'image_url', 'label' => 'Main Cabin Image URL', 'type' => 'url'],
+                    ['key' => 'field_cb_gallery', 'name' => 'gallery_urls', 'label' => 'Cabin Image URLs', 'type' => 'repeater', 'button_label' => 'Add Cabin Image',
+                        'sub_fields' => [['key' => 'field_cb_gallery_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url']]],
                 ]],
 
-            /* TAB 4: LỊCH TRÌNH THEO NGÀY */
-            ['key' => 'tab_itinerary', 'label' => '📅 Hành Trình Chi Tiết', 'type' => 'tab'],
-            ['key' => 'field_itinerary', 'name' => 'itinerary', 'label' => 'Lịch Trình Theo Ngày', 'type' => 'repeater',
-                'button_label' => '➕ Thêm Ngày Mới',
+            /* TAB 4: ITINERARIES */
+            ['key' => 'tab_itinerary', 'label' => 'Itineraries', 'type' => 'tab'],
+            ['key' => 'field_itinerary_2d1n', 'name' => 'itinerary_2d1n', 'label' => '2 Days / 1 Night Itinerary', 'type' => 'repeater',
+                'button_label' => 'Add Itinerary Day',
                 'sub_fields' => [
-                    ['key' => 'field_it_title', 'name' => 'title', 'label' => 'Tiêu Đề Ngày (vd: Ngày 1: Hà Nội - Vịnh Hạ Long)', 'type' => 'text'],
-                    ['key' => 'field_it_location', 'name' => 'location', 'label' => 'Địa Điểm (vd: Vịnh Lan Hạ)', 'type' => 'text'],
-                    ['key' => 'field_it_image', 'name' => 'image_url', 'label' => 'URL Ảnh Điểm Đến Trong Ngày', 'type' => 'url'],
-                    ['key' => 'field_it_am', 'name' => 'am', 'label' => 'Buổi Sáng (AM)', 'type' => 'textarea', 'rows' => 2],
-                    ['key' => 'field_it_pm', 'name' => 'pm', 'label' => 'Buổi Chiều (PM)', 'type' => 'textarea', 'rows' => 2],
-                    ['key' => 'field_it_eve', 'name' => 'eve', 'label' => 'Buổi Tối (Evening)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_2d1n_title', 'name' => 'title', 'label' => 'Day Title', 'type' => 'text'],
+                    ['key' => 'field_it_2d1n_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+                    ['key' => 'field_it_2d1n_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_it_2d1n_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_2d1n_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_2d1n_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 2],
+                ]],
+            ['key' => 'field_itinerary_3d2n', 'name' => 'itinerary_3d2n', 'label' => '3 Days / 2 Nights Itinerary', 'type' => 'repeater',
+                'button_label' => 'Add Itinerary Day',
+                'sub_fields' => [
+                    ['key' => 'field_it_3d2n_title', 'name' => 'title', 'label' => 'Day Title', 'type' => 'text'],
+                    ['key' => 'field_it_3d2n_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+                    ['key' => 'field_it_3d2n_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_it_3d2n_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_3d2n_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_3d2n_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 2],
+                ]],
+            ['key' => 'field_itinerary', 'name' => 'itinerary', 'label' => 'Legacy / Default Itinerary', 'type' => 'repeater',
+                'instructions' => 'Kept for compatibility with existing data. New cruises should use the duration-specific itineraries above.',
+                'button_label' => 'Add Itinerary Day',
+                'sub_fields' => [
+                    ['key' => 'field_it_title', 'name' => 'title', 'label' => 'Day Title', 'type' => 'text'],
+                    ['key' => 'field_it_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+                    ['key' => 'field_it_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_it_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 2],
                 ]],
 
-            /* TAB 5: HÌNH ẢNH & TIỆN ÍCH */
-            ['key' => 'tab_media', 'label' => '🖼️ Thư Viện Ảnh & Tiện Nghi', 'type' => 'tab'],
-            ['key' => 'field_social', 'name' => 'social_areas', 'label' => 'Khu Vực Chung (Nhà Hàng, Sundeck, Bar)', 'type' => 'repeater',
-                'button_label' => '➕ Thêm Khu Vực',
+            /* TAB 5: FACILITIES */
+            ['key' => 'tab_media', 'label' => 'Social Areas & Facilities', 'type' => 'tab'],
+            ['key' => 'field_social', 'name' => 'social_areas', 'label' => 'Social Areas (Restaurant, Sundeck, Bar)', 'type' => 'repeater',
+                'button_label' => 'Add Social Area',
                 'sub_fields' => [
-                    ['key' => 'field_sa_name', 'name' => 'name', 'label' => 'Tên Khu Vực', 'type' => 'text'],
-                    ['key' => 'field_sa_image', 'name' => 'image_url', 'label' => 'URL Hình Ảnh', 'type' => 'url'],
+                    ['key' => 'field_sa_name', 'name' => 'name', 'label' => 'Area Name', 'type' => 'text'],
+                    ['key' => 'field_sa_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_sa_alt', 'name' => 'alt_text', 'label' => 'Alt Text', 'type' => 'text'],
                 ]],
-            ['key' => 'field_features', 'name' => 'features', 'label' => 'Trang Thiết Bị & Tiện Nghi', 'type' => 'textarea',
-                'instructions' => 'Mỗi tiện ích 1 dòng (vd: Điều hòa, Wi-Fi miễn phí, Bồn tắm Jacuzzi...).', 'rows' => 5],
-            ['key' => 'field_equipment', 'name' => 'equipment', 'label' => 'Thiết Bị Khác', 'type' => 'textarea', 'instructions' => 'Mỗi thiết bị một dòng.', 'rows' => 5],
-            ['key' => 'field_deck_plan_url', 'name' => 'deck_plan_url', 'label' => 'URL Ảnh Sơ Đồ Boong Tàu', 'type' => 'url'],
-            ['key' => 'field_related', 'name' => 'related', 'label' => 'Du Thuyền Liên Quan', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object'],
+            ['key' => 'field_features', 'name' => 'features', 'label' => 'Features & Amenities', 'type' => 'textarea',
+                'instructions' => 'Enter one feature per line.', 'rows' => 5],
+            ['key' => 'field_equipment', 'name' => 'equipment', 'label' => 'Equipment', 'type' => 'textarea', 'instructions' => 'Enter one item per line.', 'rows' => 5],
+            ['key' => 'field_deck_plan_url', 'name' => 'deck_plan_url', 'label' => 'Deck Plan Image URL', 'type' => 'url'],
+            ['key' => 'field_related', 'name' => 'related', 'label' => 'Related Cruises', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object', 'filters' => ['search']],
         ],
     ]);
 });
 
 /* ------------------------------------------------------------------ */
-/* 3B. Trang chủ, menu/footer, trang tour và các trang frontend       */
-/*     Ảnh dùng URL để tương thích CDN/Booking/Trip.com/WordPress.    */
+/* 3B. Homepage, navigation, footer, tours, and frontend pages       */
 /* ------------------------------------------------------------------ */
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field_group')) return;
 
     $link_fields = function ($prefix) {
         return [
-            ['key' => "field_{$prefix}_label", 'name' => 'label', 'label' => 'Nhãn', 'type' => 'text'],
-            ['key' => "field_{$prefix}_href", 'name' => 'href', 'label' => 'Đường dẫn', 'type' => 'text'],
+            ['key' => "field_{$prefix}_label", 'name' => 'label', 'label' => 'Label', 'type' => 'text'],
+            ['key' => "field_{$prefix}_href", 'name' => 'href', 'label' => 'Link / URL', 'type' => 'text'],
         ];
     };
 
     acf_add_local_field_group([
-        'key' => 'group_halong_tour_collection_v5', 'title' => '🗺️ NỘI DUNG TRANG TOUR / DANH MỤC', 'show_in_rest' => 1,
+        'key' => 'group_halong_tour_collection_v5', 'title' => 'Tour Collection Details', 'show_in_rest' => 1,
         'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'tour_collection']]],
         'fields' => [
-            ['key' => 'field_tc_type', 'name' => 'collection_type', 'label' => 'Loại trang', 'type' => 'select', 'choices' => ['region' => 'Khu vực', 'style' => 'Phong cách / Danh mục']],
-            ['key' => 'field_tc_eyebrow', 'name' => 'eyebrow', 'label' => 'Nhãn nhỏ trên Hero', 'type' => 'text'],
-            ['key' => 'field_tc_title', 'name' => 'title', 'label' => 'Tiêu đề H1', 'type' => 'text'],
-            ['key' => 'field_tc_subtitle', 'name' => 'subtitle', 'label' => 'Mô tả Hero', 'type' => 'textarea', 'rows' => 3],
-            ['key' => 'field_tc_hero_url', 'name' => 'hero_image_url', 'label' => 'URL ảnh Hero', 'type' => 'url'],
-            ['key' => 'field_tc_description', 'name' => 'description_paragraphs', 'label' => 'Nội dung giới thiệu', 'type' => 'textarea', 'instructions' => 'Mỗi đoạn một dòng.', 'rows' => 8],
-            ['key' => 'field_tc_highlights', 'name' => 'key_highlights', 'label' => 'Điểm nổi bật', 'type' => 'textarea', 'instructions' => 'Mỗi ý một dòng.', 'rows' => 6],
-            ['key' => 'field_tc_price', 'name' => 'price_range_text', 'label' => 'Khoảng giá', 'type' => 'text'],
-            ['key' => 'field_tc_months', 'name' => 'best_months_text', 'label' => 'Thời gian tốt nhất', 'type' => 'text'],
-            ['key' => 'field_tc_advice', 'name' => 'expert_advice', 'label' => 'Lời khuyên chuyên gia', 'type' => 'textarea'],
-            ['key' => 'field_tc_faqs', 'name' => 'faqs', 'label' => 'Câu hỏi thường gặp', 'type' => 'repeater', 'button_label' => '➕ Thêm FAQ', 'sub_fields' => [
-                ['key' => 'field_tc_faq_q', 'name' => 'question', 'label' => 'Câu hỏi', 'type' => 'text'],
-                ['key' => 'field_tc_faq_a', 'name' => 'answer', 'label' => 'Trả lời', 'type' => 'textarea'],
+            ['key' => 'field_tc_type', 'name' => 'collection_type', 'label' => 'Collection Type', 'type' => 'select', 'choices' => ['region' => 'Region', 'style' => 'Travel Style / Category']],
+            ['key' => 'field_tc_eyebrow', 'name' => 'eyebrow', 'label' => 'Hero Eyebrow', 'type' => 'text'],
+            ['key' => 'field_tc_title', 'name' => 'title', 'label' => 'H1 Title', 'type' => 'text'],
+            ['key' => 'field_tc_subtitle', 'name' => 'subtitle', 'label' => 'Hero Subtitle', 'type' => 'textarea', 'rows' => 3],
+            ['key' => 'field_tc_hero_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_tc_description', 'name' => 'description_paragraphs', 'label' => 'Introduction', 'type' => 'textarea', 'instructions' => 'Enter one paragraph per line.', 'rows' => 8],
+            ['key' => 'field_tc_highlights', 'name' => 'key_highlights', 'label' => 'Key Highlights', 'type' => 'textarea', 'instructions' => 'Enter one highlight per line.', 'rows' => 6],
+            ['key' => 'field_tc_price', 'name' => 'price_range_text', 'label' => 'Price Range', 'type' => 'text'],
+            ['key' => 'field_tc_months', 'name' => 'best_months_text', 'label' => 'Best Months', 'type' => 'text'],
+            ['key' => 'field_tc_advice', 'name' => 'expert_advice', 'label' => 'Expert Advice', 'type' => 'textarea'],
+            ['key' => 'field_tc_faqs', 'name' => 'faqs', 'label' => 'Frequently Asked Questions', 'type' => 'repeater', 'button_label' => 'Add FAQ', 'sub_fields' => [
+                ['key' => 'field_tc_faq_q', 'name' => 'question', 'label' => 'Question', 'type' => 'text'],
+                ['key' => 'field_tc_faq_a', 'name' => 'answer', 'label' => 'Answer', 'type' => 'textarea'],
             ]],
         ],
     ]);
 
     acf_add_local_field_group([
-        'key' => 'group_halong_homepage_v5', 'title' => '🏠 TOÀN BỘ NỘI DUNG TRANG CHỦ & WEBSITE', 'show_in_rest' => 1,
+        'key' => 'group_halong_homepage_v5', 'title' => 'Homepage & Global Website Settings', 'show_in_rest' => 1,
         'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'homepage_content']]],
         'fields' => [
             ['key' => 'tab_home_hero', 'label' => 'Hero', 'type' => 'tab'],
-            ['key' => 'field_home_hero_title', 'name' => 'hero_title', 'label' => 'Tiêu đề Hero', 'type' => 'text'],
-            ['key' => 'field_home_hero_subtitle', 'name' => 'hero_subtitle', 'label' => 'Mô tả Hero', 'type' => 'textarea'],
-            ['key' => 'field_home_hero_bg_url', 'name' => 'hero_background_url', 'label' => 'URL ảnh Hero mặc định', 'type' => 'url'],
-            ['key' => 'field_home_hero_slides', 'name' => 'hero_slides', 'label' => 'Các slide Hero', 'type' => 'repeater', 'button_label' => '➕ Thêm slide', 'sub_fields' => [
-                ['key' => 'field_home_slide_url', 'name' => 'image_url', 'label' => 'URL ảnh', 'type' => 'url'],
-                ['key' => 'field_home_slide_name', 'name' => 'name', 'label' => 'Tên ảnh/slide', 'type' => 'text'],
-                ['key' => 'field_home_slide_link', 'name' => 'slug', 'label' => 'Slug hoặc đường dẫn', 'type' => 'text'],
+            ['key' => 'field_home_hero_title', 'name' => 'hero_title', 'label' => 'Hero Title', 'type' => 'text'],
+            ['key' => 'field_home_hero_subtitle', 'name' => 'hero_subtitle', 'label' => 'Hero Subtitle', 'type' => 'textarea'],
+            ['key' => 'field_home_hero_bg_url', 'name' => 'hero_background_url', 'label' => 'Default Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_home_hero_slides', 'name' => 'hero_slides', 'label' => 'Hero Slides', 'type' => 'repeater', 'button_label' => 'Add Slide', 'sub_fields' => [
+                ['key' => 'field_home_slide_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                ['key' => 'field_home_slide_name', 'name' => 'name', 'label' => 'Slide Name / Alt Text', 'type' => 'text'],
+                ['key' => 'field_home_slide_link', 'name' => 'slug', 'label' => 'Slug or Link', 'type' => 'text'],
             ]],
 
-            ['key' => 'tab_home_sections', 'label' => 'Các khối Trang Chủ', 'type' => 'tab'],
-            ['key' => 'field_home_trip_title', 'name' => 'trip_types_title', 'label' => 'Tiêu đề Trip Types', 'type' => 'text'],
-            ['key' => 'field_home_trip_desc', 'name' => 'trip_types_description', 'label' => 'Mô tả Trip Types', 'type' => 'textarea'],
-            ['key' => 'field_home_styles', 'name' => 'selected_styles', 'label' => 'Trang phong cách hiển thị', 'type' => 'relationship', 'post_type' => ['tour_collection'], 'return_format' => 'object'],
-            ['key' => 'field_home_regions_title', 'name' => 'regions_title', 'label' => 'Tiêu đề khu vực', 'type' => 'text'],
-            ['key' => 'field_home_regions_desc', 'name' => 'regions_description', 'label' => 'Mô tả khu vực', 'type' => 'textarea'],
-            ['key' => 'field_home_regions', 'name' => 'selected_regions', 'label' => 'Khu vực hiển thị', 'type' => 'relationship', 'post_type' => ['tour_collection'], 'return_format' => 'object'],
-            ['key' => 'field_home_featured_title', 'name' => 'featured_title', 'label' => 'Tiêu đề tàu nổi bật', 'type' => 'text'],
-            ['key' => 'field_home_featured', 'name' => 'featured_cruises', 'label' => 'Tàu nổi bật', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object'],
-            ['key' => 'field_home_guides_title', 'name' => 'guides_title', 'label' => 'Tiêu đề Guides', 'type' => 'text'],
-            ['key' => 'field_home_guides', 'name' => 'guides_list', 'label' => 'Danh sách Guide', 'type' => 'repeater', 'button_label' => '➕ Thêm guide', 'sub_fields' => [
-                ['key' => 'field_home_guide_title', 'name' => 'title', 'label' => 'Tiêu đề', 'type' => 'text'],
-                ['key' => 'field_home_guide_url', 'name' => 'url', 'label' => 'Đường dẫn', 'type' => 'text'],
-                ['key' => 'field_home_guide_image_url', 'name' => 'image_url', 'label' => 'URL ảnh', 'type' => 'url'],
-                ['key' => 'field_home_guide_date', 'name' => 'date', 'label' => 'Ngày', 'type' => 'text'],
-                ['key' => 'field_home_guide_read', 'name' => 'read_time', 'label' => 'Thời gian đọc', 'type' => 'text'],
+            ['key' => 'tab_home_sections', 'label' => 'Homepage Sections', 'type' => 'tab'],
+            ['key' => 'field_home_trip_title', 'name' => 'trip_types_title', 'label' => 'Trip Types Title', 'type' => 'text'],
+            ['key' => 'field_home_trip_desc', 'name' => 'trip_types_description', 'label' => 'Trip Types Description', 'type' => 'textarea'],
+            ['key' => 'field_home_styles', 'name' => 'selected_styles', 'label' => 'Selected Travel Styles', 'type' => 'relationship', 'post_type' => ['tour_collection'], 'return_format' => 'object', 'filters' => ['search']],
+            ['key' => 'field_home_regions_title', 'name' => 'regions_title', 'label' => 'Regions Title', 'type' => 'text'],
+            ['key' => 'field_home_regions_desc', 'name' => 'regions_description', 'label' => 'Regions Description', 'type' => 'textarea'],
+            ['key' => 'field_home_regions', 'name' => 'selected_regions', 'label' => 'Selected Regions', 'type' => 'relationship', 'post_type' => ['tour_collection'], 'return_format' => 'object', 'filters' => ['search']],
+            ['key' => 'field_home_featured_title', 'name' => 'featured_title', 'label' => 'Featured Fleet Title', 'type' => 'text'],
+            ['key' => 'field_home_featured', 'name' => 'featured_cruises', 'label' => 'Featured Cruises', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object', 'filters' => ['search']],
+            ['key' => 'field_home_testimonials_title', 'name' => 'testimonials_title', 'label' => 'Testimonials Title', 'type' => 'text'],
+            ['key' => 'field_home_testimonials', 'name' => 'testimonials', 'label' => 'Testimonials', 'type' => 'repeater', 'button_label' => 'Add Testimonial', 'sub_fields' => [
+                ['key' => 'field_home_testimonial_quote', 'name' => 'quote', 'label' => 'Quote', 'type' => 'textarea', 'rows' => 3],
+                ['key' => 'field_home_testimonial_author', 'name' => 'author', 'label' => 'Author', 'type' => 'text'],
+                ['key' => 'field_home_testimonial_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
             ]],
-            ['key' => 'field_home_category_eyebrow', 'name' => 'category_section_eyebrow', 'label' => 'Nhãn khối danh mục', 'type' => 'text'],
-            ['key' => 'field_home_category_title', 'name' => 'category_section_title', 'label' => 'Tiêu đề khối danh mục', 'type' => 'text'],
-            ['key' => 'field_home_category_desc', 'name' => 'category_section_desc', 'label' => 'Mô tả khối danh mục', 'type' => 'textarea'],
-            ['key' => 'field_home_category_tiles', 'name' => 'category_tiles', 'label' => 'Các ô danh mục', 'type' => 'repeater', 'button_label' => '➕ Thêm ô', 'sub_fields' => [
-                ['key' => 'field_home_tile_label', 'name' => 'label', 'label' => 'Tên', 'type' => 'text'],
-                ['key' => 'field_home_tile_subtitle', 'name' => 'subtitle', 'label' => 'Mô tả', 'type' => 'text'],
-                ['key' => 'field_home_tile_href', 'name' => 'href', 'label' => 'Đường dẫn', 'type' => 'text'],
-                ['key' => 'field_home_tile_image_url', 'name' => 'image_url', 'label' => 'URL ảnh', 'type' => 'url'],
-                ['key' => 'field_home_tile_badge', 'name' => 'badge', 'label' => 'Nhãn nổi bật', 'type' => 'text'],
+            ['key' => 'field_home_guides_title', 'name' => 'guides_title', 'label' => 'Travel Guides Title', 'type' => 'text'],
+            ['key' => 'field_home_guides', 'name' => 'guides_list', 'label' => 'Travel Guides', 'type' => 'repeater', 'button_label' => 'Add Guide', 'sub_fields' => [
+                ['key' => 'field_home_guide_title', 'name' => 'title', 'label' => 'Title', 'type' => 'text'],
+                ['key' => 'field_home_guide_url', 'name' => 'url', 'label' => 'Link / URL', 'type' => 'text'],
+                ['key' => 'field_home_guide_image_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                ['key' => 'field_home_guide_date', 'name' => 'date', 'label' => 'Date', 'type' => 'text'],
+                ['key' => 'field_home_guide_read', 'name' => 'read_time', 'label' => 'Read Time', 'type' => 'text'],
+            ]],
+            ['key' => 'field_home_category_eyebrow', 'name' => 'category_section_eyebrow', 'label' => 'Category Section Eyebrow', 'type' => 'text'],
+            ['key' => 'field_home_category_title', 'name' => 'category_section_title', 'label' => 'Category Section Title', 'type' => 'text'],
+            ['key' => 'field_home_category_desc', 'name' => 'category_section_desc', 'label' => 'Category Section Description', 'type' => 'textarea'],
+            ['key' => 'field_home_category_tiles', 'name' => 'category_tiles', 'label' => 'Category Tiles', 'type' => 'repeater', 'button_label' => 'Add Category Tile', 'sub_fields' => [
+                ['key' => 'field_home_tile_label', 'name' => 'label', 'label' => 'Label', 'type' => 'text'],
+                ['key' => 'field_home_tile_subtitle', 'name' => 'subtitle', 'label' => 'Subtitle', 'type' => 'text'],
+                ['key' => 'field_home_tile_href', 'name' => 'href', 'label' => 'Link / URL', 'type' => 'text'],
+                ['key' => 'field_home_tile_image_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                ['key' => 'field_home_tile_badge', 'name' => 'badge', 'label' => 'Badge', 'type' => 'text'],
             ]],
 
             ['key' => 'tab_home_global', 'label' => 'Header / Footer / CTA', 'type' => 'tab'],
-            ['key' => 'field_home_logo_url', 'name' => 'header_logo_url', 'label' => 'URL Logo', 'type' => 'url'],
-            ['key' => 'field_home_header_cruises', 'name' => 'header_cruises', 'label' => 'Menu Cruises', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_cruises')],
-            ['key' => 'field_home_header_tours', 'name' => 'header_tours', 'label' => 'Menu Tours', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_tours')],
-            ['key' => 'field_home_header_guides', 'name' => 'header_guides', 'label' => 'Menu Guides', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_guides')],
-            ['key' => 'field_home_top_text', 'name' => 'top_bar_text', 'label' => 'Thông báo đầu trang', 'type' => 'text'],
-            ['key' => 'field_home_top_link_text', 'name' => 'top_bar_link_text', 'label' => 'Chữ liên kết thông báo', 'type' => 'text'],
-            ['key' => 'field_home_top_link_url', 'name' => 'top_bar_link_url', 'label' => 'Đường dẫn thông báo', 'type' => 'text'],
-            ['key' => 'field_home_footer_address', 'name' => 'footer_address', 'label' => 'Địa chỉ Footer', 'type' => 'textarea'],
-            ['key' => 'field_home_footer_phone', 'name' => 'footer_phone', 'label' => 'Điện thoại Footer', 'type' => 'text'],
-            ['key' => 'field_home_footer_email', 'name' => 'footer_email', 'label' => 'Email Footer', 'type' => 'email'],
+            ['key' => 'field_home_logo_url', 'name' => 'header_logo_url', 'label' => 'Logo Image URL', 'type' => 'url', 'instructions' => 'Paste a transparent PNG, SVG, WebP, or hosted WordPress image URL. A live preview appears below.'],
+            ['key' => 'field_home_logo_alt', 'name' => 'header_logo_alt', 'label' => 'Logo Alt Text', 'type' => 'text', 'default_value' => 'Ha Long Bay Cruises'],
+            ['key' => 'field_home_logo_width', 'name' => 'header_logo_width', 'label' => 'Logo Width (pixels)', 'type' => 'number', 'default_value' => 180, 'min' => 60, 'max' => 500],
+            ['key' => 'field_home_cruises_label', 'name' => 'header_cruises_label', 'label' => 'Cruises Menu Label', 'type' => 'text', 'default_value' => 'Cruises'],
+            ['key' => 'field_home_header_cruises', 'name' => 'header_cruises', 'label' => 'Cruises Menu Items', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_cruises')],
+            ['key' => 'field_home_tours_label', 'name' => 'header_tours_label', 'label' => 'Tours Menu Label', 'type' => 'text', 'default_value' => 'Tours & Packages'],
+            ['key' => 'field_home_header_tours', 'name' => 'header_tours', 'label' => 'Tours Menu Items', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_tours')],
+            ['key' => 'field_home_guides_label', 'name' => 'header_guides_label', 'label' => 'Guides Menu Label', 'type' => 'text', 'default_value' => 'Travel Guides'],
+            ['key' => 'field_home_header_guides', 'name' => 'header_guides', 'label' => 'Guides Menu Items', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_guides')],
+            ['key' => 'field_home_about_label', 'name' => 'header_about_label', 'label' => 'About Menu Label', 'type' => 'text', 'default_value' => 'About Us'],
+            ['key' => 'field_home_header_cta_label', 'name' => 'header_cta_label', 'label' => 'Header CTA Label', 'type' => 'text', 'default_value' => 'Plan My Cruise'],
+            ['key' => 'field_home_header_cta_url', 'name' => 'header_cta_url', 'label' => 'Header CTA Link', 'type' => 'text', 'default_value' => '/inquire'],
+            ['key' => 'field_home_top_text', 'name' => 'top_bar_text', 'label' => 'Announcement Bar Text', 'type' => 'text'],
+            ['key' => 'field_home_top_link_text', 'name' => 'top_bar_link_text', 'label' => 'Announcement Link Text', 'type' => 'text'],
+            ['key' => 'field_home_top_link_url', 'name' => 'top_bar_link_url', 'label' => 'Announcement Link URL', 'type' => 'text'],
+            ['key' => 'field_home_footer_address', 'name' => 'footer_address', 'label' => 'Footer Address', 'type' => 'textarea'],
+            ['key' => 'field_home_footer_phone', 'name' => 'footer_phone', 'label' => 'Footer Phone', 'type' => 'text'],
+            ['key' => 'field_home_footer_email', 'name' => 'footer_email', 'label' => 'Footer Email', 'type' => 'email'],
             ['key' => 'field_home_footer_cruises', 'name' => 'footer_cruises', 'label' => 'Link Cruises Footer', 'type' => 'repeater', 'sub_fields' => $link_fields('home_footer_cruises')],
             ['key' => 'field_home_footer_tours', 'name' => 'footer_tours', 'label' => 'Link Tours Footer', 'type' => 'repeater', 'sub_fields' => $link_fields('home_footer_tours')],
             ['key' => 'field_home_footer_guides', 'name' => 'footer_guides', 'label' => 'Link Guides Footer', 'type' => 'repeater', 'sub_fields' => $link_fields('home_footer_guides')],
-            ['key' => 'field_home_seo_title', 'name' => 'seo_title', 'label' => 'Tiêu đề SEO cuối trang chủ', 'type' => 'text'],
-            ['key' => 'field_home_seo_text', 'name' => 'seo_text', 'label' => 'Nội dung SEO cuối trang chủ', 'type' => 'textarea', 'rows' => 8],
-            ['key' => 'field_home_shortlist_title', 'name' => 'shortlist_form_title', 'label' => 'Tiêu đề form shortlist', 'type' => 'text'],
-            ['key' => 'field_home_shortlist_subtitle', 'name' => 'shortlist_form_subtitle', 'label' => 'Mô tả ngắn shortlist', 'type' => 'text'],
-            ['key' => 'field_home_shortlist_desc', 'name' => 'shortlist_form_desc', 'label' => 'Mô tả form shortlist', 'type' => 'textarea'],
-            ['key' => 'field_home_sticky_text', 'name' => 'sticky_cta_text', 'label' => 'Nội dung Sticky CTA', 'type' => 'text'],
-            ['key' => 'field_home_sticky_whatsapp', 'name' => 'sticky_cta_whatsapp', 'label' => 'Số WhatsApp Sticky CTA', 'type' => 'text'],
+            ['key' => 'field_home_seo_title', 'name' => 'seo_title', 'label' => 'Homepage SEO Block Title', 'type' => 'text'],
+            ['key' => 'field_home_seo_text', 'name' => 'seo_text', 'label' => 'Homepage SEO Content', 'type' => 'textarea', 'rows' => 8],
+            ['key' => 'field_home_shortlist_title', 'name' => 'shortlist_form_title', 'label' => 'Shortlist Form Title', 'type' => 'text'],
+            ['key' => 'field_home_shortlist_subtitle', 'name' => 'shortlist_form_subtitle', 'label' => 'Shortlist Form Subtitle', 'type' => 'text'],
+            ['key' => 'field_home_shortlist_desc', 'name' => 'shortlist_form_desc', 'label' => 'Shortlist Form Description', 'type' => 'textarea'],
+            ['key' => 'field_home_sticky_text', 'name' => 'sticky_cta_text', 'label' => 'Sticky CTA Text', 'type' => 'text'],
+            ['key' => 'field_home_sticky_whatsapp', 'name' => 'sticky_cta_whatsapp', 'label' => 'Sticky CTA WhatsApp Number', 'type' => 'text', 'instructions' => 'Include the country code without the plus sign.'],
         ],
     ]);
 
     acf_add_local_field_group([
-        'key' => 'group_halong_frontend_page_v5', 'title' => '📄 NỘI DUNG TRANG FRONTEND', 'show_in_rest' => 1,
+        'key' => 'group_halong_frontend_page_v5', 'title' => 'Frontend Page Content', 'show_in_rest' => 1,
         'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'frontend_page']]],
         'fields' => [
-            ['key' => 'field_fp_route', 'name' => 'route', 'label' => 'Đường dẫn trang', 'type' => 'text', 'instructions' => 'Ví dụ: /about, /contact hoặc /guides/best-cruises', 'required' => 1],
-            ['key' => 'field_fp_eyebrow', 'name' => 'eyebrow', 'label' => 'Nhãn nhỏ Hero', 'type' => 'text'],
-            ['key' => 'field_fp_title', 'name' => 'hero_title', 'label' => 'Tiêu đề Hero', 'type' => 'text'],
-            ['key' => 'field_fp_subtitle', 'name' => 'hero_subtitle', 'label' => 'Mô tả Hero', 'type' => 'textarea'],
-            ['key' => 'field_fp_image_url', 'name' => 'hero_image_url', 'label' => 'URL ảnh Hero', 'type' => 'url'],
-            ['key' => 'field_fp_content', 'name' => 'content_html', 'label' => 'Nội dung chính', 'type' => 'wysiwyg'],
-            ['key' => 'field_fp_sections', 'name' => 'sections', 'label' => 'Các khối nội dung bổ sung', 'type' => 'repeater', 'button_label' => '➕ Thêm khối', 'sub_fields' => [
-                ['key' => 'field_fp_section_title', 'name' => 'title', 'label' => 'Tiêu đề', 'type' => 'text'],
-                ['key' => 'field_fp_section_text', 'name' => 'text', 'label' => 'Nội dung', 'type' => 'wysiwyg'],
-                ['key' => 'field_fp_section_image_url', 'name' => 'image_url', 'label' => 'URL ảnh', 'type' => 'url'],
+            ['key' => 'field_fp_route', 'name' => 'route', 'label' => 'Frontend Route', 'type' => 'text', 'instructions' => 'Examples: /about, /contact, or /guides/best-cruises', 'required' => 1],
+            ['key' => 'field_fp_eyebrow', 'name' => 'eyebrow', 'label' => 'Hero Eyebrow', 'type' => 'text'],
+            ['key' => 'field_fp_title', 'name' => 'hero_title', 'label' => 'Hero Title', 'type' => 'text'],
+            ['key' => 'field_fp_subtitle', 'name' => 'hero_subtitle', 'label' => 'Hero Subtitle', 'type' => 'textarea'],
+            ['key' => 'field_fp_image_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_fp_content', 'name' => 'content_html', 'label' => 'Main Content', 'type' => 'wysiwyg'],
+            ['key' => 'field_fp_sections', 'name' => 'sections', 'label' => 'Additional Content Sections', 'type' => 'repeater', 'button_label' => 'Add Section', 'sub_fields' => [
+                ['key' => 'field_fp_section_title', 'name' => 'title', 'label' => 'Title', 'type' => 'text'],
+                ['key' => 'field_fp_section_text', 'name' => 'text', 'label' => 'Content', 'type' => 'wysiwyg'],
+                ['key' => 'field_fp_section_image_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
             ]],
             ['key' => 'field_fp_meta_title', 'name' => 'meta_title', 'label' => 'SEO Title', 'type' => 'text'],
             ['key' => 'field_fp_meta_desc', 'name' => 'meta_description', 'label' => 'SEO Description', 'type' => 'textarea'],
@@ -569,16 +638,16 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true',
         'callback' => function (WP_REST_Request $req) {
             $data = $req->get_json_params();
-            $name = sanitize_text_field($data['name'] ?? 'Khách hàng');
+            $name = sanitize_text_field($data['name'] ?? 'Guest');
             $email = sanitize_email($data['email'] ?? '');
             $phone = sanitize_text_field($data['phone'] ?? '');
-            $cruise = sanitize_text_field($data['cruise'] ?? 'Yêu cầu tư vấn');
+            $cruise = sanitize_text_field($data['cruise'] ?? 'Cruise consultation');
             $notes = sanitize_textarea_field($data['notes'] ?? '');
 
             $post_id = wp_insert_post([
                 'post_type' => 'inquiry',
-                'post_title' => "Đơn đặt tàu: {$name} - {$cruise}",
-                'post_content' => "Họ tên: {$name}\nEmail: {$email}\nĐiện thoại: {$phone}\nTàu quan tâm: {$cruise}\nGhi chú: {$notes}",
+                'post_title' => "Cruise inquiry: {$name} - {$cruise}",
+                'post_content' => "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nCruise: {$cruise}\nNotes: {$notes}",
                 'post_status' => 'publish',
             ]);
 

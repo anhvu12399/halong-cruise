@@ -145,7 +145,9 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
             {menu?.logo ? (
               <img
                 src={menu.logo}
-                alt="Ha Long Bay Cruises"
+                alt={menu.logoAlt || "Ha Long Bay Cruises"}
+                width={menu.logoWidth || 180}
+                height={48}
                 className="h-10 max-h-12 w-auto object-contain"
               />
             ) : (
@@ -164,7 +166,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
           <nav className="hidden items-center gap-8 md:flex">
             <NavItem
               id="cruises"
-              label="Cruises"
+              label={menu?.cruisesLabel || "Cruises"}
               href="/cruises"
               active={activeDropdown === "cruises"}
               onEnter={setActiveDropdown}
@@ -176,7 +178,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
 
             <NavItem
               id="tours"
-              label="Tours & Packages"
+              label={menu?.toursLabel || "Tours & Packages"}
               active={activeDropdown === "tours"}
               onEnter={setActiveDropdown}
             >
@@ -187,7 +189,7 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
 
             <NavItem
               id="guides"
-              label="Travel Guides"
+              label={menu?.guidesLabel || "Travel Guides"}
               href="/planning"
               active={activeDropdown === "guides"}
               onEnter={setActiveDropdown}
@@ -210,19 +212,19 @@ export default function Header({ menu, announcementBar }: { menu?: any; announce
               href="/about"
               className="text-xs font-bold uppercase tracking-[0.18em] text-sand-50 transition hover:text-brass-300"
             >
-              About Us
+              {menu?.aboutLabel || "About Us"}
             </Link>
           </nav>
 
           {/* ── CTA ── */}
           <Link
-            href="/inquire"
+            href={menu?.ctaUrl || "/inquire"}
             className="hidden items-center gap-2 rounded-full bg-brass-400 px-6 py-3 text-xs font-bold uppercase tracking-wider text-teal-950 transition hover:bg-brass-300 md:flex shadow-sm"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
               <path d="M6 1L6 11M1 6L11 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            PLAN A SAILING
+            {menu?.ctaLabel || "PLAN A SAILING"}
           </Link>
 
           {/* ── Mobile burger ── */}

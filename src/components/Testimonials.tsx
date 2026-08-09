@@ -91,7 +91,17 @@ function Stars({ n }: { n: number }) {
   );
 }
 
-export default function Testimonials() {
+export default function Testimonials({ data, title }: { data?: { quote: string; author: string; location: string }[]; title?: string }) {
+  const displayTestimonials = data && data.length > 0
+    ? data.map((item) => ({
+        name: item.author || "Verified Traveller",
+        country: item.location || "International Guest",
+        cruise: "Ha Long Bay Cruise",
+        stars: 5,
+        quote: item.quote,
+        nights: "Verified",
+      }))
+    : TESTIMONIALS;
   return (
     <section className="bg-sand-100/60 py-24 md:py-32">
       <div className="container-content">
@@ -106,12 +116,12 @@ export default function Testimonials() {
           </div>
         </div>
         <h2 className="font-display text-4xl italic text-ink-900 md:text-5xl">
-          What our travellers say.
+          {title || "What our travellers say."}
         </h2>
 
         {/* Testimonials grid */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
+          {displayTestimonials.map((t) => (
             <div
               key={t.name}
               className="flex flex-col justify-between rounded-2xl border border-sand-200 bg-sand-50 p-7 shadow-sm"

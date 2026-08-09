@@ -134,6 +134,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
   const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s: any) => ({
     name: s.name || "Social Area",
     image: imageUrl(s.image_url || s.image),
+    alt: s.alt_text || s.name || "Social Area",
   }));
 
   const cruiseName = a.breadcrumb_label || post.title?.rendered || post.slug;
@@ -142,6 +143,10 @@ function mapWpCruise(post: WpCruisePost): Cruise {
 
   const heroImage = imageUrl(a.hero_image_url || a.hero_image) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || imageUrl(a.gallery?.[0]);
   const extGalleryUrls = imageUrls(a.external_gallery);
+  const externalPhotos = (a.external_gallery ?? []).map((item: any) => ({
+    url: imageUrl(item?.image_url || item?.url || item),
+    alt: item?.alt_text || item?.alt || cruiseName,
+  })).filter((item: any) => item.url);
   const acfGalleryUrls = imageUrls(a.gallery_urls || a.gallery);
   const galleryImages = extGalleryUrls.length > 0 ? extGalleryUrls : (acfGalleryUrls.length > 0 ? acfGalleryUrls : (mockFallback?.galleryImages || []));
   const finalCabins = cabins.length > 0 ? cabins : (mockFallback?.cabins || []);
@@ -161,7 +166,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     startingPrice: a.starting_price ? Number(a.starting_price) : (mockFallback?.startingPrice || 150),
     heroImage,
     galleryImages,
-    photos: mockFallback?.photos || galleryImages.map((url: any) => ({ url, alt: cruiseName })),
+    photos: externalPhotos.length > 0 ? externalPhotos : (galleryImages.length > 0 ? galleryImages.map((url: any) => ({ url, alt: cruiseName })) : (mockFallback?.photos || [])),
     rating: mockFallback?.rating || 9.2,
     reviewCount: mockFallback?.reviewCount || 150,
     address: mockFallback?.address || "Tuan Chau Marina, Ha Long, Quang Ninh, Vietnam",
@@ -330,6 +335,14 @@ export async function getHomepageContent(): Promise<HomepageContent> {
       })),
       headerMenu: {
         logo: imageUrl(a.header_logo_url || a.header_logo),
+        logoAlt: a.header_logo_alt || "Ha Long Bay Cruises",
+        logoWidth: Number(a.header_logo_width) || 180,
+        cruisesLabel: a.header_cruises_label || "Cruises",
+        toursLabel: a.header_tours_label || "Tours & Packages",
+        guidesLabel: a.header_guides_label || "Travel Guides",
+        aboutLabel: a.header_about_label || "About Us",
+        ctaLabel: a.header_cta_label || "Plan a Sailing",
+        ctaUrl: a.header_cta_url || "/inquire",
         cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
