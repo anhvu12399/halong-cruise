@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
- * Version: 6.0.0
+ * Version: 6.1.0
  * Author: Ha Long Best Cruises
  */
 
@@ -138,6 +138,7 @@ add_action('admin_footer', function () {
     <style>
       .halong-image-preview{display:block;max-width:240px;max-height:150px;margin-top:8px;border:1px solid #c3c4c7;border-radius:8px;background:#fff;object-fit:contain;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
       .halong-image-preview.is-logo{max-height:80px;background:#102f31}
+      #halong-team-preview{margin-top:16px}.halong-preview-card{overflow:hidden;border:1px solid #c3c4c7;border-radius:10px;background:#f6efdd;box-shadow:0 1px 4px rgba(0,0,0,.08)}.halong-preview-head{padding:14px 16px 6px;color:#b68b36;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.halong-preview-title{padding:0 16px 12px;color:#102f31;font-family:Georgia,serif;font-size:24px;font-style:italic}.halong-preview-members{display:grid;gap:12px;padding:0 16px 16px}.halong-preview-member{display:flex;gap:10px}.halong-preview-avatar{width:42px;height:42px;flex:none;border-radius:50%;object-fit:cover;background:#062f31;color:#fff;text-align:center;font:italic 20px/42px Georgia,serif}.halong-preview-name{font-weight:700;color:#172a2b}.halong-preview-role{color:#b68b36;font-size:9px;letter-spacing:.08em;text-transform:uppercase}.halong-preview-bio{margin-top:3px;color:#536261;font-size:11px;line-height:1.35}.halong-preview-contact{display:grid;gap:7px;padding:13px 16px;background:#062f31;color:#fff;font-size:11px}.halong-preview-contact strong{color:#d0aa55;font-size:9px;letter-spacing:.08em;text-transform:uppercase}.halong-preview-empty{padding:0 16px 16px;color:#646970;font-style:italic}
     </style>
     <script>
     (function(){
@@ -158,6 +159,31 @@ add_action('admin_footer', function () {
       document.addEventListener('input',function(e){if(e.target.matches('input[type="url"],input[type="text"]')) preview(e.target)});
       document.addEventListener('change',function(e){if(e.target.matches('input[type="url"],input[type="text"]')) preview(e.target)});
       document.addEventListener('DOMContentLoaded',scan); setTimeout(scan,500); setTimeout(scan,1500);
+    })();
+    (function(){
+      if(document.body.classList.contains('post-type-homepage_content')===false) return;
+      function esc(value){var node=document.createElement('div');node.textContent=value||'';return node.innerHTML}
+      function field(name){var root=document.querySelector('.acf-field[data-name="'+name+'"]');var input=root&&root.querySelector('input,textarea');return input?input.value:''}
+      function cell(row,name){var input=row.querySelector('[name$="['+name+']"]');return input?input.value:''}
+      function render(){
+        var target=document.getElementById('halong-team-preview'); if(!target) return;
+        var repeater=document.querySelector('.acf-field[data-name="team_members"] .acf-repeater, .halong-free-repeater[data-name="team_members"]');
+        var rows=repeater?Array.from(repeater.querySelectorAll('.acf-row:not(.acf-clone), .halong-repeater-row')).filter(function(row){return !row.closest('template')}):[];
+        var members=rows.map(function(row){
+          var name=cell(row,'name'); if(!name) return '';
+          var image=cell(row,'image_url'), initial=cell(row,'initial')||name.charAt(0);
+          var avatar=/^https?:\/\//i.test(image)?'<img class="halong-preview-avatar" src="'+esc(image)+'" alt="">':'<span class="halong-preview-avatar">'+esc(initial)+'</span>';
+          return '<div class="halong-preview-member">'+avatar+'<div><div class="halong-preview-name">'+esc(name)+'</div><div class="halong-preview-role">'+esc(cell(row,'role'))+'</div><div class="halong-preview-bio">'+esc(cell(row,'bio'))+'</div></div></div>';
+        }).filter(Boolean).join('');
+        target.innerHTML='<div class="postbox"><div class="postbox-header"><h2>Homepage Section Preview</h2></div><div class="inside"><div class="halong-preview-card"><div class="halong-preview-head">'+esc(field('team_eyebrow')||'The people behind the site')+'</div><div class="halong-preview-title">'+esc(field('team_title')||'Our team.')+'</div><div class="halong-preview-members">'+(members||'<div class="halong-preview-empty">Add a team member to preview it here.</div>')+'</div><div class="halong-preview-contact"><div><strong>'+esc(field('contact_whatsapp_label')||'WhatsApp')+'</strong><br>'+esc(field('contact_whatsapp')||'+84 905 999 888')+'</div><div><strong>'+esc(field('contact_email_label')||'Email')+'</strong><br>'+esc(field('contact_email')||'hello@halongbestcruises.com')+'</div><div><strong>'+esc(field('contact_office_label')||'Office')+'</strong><br>'+esc(field('contact_office')||'Hanoi Old Quarter, Vietnam')+' · '+esc(field('contact_hours')||'Mon–Sat · 8am–8pm ICT')+'</div></div></div><p class="description">Live preview — save/update the page to publish these changes.</p></div></div>';
+      }
+      function mount(){
+        if(document.getElementById('halong-team-preview')) return render();
+        var column=document.getElementById('postbox-container-1')||document.querySelector('#post-body-content'); if(!column) return;
+        var target=document.createElement('div');target.id='halong-team-preview';column.appendChild(target);render();
+        var timer;document.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(render,120)});document.addEventListener('change',render);document.addEventListener('click',function(e){if(e.target.closest('.acf-button,.halong-add-row,.halong-remove-row')) setTimeout(render,150)});
+      }
+      document.addEventListener('DOMContentLoaded',mount);setTimeout(mount,700);
     })();
     </script>
     <?php
@@ -520,11 +546,30 @@ add_action('acf/init', function () {
             ['key' => 'field_home_featured_title', 'name' => 'featured_title', 'label' => 'Featured Fleet Title', 'type' => 'text'],
             ['key' => 'field_home_featured', 'name' => 'featured_cruises', 'label' => 'Featured Cruises', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object', 'filters' => ['search']],
             ['key' => 'field_home_testimonials_title', 'name' => 'testimonials_title', 'label' => 'Testimonials Title', 'type' => 'text'],
+            ['key' => 'field_home_testimonials_eyebrow', 'name' => 'testimonials_eyebrow', 'label' => 'Testimonials Eyebrow', 'type' => 'text', 'default_value' => 'Real travellers · Verified stays'],
+            ['key' => 'field_home_testimonials_rating', 'name' => 'testimonials_rating_text', 'label' => 'Rating Summary', 'type' => 'text', 'default_value' => '4.9 / 5 · 500+ reviews'],
             ['key' => 'field_home_testimonials', 'name' => 'testimonials', 'label' => 'Testimonials', 'type' => 'repeater', 'button_label' => 'Add Testimonial', 'sub_fields' => [
                 ['key' => 'field_home_testimonial_quote', 'name' => 'quote', 'label' => 'Quote', 'type' => 'textarea', 'rows' => 3],
                 ['key' => 'field_home_testimonial_author', 'name' => 'author', 'label' => 'Author', 'type' => 'text'],
                 ['key' => 'field_home_testimonial_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
             ]],
+            ['key' => 'field_home_team_eyebrow', 'name' => 'team_eyebrow', 'label' => 'Team Eyebrow', 'type' => 'text', 'default_value' => 'The people behind the site'],
+            ['key' => 'field_home_team_title', 'name' => 'team_title', 'label' => 'Team Section Title', 'type' => 'text', 'default_value' => 'Our team.'],
+            ['key' => 'field_home_team', 'name' => 'team_members', 'label' => 'Team Members', 'type' => 'repeater', 'button_label' => 'Add Team Member', 'sub_fields' => [
+                ['key' => 'field_home_team_name', 'name' => 'name', 'label' => 'Name', 'type' => 'text', 'required' => 1],
+                ['key' => 'field_home_team_role', 'name' => 'role', 'label' => 'Role', 'type' => 'text'],
+                ['key' => 'field_home_team_experience', 'name' => 'experience', 'label' => 'Experience', 'type' => 'text'],
+                ['key' => 'field_home_team_initial', 'name' => 'initial', 'label' => 'Avatar Initial', 'type' => 'text', 'maxlength' => 2],
+                ['key' => 'field_home_team_image', 'name' => 'image_url', 'label' => 'Profile Image URL', 'type' => 'url'],
+                ['key' => 'field_home_team_bio', 'name' => 'bio', 'label' => 'Biography', 'type' => 'textarea', 'rows' => 4],
+            ]],
+            ['key' => 'field_home_contact_whatsapp_label', 'name' => 'contact_whatsapp_label', 'label' => 'WhatsApp Label', 'type' => 'text', 'default_value' => 'WhatsApp'],
+            ['key' => 'field_home_contact_whatsapp', 'name' => 'contact_whatsapp', 'label' => 'WhatsApp Number', 'type' => 'text', 'default_value' => '+84 905 999 888'],
+            ['key' => 'field_home_contact_email_label', 'name' => 'contact_email_label', 'label' => 'Email Label', 'type' => 'text', 'default_value' => 'Email'],
+            ['key' => 'field_home_contact_email', 'name' => 'contact_email', 'label' => 'Contact Email', 'type' => 'email', 'default_value' => 'hello@halongbestcruises.com'],
+            ['key' => 'field_home_contact_office_label', 'name' => 'contact_office_label', 'label' => 'Office Label', 'type' => 'text', 'default_value' => 'Office'],
+            ['key' => 'field_home_contact_office', 'name' => 'contact_office', 'label' => 'Office Address', 'type' => 'text', 'default_value' => 'Hanoi Old Quarter, Vietnam'],
+            ['key' => 'field_home_contact_hours', 'name' => 'contact_hours', 'label' => 'Office Hours', 'type' => 'text', 'default_value' => 'Mon–Sat · 8am–8pm ICT'],
             ['key' => 'field_home_guides_title', 'name' => 'guides_title', 'label' => 'Travel Guides Title', 'type' => 'text'],
             ['key' => 'field_home_guides', 'name' => 'guides_list', 'label' => 'Travel Guides', 'type' => 'repeater', 'button_label' => 'Add Guide', 'sub_fields' => [
                 ['key' => 'field_home_guide_title', 'name' => 'title', 'label' => 'Title', 'type' => 'text'],

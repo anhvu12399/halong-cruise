@@ -101,7 +101,23 @@ export type HomepageContent = {
   featuredTitle: string;
   featuredCruises: Cruise[];
   testimonialsTitle: string;
+  testimonialsEyebrow?: string;
+  testimonialsRatingText?: string;
   testimonials: { quote: string; author: string; location: string }[];
+  teamSection?: {
+    eyebrow: string;
+    title: string;
+    members: { name: string; role: string; experience: string; initial: string; image: string; bio: string }[];
+  };
+  contactStrip?: {
+    whatsappLabel: string;
+    whatsapp: string;
+    emailLabel: string;
+    email: string;
+    officeLabel: string;
+    office: string;
+    hours: string;
+  };
   guidesTitle: string;
   guidesList: { title: string; url: string; image: string; date: string; readTime: string }[];
   headerMenu?: {

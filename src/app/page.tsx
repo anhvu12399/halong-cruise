@@ -235,7 +235,14 @@ export default async function HomePage() {
       )}
 
       {/* ── Testimonials ── */}
-      <Testimonials data={content.testimonials} title={content.testimonialsTitle} />
+      <Testimonials
+        data={content.testimonials}
+        title={content.testimonialsTitle}
+        eyebrow={content.testimonialsEyebrow}
+        ratingText={content.testimonialsRatingText}
+        teamSection={content.teamSection}
+        contactStrip={content.contactStrip}
+      />
 
       {/* ── Get My Cruise Shortlist (Lead Capture) ── */}
       <section className="bg-sand-100/60 py-16 md:py-20">
