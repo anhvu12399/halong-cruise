@@ -53,7 +53,7 @@ export default function HeroSlideshow({
   if (slides.length === 0) return null;
 
   return (
-    <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-[#0B2224]">
+    <section className="relative flex min-h-[calc(100svh-7rem)] items-end overflow-hidden bg-[#0B2224]">
       {/* Slideshow background — FULL CLARITY, 100% natural photo colors */}
       {slides.map((slide, idx) => {
         if (idx !== 0 && !mounted) return null;
@@ -70,7 +70,7 @@ export default function HeroSlideshow({
               priority={idx === 0}
               loading={idx === 0 ? 'eager' : 'lazy'}
               sizes="100vw"
-              className="object-cover object-center"
+              className="object-contain object-top"
             />
           </div>
         );

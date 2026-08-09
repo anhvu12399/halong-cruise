@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import InquiryForm from "@/components/InquiryForm";
-import { getAllCruises } from "@/lib/wp";
+import { getAllCruises, getFrontendPage } from "@/lib/wp";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
 
 export const metadata = {
   title: "Contact Us & Support | Ha Long Bay Cruise Desk",
@@ -10,6 +11,8 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
+  const cmsPage = await getFrontendPage("/contact");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   const cruises = await getAllCruises();
   return (
     <div className="bg-sand-50">

@@ -13,6 +13,7 @@ export default async function CouplesPage() {
   const cruises = await getAllCruises();
   return (
     <CategoryListingPage
+      cmsSlug="couples"
       title="Couples & Honeymoon Ha Long Bay Cruises"
       eyebrow="Romance · Honeymoon · Couples"
       subtitle="Private balcony suites, sunset decks, and moments that stay with you long after you're home."

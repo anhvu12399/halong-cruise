@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllCruises } from "@/lib/wp";
+import { getAllCruises, getFrontendPage } from "@/lib/wp";
 import DividerHeading from "@/components/DividerHeading";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
 
 export const metadata = {
   title: "10 Best Halong Bay Cruises 2026 | Expert Top Pick Rankings",
@@ -10,6 +11,8 @@ export const metadata = {
 };
 
 export default async function BestCruisesGuidePage() {
+  const cmsPage = await getFrontendPage("/guides/best-cruises");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   const cruises = await getAllCruises();
   const topPickSlugs = [
     "stellar-of-the-seas",

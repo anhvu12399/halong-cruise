@@ -1,4 +1,5 @@
 import { Cruise } from "./types";
+import { normalizeCruiseCatalog } from "./normalizeCruises";
 
 export const mockCruises: Cruise[] = [
   {
@@ -50629,7 +50630,7 @@ export const mockCruises: Cruise[] = [
 ];
 
 export function getMockBySlug(slug: string): Cruise | undefined {
-  return mockCruises.find((c) => c.slug === slug);
+  return cruises.find((c) => c.slug === slug);
 }
 
 
@@ -50783,5 +50784,5 @@ export const mockHomepageContent = {
   }
 };
 
-export const cruises = mockCruises;
+export const cruises = normalizeCruiseCatalog(mockCruises);
 export const getCruiseBySlug = getMockBySlug;

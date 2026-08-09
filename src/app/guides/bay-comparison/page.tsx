@@ -1,4 +1,6 @@
 import Image from "next/image";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 import Link from "next/link";
 import DividerHeading from "@/components/DividerHeading";
 
@@ -8,7 +10,9 @@ export const metadata = {
     "Comprehensive comparison guide: Ha Long Bay vs Lan Ha Bay vs Bai Tu Long Bay. Scenery, boat crowds, beaches, caves & how to choose the best route.",
 };
 
-export default function BayComparisonGuidePage() {
+export default async function BayComparisonGuidePage() {
+  const cmsPage = await getFrontendPage("/guides/bay-comparison");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <div className="bg-sand-50">
       {/* Hero */}

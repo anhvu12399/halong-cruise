@@ -13,6 +13,7 @@ export default async function DeluxePage() {
   const cruises = await getAllCruises();
   return (
     <CategoryListingPage
+      cmsSlug="deluxe"
       title="Deluxe Ha Long Bay Cruises"
       eyebrow="$150–$350/person · The Sweet Spot"
       subtitle="Stylish ships, balcony cabins, and good food — without the luxury price tag."

@@ -12,6 +12,7 @@ export default async function PrivateCharterCruisesPage() {
 
   return (
     <CategoryListingPage
+      cmsSlug="private-charter"
       title="Private Charter Cruises"
       eyebrow="Exclusive Vessel Hire &amp; Private Parties"
       subtitle="Take full control of your voyage by chartering an entire luxury ship exclusively for your family, private group, corporate retreat, or wedding celebration."

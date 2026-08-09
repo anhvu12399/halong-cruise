@@ -91,6 +91,7 @@ export type HomepageContent = {
   heroTitle: string;
   heroSubtitle: string;
   heroBackground: string;
+  heroSlides?: { image: string; name: string; slug: string }[];
   tripTypesTitle: string;
   tripTypesDescription: string;
   selectedStyles: TourCollection[];
@@ -100,11 +101,35 @@ export type HomepageContent = {
   featuredTitle: string;
   featuredCruises: Cruise[];
   testimonialsTitle: string;
+  testimonialsEyebrow?: string;
+  testimonialsRatingText?: string;
   testimonials: { quote: string; author: string; location: string }[];
+  teamSection?: {
+    eyebrow: string;
+    title: string;
+    members: { name: string; role: string; experience: string; initial: string; image: string; bio: string }[];
+  };
+  contactStrip?: {
+    whatsappLabel: string;
+    whatsapp: string;
+    emailLabel: string;
+    email: string;
+    officeLabel: string;
+    office: string;
+    hours: string;
+  };
   guidesTitle: string;
   guidesList: { title: string; url: string; image: string; date: string; readTime: string }[];
   headerMenu?: {
     logo?: string;
+    logoAlt?: string;
+    logoWidth?: number;
+    cruisesLabel?: string;
+    toursLabel?: string;
+    guidesLabel?: string;
+    aboutLabel?: string;
+    ctaLabel?: string;
+    ctaUrl?: string;
     cruises: { label: string; href: string }[];
     tours: { label: string; href: string }[];
     guides: { label: string; href: string }[];
@@ -139,4 +164,16 @@ export type HomepageContent = {
     stickyCtaText: string;
     stickyCtaWhatsapp: string;
   };
+};
+
+export type FrontendPageContent = {
+  route: string;
+  eyebrow: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  heroImage: string;
+  contentHtml: string;
+  sections: { title: string; text: string; image: string }[];
+  metaTitle?: string;
+  metaDescription?: string;
 };

@@ -13,6 +13,7 @@ export default async function SmallShipPage() {
   const cruises = await getAllCruises();
   return (
     <CategoryListingPage
+      cmsSlug="small-ship"
       title="Small Ship Ha Long Bay Cruises"
       eyebrow="Boutique · Intimate · Uncrowded"
       subtitle="Under 20 cabins. More personalised. Further from the tourist routes."

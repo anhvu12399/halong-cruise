@@ -1,4 +1,5 @@
-import { Cruise, ItineraryDay, Cabin, SocialArea, TourCollection, HomepageContent } from "./types";
+import { Cruise, ItineraryDay, Cabin, SocialArea, TourCollection, HomepageContent, FrontendPageContent } from "./types";
+import { normalizeCruise } from "./normalizeCruises";
 import { 
   cruises as mockCruises, 
   getCruiseBySlug as getMockBySlug, 
@@ -69,10 +70,28 @@ type WpCruisePost = {
 };
 
 function splitLines(value: string | undefined): string[] {
-  return (value ?? "")
+  if (Array.isArray(value)) return value.map(String).map((v) => v.trim()).filter(Boolean);
+  return String(value ?? "")
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
+}
+
+/** ACF can return an image as a URL, attachment object or numeric ID depending
+ * on the field configuration. The CMS uses URL fields by default, but this
+ * keeps old WordPress data working after an upgrade. */
+function imageUrl(value: any): string {
+  if (!value) return "";
+  if (typeof value === "string") return value.trim();
+  return value.url || value.source_url || value.guid?.rendered || "";
+}
+
+function imageUrls(value: any): string[] {
+  if (typeof value === "string") {
+    return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+  }
+  if (!Array.isArray(value)) return imageUrl(value) ? [imageUrl(value)] : [];
+  return value.map((item) => imageUrl(item?.image_url || item)).filter(Boolean);
 }
 
 function mapWpCruise(post: WpCruisePost): Cruise {
@@ -81,7 +100,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     day: i + 1,
     title: d.title || `Day ${i + 1}`,
     location: d.location || "Ha Long Bay",
-    image: d.image?.url || "",
+    image: imageUrl(d.image_url || d.image),
     blocks: [
       d.am ? { period: "AM" as const, text: d.am } : null,
       d.pm ? { period: "PM" as const, text: d.pm } : null,
@@ -109,26 +128,32 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     size: c.size || "28 m²",
     beds: c.beds || "Double/Twin",
     description: c.description || "Luxury oceanview suite with private balcony.",
-    image: c.image?.url || "",
-    galleryImages: c.gallery_images ? c.gallery_images.map((g: any) => g.url) : (c.image?.url ? [c.image.url] : []),
+    image: imageUrl(c.image_url || c.image),
+    galleryImages: imageUrls(c.gallery_urls || c.gallery_images).length ? imageUrls(c.gallery_urls || c.gallery_images) : imageUrls(c.image_url || c.image),
   }));
 
   const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s: any) => ({
     name: s.name || "Social Area",
-    image: s.image?.url || "",
+    image: imageUrl(s.image_url || s.image),
+    alt: s.alt_text || s.name || "Social Area",
   }));
 
   const cruiseName = a.breadcrumb_label || post.title?.rendered || post.slug;
 
   const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
 
-  const heroImage = a.hero_image_url || a.hero_image?.url || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
-  const extGalleryUrls = (a.external_gallery ?? []).map((e: any) => e.image_url || e).filter(Boolean);
-  const galleryImages = extGalleryUrls.length > 0 ? extGalleryUrls : (mockFallback?.galleryImages && mockFallback.galleryImages.length > 0 ? mockFallback.galleryImages : (a.gallery ?? []).map((g: any) => g.url));
+  const heroImage = imageUrl(a.hero_image_url || a.hero_image) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || imageUrl(a.gallery?.[0]);
+  const extGalleryUrls = imageUrls(a.external_gallery);
+  const externalPhotos = (a.external_gallery ?? []).map((item: any) => ({
+    url: imageUrl(item?.image_url || item?.url || item),
+    alt: item?.alt_text || item?.alt || cruiseName,
+  })).filter((item: any) => item.url);
+  const acfGalleryUrls = imageUrls(a.gallery_urls || a.gallery);
+  const galleryImages = extGalleryUrls.length > 0 ? extGalleryUrls : (acfGalleryUrls.length > 0 ? acfGalleryUrls : (mockFallback?.galleryImages || []));
   const finalCabins = cabins.length > 0 ? cabins : (mockFallback?.cabins || []);
   const finalPrograms = programs.length > 0 ? programs : (mockFallback?.programs || []);
 
-  return {
+  return normalizeCruise({
     slug: post.slug,
     name: cruiseName,
     tagline: a.tagline || mockFallback?.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
@@ -142,7 +167,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     startingPrice: a.starting_price ? Number(a.starting_price) : (mockFallback?.startingPrice || 150),
     heroImage,
     galleryImages,
-    photos: mockFallback?.photos || galleryImages.map((url: any) => ({ url, alt: cruiseName })),
+    photos: externalPhotos.length > 0 ? externalPhotos : (galleryImages.length > 0 ? galleryImages.map((url: any) => ({ url, alt: cruiseName })) : (mockFallback?.photos || [])),
     rating: mockFallback?.rating || 9.2,
     reviewCount: mockFallback?.reviewCount || 150,
     address: mockFallback?.address || "Tuan Chau Marina, Ha Long, Quang Ninh, Vietnam",
@@ -154,9 +179,9 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     cabins: finalCabins,
     features: splitLines(a.features).length > 0 ? splitLines(a.features) : (mockFallback?.features || []),
     equipment: splitLines(a.equipment).length > 0 ? splitLines(a.equipment) : (mockFallback?.equipment || []),
-    deckPlanImage: a.deck_plan?.url,
+    deckPlanImage: imageUrl(a.deck_plan_url || a.deck_plan),
     relatedSlugs: (a.related ?? []).map((r: any) => r.post_name).length > 0 ? (a.related ?? []).map((r: any) => r.post_name) : (mockFallback?.relatedSlugs || []),
-  };
+  });
 }
 
 export async function getAllCruises(): Promise<Cruise[]> {
@@ -222,7 +247,7 @@ function mapWpTourCollection(post: any): TourCollection {
     eyebrow: a.eyebrow || "",
     title: a.title || post.title?.rendered || post.slug,
     subtitle: a.subtitle || "",
-    heroImage: a.hero_image?.url || "",
+    heroImage: imageUrl(a.hero_image_url || a.hero_image),
     descriptionParagraphs: splitLines(a.description_paragraphs),
     keyHighlights: splitLines(a.key_highlights),
     priceRangeText: a.price_range_text || "",
@@ -262,34 +287,86 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
     
     const a = posts[0].acf || {};
+    const [tourResponse, cruiseResponse] = await Promise.all([
+      fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&per_page=100`, { next: { revalidate: 300 } }),
+      fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, { next: { revalidate: 300 } }),
+    ]);
+    const tourPosts = tourResponse.ok ? await tourResponse.json() : [];
+    const cruisePosts: WpCruisePost[] = cruiseResponse.ok ? await cruiseResponse.json() : [];
+    const resolveTour = (ref: any) => {
+      const slug = ref?.post_name || ref?.slug;
+      const full = (Array.isArray(tourPosts) ? tourPosts : []).find((post: any) => post.slug === slug);
+      return mapWpTourCollection(full || { ...ref, slug });
+    };
+    const resolveCruise = (ref: any) => {
+      const slug = ref?.post_name || ref?.slug;
+      const full = cruisePosts.find((post) => post.slug === slug);
+      return full ? mapWpCruise(full) : ({ ...mockCruises[0], slug, name: ref?.post_title || ref?.title?.rendered || slug });
+    };
     return {
       heroTitle: a.hero_title || "",
       heroSubtitle: a.hero_subtitle || "",
-      heroBackground: a.hero_background?.url || "",
+      heroBackground: imageUrl(a.hero_background_url || a.hero_background),
+      heroSlides: (a.hero_slides ?? []).map((slide: any) => ({
+        image: imageUrl(slide.image_url || slide.image),
+        name: slide.name || "Ha Long Bay",
+        slug: slide.slug || "cruises",
+      })).filter((slide: any) => slide.image),
       tripTypesTitle: a.trip_types_title || "",
       tripTypesDescription: a.trip_types_description || "",
-      selectedStyles: (a.selected_styles ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
+      selectedStyles: (a.selected_styles ?? []).map(resolveTour),
       regionsTitle: a.regions_title || "",
       regionsDescription: a.regions_description || "",
-      selectedRegions: (a.selected_regions ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
+      selectedRegions: (a.selected_regions ?? []).map(resolveTour),
       featuredTitle: a.featured_title || "",
-      featuredCruises: (a.featured_cruises ?? []).map((p: any) => ({ ...mockCruises[0], slug: p.post_name, name: p.post_title })), // Simplification for now, would fetch full cruise ideally
+      featuredCruises: (a.featured_cruises ?? []).map(resolveCruise),
       testimonialsTitle: a.testimonials_title || "",
+      testimonialsEyebrow: a.testimonials_eyebrow || "",
+      testimonialsRatingText: a.testimonials_rating_text || "",
       testimonials: (a.testimonials ?? []).map((t: any) => ({
         quote: t.quote || "",
         author: t.author || "",
         location: t.location || "",
       })),
+      teamSection: {
+        eyebrow: a.team_eyebrow || "",
+        title: a.team_title || "",
+        members: (a.team_members ?? []).map((member: any) => ({
+          name: member.name || "",
+          role: member.role || "",
+          experience: member.experience || "",
+          initial: member.initial || "",
+          image: imageUrl(member.image_url || member.image),
+          bio: member.bio || "",
+        })),
+      },
+      contactStrip: {
+        whatsappLabel: a.contact_whatsapp_label || "",
+        whatsapp: a.contact_whatsapp || "",
+        emailLabel: a.contact_email_label || "",
+        email: a.contact_email || "",
+        officeLabel: a.contact_office_label || "",
+        office: a.contact_office || "",
+        hours: a.contact_hours || "",
+      },
       guidesTitle: a.guides_title || "",
       guidesList: (a.guides_list ?? []).map((g: any) => ({
         title: g.title || "",
         url: g.url || "",
-        image: g.image?.url || "",
+        image: imageUrl(g.image_url || g.image),
         date: g.date || "",
         readTime: g.read_time || "",
       })),
       headerMenu: {
-        logo: a.header_logo?.url || a.header_logo || "",
+        logo: imageUrl(a.header_logo_url || a.header_logo),
+        logoAlt: a.header_logo_alt || "Ha Long Bay Cruises",
+        logoWidth: Number(a.header_logo_width) || 180,
+        cruisesLabel: a.header_cruises_label || "Cruises",
+        toursLabel: a.header_tours_label || "Tours & Packages",
+        guidesLabel: a.header_guides_label || "Travel Guides",
+        aboutLabel: a.header_about_label || "About Us",
+        ctaLabel: a.header_cta_label || "Plan a Sailing",
+        ctaUrl: a.header_cta_url || "/inquire",
         cruises: (a.header_cruises ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         tours: (a.header_tours ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
         guides: (a.header_guides ?? []).map((i: any) => ({ label: i.label || "", href: i.href || "" })),
@@ -319,7 +396,7 @@ export async function getHomepageContent(): Promise<HomepageContent> {
           label: t.label || "",
           subtitle: t.subtitle || "",
           href: t.href || "",
-          image: t.image?.url || "",
+          image: imageUrl(t.image_url || t.image),
           badge: t.badge || "",
         })),
       },
@@ -338,3 +415,19 @@ export async function getHomepageContent(): Promise<HomepageContent> {
 }
 
 export const isLive = Boolean(WP_URL);
+
+export async function getFrontendPage(route: string): Promise<FrontendPageContent | undefined> {
+  if (!WP_URL) return undefined;
+  try {
+    const res = await fetch(`${WP_URL}/wp-json/halong/v1/frontend-page?route=${encodeURIComponent(route)}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return undefined;
+    const data = await res.json();
+    if (!data || !data.route) return undefined;
+    return data;
+  } catch (err) {
+    console.error(`[wp-headless] frontend page fallback for ${route}:`, err);
+    return undefined;
+  }
+}

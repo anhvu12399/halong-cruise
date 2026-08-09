@@ -91,27 +91,63 @@ function Stars({ n }: { n: number }) {
   );
 }
 
-export default function Testimonials() {
+type TeamSection = {
+  eyebrow: string;
+  title: string;
+  members: { name: string; role: string; experience: string; initial: string; image: string; bio: string }[];
+};
+
+type ContactStrip = {
+  whatsappLabel: string;
+  whatsapp: string;
+  emailLabel: string;
+  email: string;
+  officeLabel: string;
+  office: string;
+  hours: string;
+};
+
+export default function Testimonials({ data, title, eyebrow, ratingText, teamSection, contactStrip }: {
+  data?: { quote: string; author: string; location: string }[];
+  title?: string;
+  eyebrow?: string;
+  ratingText?: string;
+  teamSection?: TeamSection;
+  contactStrip?: ContactStrip;
+}) {
+  const displayTestimonials = data && data.length > 0
+    ? data.map((item) => ({
+        name: item.author || "Verified Traveller",
+        country: item.location || "International Guest",
+        cruise: "Ha Long Bay Cruise",
+        stars: 5,
+        quote: item.quote,
+        nights: "Verified",
+      }))
+    : TESTIMONIALS;
+  const displayTeam = teamSection?.members?.length ? teamSection.members : TEAM.map((member) => ({ ...member, image: "" }));
+  const whatsapp = contactStrip?.whatsapp || "+84 905 999 888";
+  const email = contactStrip?.email || "hello@halongbestcruises.com";
   return (
     <section className="bg-sand-100/60 py-24 md:py-32">
       <div className="container-content">
         {/* Header */}
         <div className="mb-4 flex items-center gap-3">
-          <span className="eyebrow">Real travellers · Verified stays</span>
+          <span className="eyebrow">{eyebrow || "Real travellers · Verified stays"}</span>
           <div className="flex items-center gap-1.5 rounded-full bg-teal-950 px-3 py-1">
             <svg viewBox="0 0 20 20" className="h-3 w-3 fill-brass-400" aria-hidden>
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="font-mono text-[10px] uppercase tracking-wideish text-brass-300">4.9 / 5 · 500+ reviews</span>
+            <span className="font-mono text-[10px] uppercase tracking-wideish text-brass-300">{ratingText || "4.9 / 5 · 500+ reviews"}</span>
           </div>
         </div>
         <h2 className="font-display text-4xl italic text-ink-900 md:text-5xl">
-          What our travellers say.
+          {title || "What our travellers say."}
         </h2>
 
         {/* Testimonials grid */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
+          {displayTestimonials.map((t) => (
             <div
               key={t.name}
               className="flex flex-col justify-between rounded-2xl border border-sand-200 bg-sand-50 p-7 shadow-sm"
@@ -167,14 +203,18 @@ export default function Testimonials() {
 
         {/* Team */}
         <div className="mt-20 border-t border-sand-200 pt-16">
-          <p className="eyebrow">The people behind the site</p>
-          <h2 className="mt-3 font-display text-3xl italic text-ink-900 md:text-4xl">Our team.</h2>
+          <p className="eyebrow">{teamSection?.eyebrow || "The people behind the site"}</p>
+          <h2 className="mt-3 font-display text-3xl italic text-ink-900 md:text-4xl">{teamSection?.title || "Our team."}</h2>
           <div className="mt-10 grid gap-8 md:grid-cols-3">
-            {TEAM.map((m) => (
+            {displayTeam.map((m) => (
               <div key={m.name} className="flex gap-5">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-teal-950 font-display text-2xl italic text-sand-50">
-                  {m.initial}
-                </div>
+                {m.image ? (
+                  <img src={m.image} alt={m.name} className="h-14 w-14 shrink-0 rounded-full object-cover" />
+                ) : (
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-teal-950 font-display text-2xl italic text-sand-50">
+                    {m.initial || m.name.charAt(0)}
+                  </div>
+                )}
                 <div>
                   <p className="font-semibold text-ink-900">{m.name}</p>
                   <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-500">{m.role}</p>
@@ -189,7 +229,7 @@ export default function Testimonials() {
         {/* Contact strip */}
         <div className="mt-16 grid gap-4 rounded-2xl bg-teal-950 p-8 text-sand-50 md:grid-cols-3">
           <a
-            href="https://wa.me/84905999888"
+            href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 group"
@@ -201,23 +241,23 @@ export default function Testimonials() {
               </svg>
             </span>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-400">WhatsApp</p>
-              <p className="text-sand-50 group-hover:text-brass-300 transition">+84 905 999 888</p>
+              <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-400">{contactStrip?.whatsappLabel || "WhatsApp"}</p>
+              <p className="text-sand-50 group-hover:text-brass-300 transition">{whatsapp}</p>
             </div>
           </a>
-          <a href="mailto:hello@halongbestcruises.com" className="flex items-center gap-3 group">
+          <a href={`mailto:${email}`} className="flex items-center gap-3 group">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-800">✉</span>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-400">Email</p>
-              <p className="text-sand-50 group-hover:text-brass-300 transition text-sm">hello@halongbestcruises.com</p>
+              <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-400">{contactStrip?.emailLabel || "Email"}</p>
+              <p className="text-sand-50 group-hover:text-brass-300 transition text-sm">{email}</p>
             </div>
           </a>
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-800">📍</span>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-400">Office</p>
-              <p className="text-sand-50/80 text-sm">Hanoi Old Quarter, Vietnam</p>
-              <p className="font-mono text-[10px] text-sand-100/50">Mon–Sat · 8am–8pm ICT</p>
+              <p className="font-mono text-[10px] uppercase tracking-wideish text-brass-400">{contactStrip?.officeLabel || "Office"}</p>
+              <p className="text-sand-50/80 text-sm">{contactStrip?.office || "Hanoi Old Quarter, Vietnam"}</p>
+              <p className="font-mono text-[10px] text-sand-100/50">{contactStrip?.hours || "Mon–Sat · 8am–8pm ICT"}</p>
             </div>
           </div>
         </div>

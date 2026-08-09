@@ -12,6 +12,7 @@ export default async function FamilyCruisesPage() {
 
   return (
     <CategoryListingPage
+      cmsSlug="family"
       title="Family Halong Bay Cruises"
       eyebrow="Family Friendly &amp; Connecting Suites"
       subtitle="Memorable family adventures aboard safety-certified ships featuring spacious interconnecting family suites, kid-friendly meals, swimming pools, and engaging activities."

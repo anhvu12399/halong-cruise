@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllCruises } from "@/lib/wp";
+import { getAllCruises, getFrontendPage } from "@/lib/wp";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
 import DividerHeading from "@/components/DividerHeading";
 import PlanningMatchmaker from "@/components/PlanningMatchmaker";
 import WeatherGuide from "@/components/WeatherGuide";
@@ -14,6 +15,8 @@ export const metadata = {
 };
 
 export default async function CruisePlanningHubPage() {
+  const cmsPage = await getFrontendPage("/planning");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   const cruises = await getAllCruises();
 
   return (

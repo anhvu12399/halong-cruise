@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 
 export const metadata: Metadata = {
   title: "How to Get from Hanoi to Ha Long Bay — Transport Guide 2025",
@@ -43,7 +45,9 @@ const TRANSPORT_OPTIONS = [
   },
 ];
 
-export default function HanoiToHalongPage() {
+export default async function HanoiToHalongPage() {
+  const cmsPage = await getFrontendPage("/guides/hanoi-to-halong");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <>
       <script

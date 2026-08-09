@@ -13,6 +13,7 @@ export default async function GroupPage() {
   const cruises = await getAllCruises();
   return (
     <CategoryListingPage
+      cmsSlug="group"
       title="Ha Long Bay Group Cruises & Charters"
       eyebrow="Groups · Corporate · Celebrations"
       subtitle="From 8 to 60 guests. Your group, your itinerary, your boat."

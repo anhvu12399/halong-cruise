@@ -1,4 +1,6 @@
 import Image from "next/image";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 import Link from "next/link";
 import DividerHeading from "@/components/DividerHeading";
 
@@ -8,7 +10,9 @@ export const metadata = {
     "Expert guide on how to choose the right Ha Long Bay cruise. 5 key decision steps: itinerary route, vessel size, cabin type, budget & operator safety trust.",
 };
 
-export default function HowToChooseGuidePage() {
+export default async function HowToChooseGuidePage() {
+  const cmsPage = await getFrontendPage("/guides/how-to-choose");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <div className="bg-sand-50">
       {/* Hero */}

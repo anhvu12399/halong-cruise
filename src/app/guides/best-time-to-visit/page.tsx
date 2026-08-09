@@ -1,4 +1,6 @@
 import Image from "next/image";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
+import { getFrontendPage } from "@/lib/wp";
 import Link from "next/link";
 import WeatherGuide from "@/components/WeatherGuide";
 import DividerHeading from "@/components/DividerHeading";
@@ -9,7 +11,9 @@ export const metadata = {
     "Discover the best time to visit Ha Long Bay & Lan Ha Bay. Month-by-month temperature, rainfall, dry season, summer swimming, and peak sailing advice.",
 };
 
-export default function BestTimeToVisitGuidePage() {
+export default async function BestTimeToVisitGuidePage() {
+  const cmsPage = await getFrontendPage("/guides/best-time-to-visit");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   return (
     <div className="bg-sand-50">
       {/* Hero */}

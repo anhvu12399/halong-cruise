@@ -1,5 +1,6 @@
-import { getAllCruises } from "@/lib/wp";
+import { getAllCruises, getFrontendPage } from "@/lib/wp";
 import InquiryForm from "@/components/InquiryForm";
+import FrontendCmsPage from "@/components/FrontendCmsPage";
 
 export const metadata = { title: "Plan a Sailing" };
 
@@ -8,6 +9,8 @@ export default async function InquirePage({
 }: {
   searchParams: { cruise?: string };
 }) {
+  const cmsPage = await getFrontendPage("/inquire");
+  if (cmsPage) return <FrontendCmsPage page={cmsPage} />;
   const cruises = await getAllCruises();
 
   return (

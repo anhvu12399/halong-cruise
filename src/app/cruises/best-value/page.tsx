@@ -13,6 +13,7 @@ export default async function BestValuePage() {
   const cruises = await getAllCruises();
   return (
     <CategoryListingPage
+      cmsSlug="best-value"
       title="Best Value Ha Long Bay Cruises"
       eyebrow="Budget · Under $250/person"
       subtitle="Great ships at honest prices — no hidden fees, no resale markup."
