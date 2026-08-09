@@ -88,10 +88,31 @@ import { getHomepageContent } from "@/lib/wp";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const content = await getHomepageContent();
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TravelAgency",
+        "@id": "https://www.halongbestcruises.com/#organization",
+        name: "Ha Long Best Cruises",
+        url: "https://www.halongbestcruises.com",
+        email: "sales@halongbestcruises.com",
+        areaServed: "Ha Long Bay, Vietnam",
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.halongbestcruises.com/#website",
+        url: "https://www.halongbestcruises.com",
+        name: "Ha Long Best Cruises",
+        publisher: { "@id": "https://www.halongbestcruises.com/#organization" },
+      },
+    ],
+  };
 
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} ${label.variable}`}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <Analytics />
         <Header menu={content.headerMenu} announcementBar={content.announcementBar} />
         <main>{children}</main>
