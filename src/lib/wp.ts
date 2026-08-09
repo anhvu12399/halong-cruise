@@ -7,7 +7,17 @@ import {
   mockHomepageContent 
 } from "./mockData";
 
-const WP_URL = process.env.WORDPRESS_URL?.replace(/\/$/, "");
+// The production CMS. WORDPRESS_URL can still override this for another environment.
+const WP_URL = (process.env.WORDPRESS_URL || "https://halongcruise.vietnamprivatetours.com").replace(/\/$/, "");
+
+/** This WordPress host exposes REST through ?rest_route= rather than /wp-json/. */
+function wpApiUrl(route: string): string {
+  const [path, query = ""] = route.replace(/^\/+/, "").split("?");
+  const url = new URL(WP_URL);
+  url.searchParams.set("rest_route", `/${path}`);
+  new URLSearchParams(query).forEach((value, key) => url.searchParams.set(key, value));
+  return url.toString();
+}
 
 /**
  * Headless WordPress integration layer.
@@ -188,12 +198,12 @@ export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
     // Try standard CPT endpoint first, then custom post type cruises-vietnam
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, {
+    let res = await fetch(wpApiUrl("wp/v2/cruises?_embed&per_page=100"), {
       next: { revalidate: 300 },
     });
     
     if (!res.ok) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&per_page=100`, {
+      res = await fetch(wpApiUrl("wp/v2/cruises-vietnam?_embed&per_page=100"), {
         next: { revalidate: 300 },
       });
     }
@@ -211,12 +221,12 @@ export async function getAllCruises(): Promise<Cruise[]> {
 export async function getCruiseBySlug(slug: string): Promise<Cruise | undefined> {
   if (!WP_URL) return getMockBySlug(slug);
   try {
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
+    let res = await fetch(wpApiUrl(`wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`), {
       next: { revalidate: 300 },
     });
 
     if (!res.ok) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`, {
+      res = await fetch(wpApiUrl(`wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`), {
         next: { revalidate: 300 },
       });
     }
@@ -263,7 +273,7 @@ function mapWpTourCollection(post: any): TourCollection {
 export async function getTourCollectionBySlug(slug: string): Promise<TourCollection | undefined> {
   if (!WP_URL) return mockTourCollections.find(c => c.slug === slug);
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`, {
+    const res = await fetch(wpApiUrl(`wp/v2/tour-collections?_embed&slug=${encodeURIComponent(slug)}`), {
       next: { revalidate: 300 },
     });
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
@@ -279,7 +289,7 @@ export async function getTourCollectionBySlug(slug: string): Promise<TourCollect
 export async function getHomepageContent(): Promise<HomepageContent> {
   if (!WP_URL) return mockHomepageContent;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/homepage-content?_embed&per_page=1`, {
+    const res = await fetch(wpApiUrl("wp/v2/homepage-content?_embed&per_page=1"), {
       next: { revalidate: 300 },
     });
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
@@ -288,9 +298,9 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     
     const a = posts[0].acf || {};
     const [tourResponse, cruiseResponse, siteOptionsResponse] = await Promise.all([
-      fetch(`${WP_URL}/wp-json/wp/v2/tour-collections?_embed&per_page=100`, { next: { revalidate: 300 } }),
-      fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100`, { next: { revalidate: 300 } }),
-      fetch(`${WP_URL}/wp-json/halong/v1/site-options`, { next: { revalidate: 300 } }),
+      fetch(wpApiUrl("wp/v2/tour-collections?_embed&per_page=100"), { next: { revalidate: 300 } }),
+      fetch(wpApiUrl("wp/v2/cruises?_embed&per_page=100"), { next: { revalidate: 300 } }),
+      fetch(wpApiUrl("halong/v1/site-options"), { next: { revalidate: 300 } }),
     ]);
     const tourPosts = tourResponse.ok ? await tourResponse.json() : [];
     const cruisePosts: WpCruisePost[] = cruiseResponse.ok ? await cruiseResponse.json() : [];
@@ -422,7 +432,7 @@ export const isLive = Boolean(WP_URL);
 export async function getFrontendPage(route: string): Promise<FrontendPageContent | undefined> {
   if (!WP_URL) return undefined;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/halong/v1/frontend-page?route=${encodeURIComponent(route)}`, {
+    const res = await fetch(wpApiUrl(`halong/v1/frontend-page?route=${encodeURIComponent(route)}`), {
       next: { revalidate: 300 },
     });
     if (!res.ok) return undefined;
