@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ha Long Cruise CMS
  * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
- * Version: 6.4.0
+ * Version: 6.5.0
  * Author: Ha Long Best Cruises
  */
 
@@ -488,7 +488,7 @@ function halong_import_frontend_cruises($endpoint, $overwrite = false, $replace_
     if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
         $payload = json_decode(wp_remote_retrieve_body($response), true);
     }
-    if (!is_array($payload['cruises'] ?? null) || intval($payload['version'] ?? 0) < 2) {
+    if (!is_array($payload['cruises'] ?? null) || intval($payload['version'] ?? 0) < 3) {
         $bundled_file = plugin_dir_path(__FILE__) . 'frontend-cruises.json';
         if (is_readable($bundled_file)) $payload = json_decode(file_get_contents($bundled_file), true);
     }
@@ -579,7 +579,7 @@ function halong_render_cruise_importer() {
         <?php wp_nonce_field('halong_import_frontend_cruises'); ?>
         <table class="form-table"><tr><th><label for="export_endpoint">Frontend Export URL</label></th><td><input class="large-text" type="url" id="export_endpoint" name="export_endpoint" required value="<?php echo esc_attr($default_endpoint); ?>"><p class="description">The latest frontend must be deployed before running this import.</p></td></tr>
         <tr><th>Existing data</th><td><label><input type="checkbox" name="overwrite_existing" value="1"> Overwrite fields that already contain WordPress data</label><p class="description">Leave unchecked for the safest first import: only empty fields are filled.</p></td></tr>
-        <tr><th>Cabin cleanup</th><td><label><input type="checkbox" name="replace_cabins_only" value="1"> Replace cabin data only</label><p class="description">Use this after importing plugin v6.3.x. It cleans duplicated cabin/rate rows and repeated room galleries without overwriting other cruise fields.</p></td></tr></table>
+        <tr><th>Cabin cleanup</th><td><label><input type="checkbox" name="replace_cabins_only" value="1"> Replace cabin data only</label><p class="description">Use this after importing plugin v6.3–v6.4. It removes duplicated cabin/rate rows and filters maps, caves, restaurants, decks, pools, and other non-room photos out of cabin galleries without overwriting other cruise fields.</p></td></tr></table>
         <p class="submit"><button class="button button-primary button-large" type="submit" name="halong_run_cruise_import" value="1">Import / Sync Cruises Now</button></p>
       </form>
     </div>

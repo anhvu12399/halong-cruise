@@ -14,12 +14,22 @@ function cleanCabinDescription(description: string, name: string) {
     .trim();
 }
 
-function normalizeCabins(cabins: Cabin[]): Cabin[] {
+const ROOM_IMAGE = /\b(bed|bedroom|bathroom|bath|bathtub|shower|toilet|sink|vanity|suite|cabin|room|balcony|terrace|wardrobe)\b/i;
+const NON_ROOM_IMAGE = /\b(map|route|cave|restaurant|dining room|sundeck|sun deck|pool|kayak|boat|ship|cruise ship|mountain|island|beach|buffet|food|kitchen|bar|spa|massage|reception|lobby|gym)\b/i;
+
+function isVerifiedRoomImage(url: string, altByUrl: Map<string, string>) {
+  const alt = altByUrl.get(url) || "";
+  const strongRoomSignal = /\b(bed|bedroom|bathroom|bath|bathtub|shower|toilet|sink|vanity)\b/i.test(alt);
+  return ROOM_IMAGE.test(alt) && (strongRoomSignal || !NON_ROOM_IMAGE.test(alt));
+}
+
+function normalizeCabins(cabins: Cabin[], altByUrl: Map<string, string>): Cabin[] {
   const unique = new Map<string, Cabin>();
   for (const source of cabins || []) {
     const name = cleanCabinName(source.name || "Cabin");
     const key = name.toLowerCase();
-    const gallery = Array.from(new Set([source.image, ...(source.galleryImages || [])].filter(Boolean)));
+    const gallery = Array.from(new Set([source.image, ...(source.galleryImages || [])].filter(Boolean)))
+      .filter((url) => isVerifiedRoomImage(url, altByUrl));
     const cabin = {
       ...source,
       name,
@@ -53,10 +63,11 @@ function normalizeCabins(cabins: Cabin[]): Cabin[] {
 }
 
 export function normalizeCruise(cruise: Cruise): Cruise {
+  const altByUrl = new Map((cruise.photos || []).map((photo) => [photo.url, photo.alt || ""]));
   return {
     ...cruise,
     galleryImages: Array.from(new Set(cruise.galleryImages || [])),
-    cabins: normalizeCabins(cruise.cabins || []),
+    cabins: normalizeCabins(cruise.cabins || [], altByUrl),
   };
 }
 

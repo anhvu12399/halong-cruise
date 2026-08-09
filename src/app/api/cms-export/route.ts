@@ -7,7 +7,7 @@ export const dynamic = "force-static";
  * It contains only content already visible on the public website. */
 export function GET() {
   return NextResponse.json({
-    version: 2,
+    version: 3,
     generatedAt: new Date().toISOString(),
     cruises,
   });
