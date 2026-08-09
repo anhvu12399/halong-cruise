@@ -321,22 +321,40 @@ export async function getHomepageContent(): Promise<HomepageContent> {
     if (!Array.isArray(posts) || !posts.length) return mockHomepageContent;
     
     const a = posts[0].acf || {};
-    const siteOptionsResponse = await fetch(wpApiUrl("halong/v1/site-options"), {
-      next: { revalidate: 300 },
-    });
+    const [siteOptionsResponse, tourResponse, cruiseResponse] = await Promise.all([
+      fetch(wpApiUrl("halong/v1/site-options"), { next: { revalidate: 300 } }),
+      fetch(wpApiUrl("wp/v2/tour-collections?_embed&per_page=100"), { next: { revalidate: 300 } }),
+      fetch(wpApiUrl("wp/v2/cruises?_embed&per_page=100"), { next: { revalidate: 300 } }),
+    ]);
     const siteOptions = siteOptionsResponse.ok ? await siteOptionsResponse.json() : {};
+    const tourPosts = tourResponse.ok ? await tourResponse.json() : [];
+    const cruisePosts: WpCruisePost[] = cruiseResponse.ok ? await cruiseResponse.json() : [];
+    const resolveTour = (ref: any) => {
+      const id = typeof ref === "number" ? ref : Number(ref?.ID || ref?.id);
+      const slug = ref?.post_name || ref?.slug;
+      const full = (Array.isArray(tourPosts) ? tourPosts : []).find((post: any) =>
+        (id && post.id === id) || (slug && post.slug === slug),
+      );
+      return mapWpTourCollection(full || { ...ref, slug });
+    };
+    const resolveCruise = (ref: any) => {
+      const id = typeof ref === "number" ? ref : Number(ref?.ID || ref?.id);
+      const slug = ref?.post_name || ref?.slug;
+      const full = cruisePosts.find((post) => (id && post.id === id) || (slug && post.slug === slug));
+      return full ? mapWpCruise(full) : null;
+    };
     return {
       heroTitle: a.hero_title || "",
       heroSubtitle: a.hero_subtitle || "",
       heroBackground: a.hero_background?.url || "",
       tripTypesTitle: a.trip_types_title || "",
       tripTypesDescription: a.trip_types_description || "",
-      selectedStyles: (a.selected_styles ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
+      selectedStyles: (a.selected_styles ?? []).map(resolveTour).filter((item: TourCollection) => Boolean(item.title)),
       regionsTitle: a.regions_title || "",
       regionsDescription: a.regions_description || "",
-      selectedRegions: (a.selected_regions ?? []).map((p: any) => mapWpTourCollection({ ...p, slug: p.post_name })),
+      selectedRegions: (a.selected_regions ?? []).map(resolveTour).filter((item: TourCollection) => Boolean(item.title)),
       featuredTitle: a.featured_title || "",
-      featuredCruises: (a.featured_cruises ?? []).map((p: any) => ({ ...mockCruises[0], slug: p.post_name, name: p.post_title })), // Simplification for now, would fetch full cruise ideally
+      featuredCruises: (a.featured_cruises ?? []).map(resolveCruise).filter((cruise: Cruise | null): cruise is Cruise => Boolean(cruise)),
       testimonialsTitle: a.testimonials_title || "",
       testimonials: (a.testimonials ?? []).map((t: any) => ({
         quote: t.quote || "",
