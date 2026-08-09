@@ -86,6 +86,9 @@ function imageUrl(value: any): string {
 }
 
 function imageUrls(value: any): string[] {
+  if (typeof value === "string") {
+    return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
+  }
   if (!Array.isArray(value)) return imageUrl(value) ? [imageUrl(value)] : [];
   return value.map((item) => imageUrl(item?.image_url || item)).filter(Boolean);
 }

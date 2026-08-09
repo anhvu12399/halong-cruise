@@ -1,12 +1,128 @@
 <?php
 /**
  * Plugin Name: Ha Long Cruise CMS
- * Description: Quản lý toàn bộ nội dung Du Thuyền & Các Trang Tours / Trang Chủ cho Headless Next.js. Giao diện trực quan, chia Tab thông minh, dễ dùng nhất cho biên tập viên.
- * Version: 5.0.0
+ * Description: Quản lý toàn bộ frontend Headless Next.js. Có Repeater riêng chạy với ACF Free, hỗ trợ ảnh URL/CDN và tương thích ACF PRO.
+ * Version: 5.1.0
  * Author: Ha Long Best Cruises
  */
 
 if (!defined('ABSPATH')) exit;
+
+/* ------------------------------------------------------------------ */
+/* ACF Free compatibility: lightweight Repeater field                 */
+/* ------------------------------------------------------------------ */
+add_action('acf/include_field_types', function () {
+    if (!class_exists('acf_field') || acf_get_field_type('repeater')) return;
+
+    class Halong_ACF_Free_Repeater extends acf_field {
+        public function __construct() {
+            $this->name = 'repeater';
+            $this->label = 'Repeater (Ha Long CMS / ACF Free)';
+            $this->category = 'layout';
+            $this->defaults = ['sub_fields' => [], 'button_label' => 'Thêm dòng'];
+            parent::__construct();
+        }
+
+        private function render_input($name, $sub, $value = '') {
+            $type = $sub['type'] ?? 'text';
+            $label = esc_html($sub['label'] ?? $sub['name'] ?? 'Field');
+            if ($type === 'textarea' || $type === 'wysiwyg' || $type === 'repeater') {
+                if ($type === 'repeater' && is_array($value)) {
+                    $urls = [];
+                    foreach ($value as $item) $urls[] = is_array($item) ? ($item['image_url'] ?? reset($item)) : $item;
+                    $value = implode("\n", array_filter($urls));
+                }
+                echo '<label class="halong-cell-label">' . $label . '</label>';
+                echo '<textarea name="' . esc_attr($name) . '" rows="3">' . esc_textarea((string) $value) . '</textarea>';
+                return;
+            }
+            if ($type === 'select') {
+                echo '<label class="halong-cell-label">' . $label . '</label><select name="' . esc_attr($name) . '">';
+                foreach (($sub['choices'] ?? []) as $option_value => $option_label) {
+                    echo '<option value="' . esc_attr($option_value) . '" ' . selected($value, $option_value, false) . '>' . esc_html($option_label) . '</option>';
+                }
+                echo '</select>';
+                return;
+            }
+            $html_type = in_array($type, ['url', 'email', 'number'], true) ? $type : 'text';
+            echo '<label class="halong-cell-label">' . $label . '</label>';
+            echo '<input type="' . esc_attr($html_type) . '" name="' . esc_attr($name) . '" value="' . esc_attr(is_scalar($value) ? $value : '') . '">';
+        }
+
+        public function render_field($field) {
+            $rows = is_array($field['value']) ? $field['value'] : [];
+            $sub_fields = is_array($field['sub_fields'] ?? null) ? $field['sub_fields'] : [];
+            echo '<div class="halong-free-repeater" data-name="' . esc_attr($field['name']) . '">';
+            echo '<div class="halong-repeater-rows">';
+            foreach ($rows as $index => $row) $this->render_row($field['name'], $sub_fields, $row, $index);
+            echo '</div>';
+            echo '<template class="halong-repeater-template">';
+            $this->render_row($field['name'], $sub_fields, [], '__INDEX__');
+            echo '</template>';
+            echo '<button type="button" class="button halong-add-row">' . esc_html($field['button_label'] ?: 'Thêm dòng') . '</button>';
+            echo '</div>';
+        }
+
+        private function render_row($base_name, $sub_fields, $row, $index) {
+            echo '<div class="halong-repeater-row">';
+            echo '<span class="halong-drag" title="Kéo để sắp xếp">⋮⋮</span><div class="halong-repeater-grid">';
+            foreach ($sub_fields as $sub) {
+                $sub_name = $sub['name'] ?? $sub['key'];
+                echo '<div class="halong-repeater-cell">';
+                $this->render_input($base_name . '[' . $index . '][' . $sub_name . ']', $sub, $row[$sub_name] ?? '');
+                echo '</div>';
+            }
+            echo '</div><button type="button" class="button-link-delete halong-remove-row">Xóa</button></div>';
+        }
+
+        public function update_value($value, $post_id, $field) {
+            if (!is_array($value)) return [];
+            return array_values(array_filter($value, function ($row) {
+                if (!is_array($row)) return false;
+                foreach ($row as $cell) if ($cell !== '' && $cell !== null && $cell !== []) return true;
+                return false;
+            }));
+        }
+
+        public function format_value($value, $post_id, $field) {
+            if (!is_array($value)) return [];
+            foreach ($value as &$row) {
+                if (!is_array($row)) continue;
+                foreach (($field['sub_fields'] ?? []) as $sub) {
+                    $name = $sub['name'] ?? $sub['key'];
+                    if (($sub['type'] ?? '') === 'repeater' && is_string($row[$name] ?? null)) {
+                        $row[$name] = array_values(array_filter(array_map(function ($url) { return ['image_url' => trim($url)]; }, preg_split('/\r\n|\r|\n/', $row[$name]))));
+                    }
+                }
+            }
+            return $value;
+        }
+    }
+
+    new Halong_ACF_Free_Repeater();
+}, 5);
+
+add_action('acf/input/admin_footer', function () {
+    ?>
+    <style>
+        .halong-free-repeater{border:1px solid #ccd0d4;padding:12px;background:#f6f7f7}.halong-repeater-row{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #dcdcde;padding:12px;margin-bottom:10px}.halong-repeater-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;flex:1}.halong-repeater-cell input,.halong-repeater-cell textarea,.halong-repeater-cell select{width:100%}.halong-cell-label{display:block;font-weight:600;margin-bottom:4px}.halong-drag{cursor:grab;color:#8c8f94;font-size:18px}.halong-add-row{margin-top:4px}
+    </style>
+    <script>
+    (function(){
+      function init(root){
+        if(root.dataset.halongReady) return; root.dataset.halongReady='1';
+        var rows=root.querySelector('.halong-repeater-rows'), template=root.querySelector('.halong-repeater-template');
+        root.querySelector('.halong-add-row').addEventListener('click',function(){
+          var index=rows.children.length, html=template.innerHTML.replaceAll('__INDEX__',index); rows.insertAdjacentHTML('beforeend',html);
+        });
+        root.addEventListener('click',function(e){if(e.target.classList.contains('halong-remove-row')) e.target.closest('.halong-repeater-row').remove();});
+      }
+      function scan(){document.querySelectorAll('.halong-free-repeater').forEach(init)}
+      document.addEventListener('DOMContentLoaded',scan); document.addEventListener('acf/setup_fields',scan); scan();
+    })();
+    </script>
+    <?php
+});
 
 /* ------------------------------------------------------------------ */
 /* 1. Đăng ký Custom Post Type: Cruises, Inquiries & Page Settings    */
