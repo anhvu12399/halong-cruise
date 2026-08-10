@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
 
   try {
     revalidatePath(path);
+    revalidatePath("/asia-shore-excursions");
     revalidatePath("/guides");
     revalidatePath("/cruises");
     revalidatePath("/");
