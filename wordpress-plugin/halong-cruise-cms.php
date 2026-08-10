@@ -169,6 +169,14 @@ add_action('admin_footer', function () {
     <?php
 });
 
+/* Enable Classic Editor interface for Cruises and Guides (Kiểu ngày xưa) */
+add_filter('use_block_editor_for_post_type', function ($use_block_editor, $post_type) {
+    if (in_array($post_type, ['cruise', 'guide'], true)) {
+        return false;
+    }
+    return $use_block_editor;
+}, 10, 2);
+
 /* ------------------------------------------------------------------ */
 /* 1. Custom Post Types                                               */
 /* ------------------------------------------------------------------ */
