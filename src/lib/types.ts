@@ -49,6 +49,7 @@ export type Cabin = {
   beds: string;
   description: string;
   image: string;
+  galleryImages?: string[];
 };
 
 export type SocialArea = {

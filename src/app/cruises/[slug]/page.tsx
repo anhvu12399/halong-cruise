@@ -8,6 +8,7 @@ import HeroGallery from "@/components/HeroGallery";
 import AmenityIcons from "@/components/AmenityIcons";
 import SocialAreasGallery from "@/components/SocialAreasGallery";
 import RelatedCruisesCarousel from "@/components/RelatedCruisesCarousel";
+import CabinGallery from "@/components/CabinGallery";
 
 export async function generateStaticParams() {
   const cruises = await getAllCruises();
@@ -241,9 +242,11 @@ export default async function CruiseDetailPage({ params }: { params: { slug: str
                   </dl>
                   <p className="mt-5 leading-relaxed text-ink-700">{cabin.description}</p>
                 </div>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <Image src={cabin.image} alt={cabin.name} fill className="object-cover" />
-                </div>
+                <CabinGallery
+                  images={cabin.galleryImages && cabin.galleryImages.length > 0 ? cabin.galleryImages : [cabin.image]}
+                  name={cabin.name}
+                  reversed={i % 2 === 1}
+                />
               </div>
             ))}
           </div>
