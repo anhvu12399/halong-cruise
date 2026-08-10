@@ -463,6 +463,29 @@ add_filter('post_row_actions', function ($actions, $post) {
     return $actions;
 }, 10, 2);
 
+add_action('acf/init', function () {
+    if (!function_exists('acf_add_local_field_group')) return;
+
+    acf_add_local_field_group([
+        'key' => 'group_halong_guide_cms',
+        'title' => 'Guide Details',
+        'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'guide']]],
+        'fields' => [
+            ['key' => 'field_guide_excerpt', 'name' => 'excerpt', 'label' => 'Excerpt', 'type' => 'textarea', 'rows' => 2],
+            ['key' => 'field_guide_cover_url', 'name' => 'cover_image_url', 'label' => 'Cover Image URL', 'type' => 'url'],
+            ['key' => 'field_guide_region', 'name' => 'region', 'label' => 'Region', 'type' => 'select',
+                'allow_null' => 1, 'choices' => [
+                    'Ha Long Bay' => 'Ha Long Bay',
+                    'Lan Ha Bay' => 'Lan Ha Bay',
+                    'Bai Tu Long Bay' => 'Bai Tu Long Bay',
+                    'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay',
+                ]],
+            ['key' => 'field_guide_read', 'name' => 'read_minutes', 'label' => 'Read Time (minutes)', 'type' => 'number', 'default_value' => 5],
+        ],
+    ]);
+});
+
 add_action('add_meta_boxes', function () {
     add_meta_box(
         'halong_cruise_category_meta',
@@ -492,6 +515,40 @@ add_action('add_meta_boxes', function () {
         'side',
         'default'
     );
+
+    add_meta_box(
+        'halong_guide_details_meta',
+        '📖 Guide Details (Thông tin Cẩm nang)',
+        function ($post) {
+            wp_nonce_field('halong_guide_meta_nonce', 'halong_guide_meta_nonce');
+            $cover = halong_cruise_field('cover_image_url', $post->ID);
+            $excerpt = halong_cruise_field('excerpt', $post->ID);
+            $region = halong_cruise_field('region', $post->ID) ?: 'Ha Long Bay';
+            $read_time = halong_cruise_field('read_minutes', $post->ID) ?: 5;
+            
+            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Cover Image URL (Đường dẫn ảnh bìa):</label>';
+            echo '<input type="url" name="halong_guide_cover_image_url" value="' . esc_attr($cover) . '" style="width:100%;padding:6px;" placeholder="https://..."></div>';
+
+            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Excerpt / Subtitle (Mô tả ngắn):</label>';
+            echo '<textarea name="halong_guide_excerpt" rows="2" style="width:100%;padding:6px;" placeholder="Mô tả tóm tắt bài viết...">' . esc_textarea($excerpt) . '</textarea></div>';
+
+            echo '<div style="display:flex;gap:15px;margin-bottom:6px;">';
+            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Region (Khu vực):</label>';
+            echo '<select name="halong_guide_region" style="width:100%;padding:5px;">';
+            foreach (['Ha Long Bay', 'Lan Ha Bay', 'Bai Tu Long Bay', 'Ha Long Bay & Lan Ha Bay'] as $r) {
+                $sel = ($r === $region) ? 'selected' : '';
+                echo '<option value="' . esc_attr($r) . '" ' . $sel . '>' . esc_html($r) . '</option>';
+            }
+            echo '</select></div>';
+
+            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Read Time (Số phút đọc):</label>';
+            echo '<input type="number" name="halong_guide_read_minutes" value="' . esc_attr($read_time) . '" style="width:100%;padding:5px;"></div>';
+            echo '</div>';
+        },
+        'guide',
+        'normal',
+        'high'
+    );
 });
 
 add_action('save_post_cruise', function ($post_id) {
@@ -504,6 +561,25 @@ add_action('save_post_cruise', function ($post_id) {
 
     if (isset($_POST['halong_cruise_tags'])) {
         update_post_meta($post_id, 'tags', sanitize_textarea_field($_POST['halong_cruise_tags']));
+    }
+});
+
+add_action('save_post_guide', function ($post_id) {
+    if (!isset($_POST['halong_guide_meta_nonce']) || !wp_verify_nonce($_POST['halong_guide_meta_nonce'], 'halong_guide_meta_nonce')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (isset($_POST['halong_guide_cover_image_url'])) {
+        update_post_meta($post_id, 'cover_image_url', esc_url_raw($_POST['halong_guide_cover_image_url']));
+    }
+    if (isset($_POST['halong_guide_excerpt'])) {
+        update_post_meta($post_id, 'excerpt', sanitize_textarea_field($_POST['halong_guide_excerpt']));
+    }
+    if (isset($_POST['halong_guide_region'])) {
+        update_post_meta($post_id, 'region', sanitize_text_field($_POST['halong_guide_region']));
+    }
+    if (isset($_POST['halong_guide_read_minutes'])) {
+        update_post_meta($post_id, 'read_minutes', intval($_POST['halong_guide_read_minutes']));
     }
 });
 
@@ -526,3 +602,4 @@ add_action('save_post', function ($post_id, $post, $update) {
         'timeout' => 5,
     ]);
 }, 10, 3);
+
