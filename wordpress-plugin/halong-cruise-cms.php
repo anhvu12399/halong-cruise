@@ -471,28 +471,7 @@ add_filter('post_row_actions', function ($actions, $post) {
     return $actions;
 }, 10, 2);
 
-add_action('acf/init', function () {
-    if (!function_exists('acf_add_local_field_group')) return;
 
-    acf_add_local_field_group([
-        'key' => 'group_halong_guide_cms',
-        'title' => 'Guide Details',
-        'show_in_rest' => 1,
-        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'guide']]],
-        'fields' => [
-            ['key' => 'field_guide_excerpt', 'name' => 'excerpt', 'label' => 'Excerpt', 'type' => 'textarea', 'rows' => 2],
-            ['key' => 'field_guide_cover_url', 'name' => 'cover_image_url', 'label' => 'Cover Image URL', 'type' => 'url'],
-            ['key' => 'field_guide_region', 'name' => 'region', 'label' => 'Region', 'type' => 'select',
-                'allow_null' => 1, 'choices' => [
-                    'Ha Long Bay' => 'Ha Long Bay',
-                    'Lan Ha Bay' => 'Lan Ha Bay',
-                    'Bai Tu Long Bay' => 'Bai Tu Long Bay',
-                    'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay',
-                ]],
-            ['key' => 'field_guide_read', 'name' => 'read_minutes', 'label' => 'Read Time (minutes)', 'type' => 'number', 'default_value' => 5],
-        ],
-    ]);
-});
 
 add_action('add_meta_boxes', function () {
     add_meta_box(
