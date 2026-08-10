@@ -63,6 +63,17 @@ type WpCruisePost = {
   };
 };
 
+function decodeWpText(text: string): string {
+  if (!text) return "";
+  return text
+    .replace(/&#8211;|&#8212;/g, "—")
+    .replace(/&#038;|&amp;/g, "&")
+    .replace(/&#8216;|&#8217;/g, "'")
+    .replace(/&#8220;|&#8221;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&quot;/g, '"');
+}
+
 function splitLines(value: string | undefined): string[] {
   return (value ?? "")
     .split("\n")
@@ -72,7 +83,8 @@ function splitLines(value: string | undefined): string[] {
 
 function mapWpCruise(post: WpCruisePost): Cruise {
   const a = post.acf || {};
-  const cruiseName = a.breadcrumb_label || (post as any).title?.rendered || post.slug;
+  const rawCruiseName = a.breadcrumb_label || (post as any).title?.rendered || post.slug;
+  const cruiseName = decodeWpText(rawCruiseName);
   const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
 
   const heroImage = (a as any).hero_image_url || (typeof a.hero_image === "string" ? a.hero_image : (a.hero_image as any)?.url) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
@@ -302,8 +314,8 @@ function mapWpGuide(post: WpGuidePost): Guide {
 
   return {
     slug: post.slug,
-    title: post.title?.rendered ? post.title.rendered.replace(/&#8211;|&#8212;/g, "—") : post.slug,
-    excerpt: finalExcerpt,
+    title: post.title?.rendered ? decodeWpText(post.title.rendered) : decodeWpText(post.slug),
+    excerpt: decodeWpText(finalExcerpt),
     coverImage,
     region: post.acf?.region || "Ha Long Bay",
     readMinutes: post.acf?.read_minutes ?? 5,
