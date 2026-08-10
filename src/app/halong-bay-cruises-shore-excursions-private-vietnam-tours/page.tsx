@@ -12,11 +12,17 @@ export async function generateMetadata() {
     title: "Halong Bay Cruises & Shore Excursions | Private Vietnam Tours",
     description:
       "Book Halong Bay cruises, private shore excursions and tailor-made Vietnam tours. Local experts, private transfers, guides and flexible itineraries.",
+    openGraph: {
+      images: ["/images/halong-shore-excursions-hero.jpg"],
+    },
   };
 }
 
 export default async function HalongBayCruisesShoreExcursionsPage() {
   let guide = await getGuideBySlug("halong-bay-cruises-shore-excursions-private-vietnam-tours");
+  if (!guide) {
+    guide = await getGuideBySlug("halong-bay-cruises-shore-excursions");
+  }
   if (!guide) {
     guide = await getGuideBySlug("halong-bay-cruises-shore-excursions-vietnam-tours");
   }
@@ -29,12 +35,13 @@ export default async function HalongBayCruisesShoreExcursionsPage() {
   }
   if (!guide) notFound();
 
+  const heroImage = "/images/halong-shore-excursions-hero.jpg";
   const relatedCruises = await getRelatedCruisesForGuide(guide);
 
   return (
     <article className="bg-sand-50">
-      <div className="relative h-[46vh] min-h-[340px] w-full overflow-hidden bg-teal-950">
-        <Image src={guide.coverImage} alt={guide.title} fill priority className="object-cover opacity-75" />
+      <div className="relative h-[48vh] min-h-[360px] w-full overflow-hidden bg-teal-950">
+        <Image src={heroImage} alt={guide.title} fill priority className="object-cover opacity-85" />
         <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/25 to-transparent" />
         <div className="container-content absolute inset-x-0 bottom-10">
           <p className="eyebrow mb-3 text-sand-100/80">
@@ -50,6 +57,16 @@ export default async function HalongBayCruisesShoreExcursionsPage() {
       </div>
 
       <div className="container-content max-w-2xl py-16 md:py-24">
+        <div className="mb-10 overflow-hidden rounded-2xl border border-ink-300/20 shadow-sm">
+          <Image
+            src={heroImage}
+            alt="Ha Long Bay Luxury Cruise Aerial View"
+            width={1200}
+            height={700}
+            className="w-full object-cover"
+          />
+        </div>
+
         <div
           className="prose-guide space-y-5 text-lg leading-relaxed text-ink-700"
           dangerouslySetInnerHTML={{ __html: guide.bodyHtml }}
