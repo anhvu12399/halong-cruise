@@ -11,19 +11,24 @@ import HeroSlideshow from "@/components/HeroSlideshow";
 
 const HERO_SLIDES = [
   {
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
-    name: "Majesty Luxury Prime Cruise in Ha Long Bay",
+    image: "/images/halong-ai-hero-indochine-day.jpg",
+    name: "Indochine Heritage 5-Star Luxury Vessel",
     slug: "majesty-luxury-prime-cruise-by-premier-group",
   },
   {
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783924563.jpg?k=a0d48a2293f3571e21b105f812db19e32e2bcbaf230265aeb05a952bc38e6a48&o=&hp=1",
-    name: "Genesis Regal Luxury Cruise in Lan Ha Bay",
+    image: "/images/halong-ai-hero-misty-expedition.jpg",
+    name: "Misty Lan Ha Bay Small-Ship Expedition",
     slug: "genesis-luxury-regal-cruise-by-premier-group",
   },
   {
-    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/784071520.jpg?k=31b1d21db5f33cfa693f5ab9a6f6a700d1012452cf2c9bd06ca620ba5b261391&o=&hp=1",
-    name: "Indochine Heritage Cruise with Sundeck Pool",
+    image: "/images/halong-ai-hero-sunrise-modern.jpg",
+    name: "Modern Grand Balcony Suite Cruise",
     slug: "mon-cheri-cruises",
+  },
+  {
+    image: "/images/halong-ai-hero-sunset-navy.jpg",
+    name: "Navy Sunset Sundeck Pool Cruise",
+    slug: "heritage-line-violet-cruise",
   },
 ];
 
