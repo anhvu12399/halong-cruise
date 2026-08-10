@@ -167,36 +167,44 @@ function mapWpCruise(post: WpCruisePost): Cruise {
   };
 }
 
+async function fetchWpJson<T = any>(pathWithQuery: string): Promise<T | null> {
+  if (!WP_URL) return null;
+
+  // 1. Try Pretty Permalinks: ${WP_URL}/wp-json${pathWithQuery}
+  const prettyUrl = `${WP_URL}/wp-json${pathWithQuery}`;
+  try {
+    const res = await fetch(prettyUrl, { next: { revalidate: 300 } });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data as T;
+      if (data && !Array.isArray(data) && Object.keys(data).length > 0) return data as T;
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  // 2. Try Plain Permalinks: ${WP_URL}/?rest_route=${pathWithQuery}
+  const plainUrl = `${WP_URL}/?rest_route=${pathWithQuery}`;
+  try {
+    const res = await fetch(plainUrl, { next: { revalidate: 300 } });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data as T;
+      if (data && !Array.isArray(data) && Object.keys(data).length > 0) return data as T;
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  return null;
+}
+
 export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
-    let allPosts: WpCruisePost[] = [];
-    let page = 1;
-    let totalPages = 1;
-
-    while (page <= totalPages) {
-      let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100&page=${page}`, {
-        next: { revalidate: 300 },
-      });
-
-      if (!res.ok) {
-        res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&per_page=100&page=${page}`, {
-          next: { revalidate: 300 },
-        });
-      }
-
-      if (!res.ok) break;
-
-      const totalPagesHeader = res.headers.get("X-WP-TotalPages");
-      if (totalPagesHeader) {
-        totalPages = parseInt(totalPagesHeader, 10) || 1;
-      }
-
-      const posts: WpCruisePost[] = await res.json();
-      if (!Array.isArray(posts) || posts.length === 0) break;
-
-      allPosts = allPosts.concat(posts);
-      page++;
+    let posts: WpCruisePost[] | null = await fetchWpJson<WpCruisePost[]>("/wp/v2/cruises?_embed&per_page=100");
+    if (!posts) {
+      posts = await fetchWpJson<WpCruisePost[]>("/wp/v2/cruises-vietnam?_embed&per_page=100");
     }
 
     const cruiseMap = new Map<string, Cruise>();
@@ -204,8 +212,8 @@ export async function getAllCruises(): Promise<Cruise[]> {
     mockCruises.forEach((c) => cruiseMap.set(c.slug, c));
 
     // Merge with live WP cruises
-    if (allPosts.length > 0) {
-      allPosts.forEach((post) => {
+    if (posts && Array.isArray(posts) && posts.length > 0) {
+      posts.forEach((post) => {
         const mapped = mapWpCruise(post);
         const existing = cruiseMap.get(mapped.slug);
         cruiseMap.set(mapped.slug, existing ? { ...existing, ...mapped } : mapped);
@@ -223,19 +231,12 @@ export async function getCruiseBySlug(slug: string): Promise<Cruise | undefined>
   const mockFallback = getMockBySlug(slug);
   if (!WP_URL) return mockFallback;
   try {
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
-      next: { revalidate: 300 },
-    });
-
-    if (!res.ok) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`, {
-        next: { revalidate: 300 },
-      });
+    let posts = await fetchWpJson<WpCruisePost[]>(`/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`);
+    if (!posts) {
+      posts = await fetchWpJson<WpCruisePost[]>(`/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`);
     }
 
-    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
-    const posts: WpCruisePost[] = await res.json();
-    if (!Array.isArray(posts) || !posts.length) return mockFallback;
+    if (!posts || !Array.isArray(posts) || !posts.length) return mockFallback;
     const mapped = mapWpCruise(posts[0]);
     return mockFallback ? { ...mockFallback, ...mapped } : mapped;
   } catch (err) {
@@ -315,28 +316,15 @@ function mapWpGuide(post: WpGuidePost): Guide {
 export async function getAllGuides(): Promise<Guide[]> {
   if (!WP_URL) return mockGuides;
   try {
-    let posts: WpGuidePost[] = [];
+    // 1. Try /wp/v2/guides
+    let posts = await fetchWpJson<WpGuidePost[]>("/wp/v2/guides?_embed&per_page=100");
 
-    // 1. Try /wp-json/wp/v2/guides
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/guides?_embed&per_page=100`, {
-      next: { revalidate: 300 },
-    });
-
-    if (res.ok) {
-      posts = await res.json();
+    // 2. Try standard WP posts /wp/v2/posts
+    if (!posts || !Array.isArray(posts) || posts.length === 0) {
+      posts = await fetchWpJson<WpGuidePost[]>("/wp/v2/posts?_embed&per_page=100");
     }
 
-    // 2. If guides CPT is empty or 404, try standard WP posts /wp-json/wp/v2/posts
-    if (!Array.isArray(posts) || posts.length === 0) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100`, {
-        next: { revalidate: 300 },
-      });
-      if (res.ok) {
-        posts = await res.json();
-      }
-    }
-
-    if (!Array.isArray(posts) || posts.length === 0) return mockGuides;
+    if (!posts || !Array.isArray(posts) || posts.length === 0) return mockGuides;
 
     const liveGuides = posts.map(mapWpGuide);
 
@@ -358,21 +346,15 @@ export async function getGuideBySlug(slug: string): Promise<Guide | undefined> {
   const mockFallback = getMockGuideBySlug(slug);
   if (!WP_URL) return mockFallback;
   try {
-    // 1. Try /wp-json/wp/v2/guides?slug=...
-    let res = await fetch(`${WP_URL}/wp-json/wp/v2/guides?_embed&slug=${encodeURIComponent(slug)}`, {
-      next: { revalidate: 300 },
-    });
-    let posts: WpGuidePost[] = res.ok ? await res.json() : [];
+    // 1. Try /wp/v2/guides?slug=...
+    let posts = await fetchWpJson<WpGuidePost[]>(`/wp/v2/guides?_embed&slug=${encodeURIComponent(slug)}`);
 
-    // 2. Try /wp-json/wp/v2/posts?slug=...
-    if (!Array.isArray(posts) || posts.length === 0) {
-      res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?_embed&slug=${encodeURIComponent(slug)}`, {
-        next: { revalidate: 300 },
-      });
-      if (res.ok) posts = await res.json();
+    // 2. Try /wp/v2/posts?slug=...
+    if (!posts || !Array.isArray(posts) || posts.length === 0) {
+      posts = await fetchWpJson<WpGuidePost[]>(`/wp/v2/posts?_embed&slug=${encodeURIComponent(slug)}`);
     }
 
-    if (!Array.isArray(posts) || !posts.length) return mockFallback;
+    if (!posts || !Array.isArray(posts) || !posts.length) return mockFallback;
     const wpGuide = mapWpGuide(posts[0]);
     return mockFallback ? { ...mockFallback, ...wpGuide } : wpGuide;
   } catch (err) {
