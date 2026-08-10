@@ -311,10 +311,10 @@ function halong_cruise_frontend_url($post_id) {
     $base = halong_frontend_base_url();
     $post_type = get_post_type($post_id);
     $slug = get_post_field('post_name', $post_id);
-    if ($slug === 'asia-shore-excursions' || $slug === 'halong-bay-cruises-shore-excursions-private-vietnam-tours') {
-        return $base . '/asia-shore-excursions';
-    }
     if ($post_type === 'guide') {
+        if ($slug === 'asia-shore-excursions' || strpos($slug, 'halong-bay-cruises-shore-excursions') !== false) {
+            return $base . '/' . $slug;
+        }
         return $base . '/guides/' . $slug;
     }
     return $base . '/cruises/' . $slug;
@@ -578,8 +578,8 @@ add_action('save_post', function ($post_id, $post, $update) {
 
     $frontend_url = halong_frontend_base_url();
     $slug = $post->post_name;
-    if ($slug === 'asia-shore-excursions' || $slug === 'halong-bay-cruises-shore-excursions-private-vietnam-tours') {
-        $path = '/asia-shore-excursions';
+    if ($slug === 'asia-shore-excursions' || strpos($slug, 'halong-bay-cruises-shore-excursions') !== false) {
+        $path = '/' . $slug;
     } else {
         $path = '/' . ($post->post_type === 'guide' || $post->post_type === 'post' ? 'guides/' : ($post->post_type === 'cruise' ? 'cruises/' : '')) . $slug;
     }
