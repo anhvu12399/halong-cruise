@@ -169,9 +169,9 @@ add_action('admin_footer', function () {
     <?php
 });
 
-/* Enable Classic Editor interface for Cruises and Guides (Kiểu ngày xưa) */
+/* Enable Classic Editor interface for Cruises, Guides, and Tour Collections (Kiểu ngày xưa) */
 add_filter('use_block_editor_for_post_type', function ($use_block_editor, $post_type) {
-    if (in_array($post_type, ['cruise', 'guide'], true)) {
+    if (in_array($post_type, ['cruise', 'guide', 'tour_collection'], true)) {
         return false;
     }
     return $use_block_editor;
@@ -464,14 +464,40 @@ add_action('manage_guide_posts_custom_column', function ($column, $post_id) {
     }
 }, 10, 2);
 
+/* Tour Collections admin list columns */
+add_filter('manage_tour_collection_posts_columns', function ($columns) {
+    return [
+        'cb' => $columns['cb'],
+        'halong_image' => 'Image',
+        'title' => 'Collection Title',
+        'halong_type' => 'Type',
+        'halong_price_range' => 'Price Range',
+        'halong_best_months' => 'Best Months',
+        'date' => $columns['date'] ?? 'Date',
+    ];
+});
+
+add_action('manage_tour_collection_posts_custom_column', function ($column, $post_id) {
+    if ($column === 'halong_image') {
+        $image = halong_cruise_field('hero_image_url', $post_id);
+        if (!$image) $image = get_the_post_thumbnail_url($post_id, 'thumbnail');
+        echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:60px;height:40px;object-fit:cover;border-radius:4px">' : '<span aria-hidden="true">—</span>';
+    } elseif ($column === 'halong_type') {
+        $type = halong_cruise_field('collection_type', $post_id);
+        echo esc_html($type ? ucfirst($type) : 'Style');
+    } elseif ($column === 'halong_price_range') {
+        echo esc_html(halong_cruise_field('price_range_text', $post_id) ?: '—');
+    } elseif ($column === 'halong_best_months') {
+        echo esc_html(halong_cruise_field('best_months_text', $post_id) ?: '—');
+    }
+}, 10, 2);
+
 add_filter('post_row_actions', function ($actions, $post) {
     if (in_array($post->post_type, ['cruise', 'guide'], true)) {
         $actions['halong_frontend'] = '<a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '">View Frontend ↗</a>';
     }
     return $actions;
 }, 10, 2);
-
-
 
 add_action('add_meta_boxes', function () {
     add_meta_box(
@@ -536,6 +562,89 @@ add_action('add_meta_boxes', function () {
         'normal',
         'high'
     );
+
+    add_meta_box(
+        'halong_tour_collection_details_meta',
+        '🗺️ Tour Collection Details (Thông tin Bộ sưu tập Tour / Hành trình)',
+        function ($post) {
+            wp_nonce_field('halong_tour_meta_nonce', 'halong_tour_meta_nonce');
+            $hero_image = halong_cruise_field('hero_image_url', $post->ID);
+            $eyebrow = halong_cruise_field('eyebrow', $post->ID);
+            $subtitle = halong_cruise_field('subtitle', $post->ID);
+            $type = halong_cruise_field('collection_type', $post->ID) ?: 'style';
+            $price_range = halong_cruise_field('price_range_text', $post->ID);
+            $best_months = halong_cruise_field('best_months_text', $post->ID);
+            $highlights = halong_cruise_field('key_highlights', $post->ID);
+            $expert_advice = halong_cruise_field('expert_advice', $post->ID);
+
+            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Hero Image URL (Đường dẫn ảnh bìa / Banner):</label>';
+            echo '<input type="url" name="halong_tour_hero_image_url" value="' . esc_attr($hero_image) . '" style="width:100%;padding:6px;" placeholder="https://..."></div>';
+
+            echo '<div style="display:flex;gap:15px;margin-bottom:12px;">';
+            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Eyebrow (Tiêu đề phụ nhỏ):</label>';
+            echo '<input type="text" name="halong_tour_eyebrow" value="' . esc_attr($eyebrow) . '" style="width:100%;padding:6px;" placeholder="Curated Sailings"></div>';
+            
+            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Collection Type (Phân loại):</label>';
+            echo '<select name="halong_tour_collection_type" style="width:100%;padding:6px;">';
+            foreach (['style' => 'By Style (Luxury, Family, Honeymoon)', 'region' => 'By Region (Ha Long, Lan Ha, Bai Tu Long)', 'duration' => 'By Duration (Day Trips, 2D1N, 3D2N)'] as $val => $lbl) {
+                $sel = ($val === $type) ? 'selected' : '';
+                echo '<option value="' . esc_attr($val) . '" ' . $sel . '>' . esc_html($lbl) . '</option>';
+            }
+            echo '</select></div>';
+            echo '</div>';
+
+            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Subtitle / Tagline (Mô tả tóm tắt):</label>';
+            echo '<textarea name="halong_tour_subtitle" rows="2" style="width:100%;padding:6px;" placeholder="Mô tả ngắn về bộ sưu tập này...">' . esc_textarea($subtitle) . '</textarea></div>';
+
+            echo '<div style="display:flex;gap:15px;margin-bottom:12px;">';
+            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Price Range Text (Khoảng giá):</label>';
+            echo '<input type="text" name="halong_tour_price_range_text" value="' . esc_attr($price_range) . '" style="width:100%;padding:6px;" placeholder="$150 – $450 / person"></div>';
+            
+            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Best Months Text (Thời điểm đẹp nhất):</label>';
+            echo '<input type="text" name="halong_tour_best_months_text" value="' . esc_attr($best_months) . '" style="width:100%;padding:6px;" placeholder="October to April"></div>';
+            echo '</div>';
+
+            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Key Highlights (Điểm nổi bật - Mỗi điểm 1 dòng):</label>';
+            echo '<textarea name="halong_tour_key_highlights" rows="3" style="width:100%;padding:6px;" placeholder="Kayaking through hidden caves&#10;Private balcony in every cabin&#10;Gourmet seafood dinners">' . esc_textarea(is_string($highlights) ? $highlights : implode("\n", (array)$highlights)) . '</textarea></div>';
+
+            echo '<div style="margin-bottom:6px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Expert Advice / Tips (Lời khuyên của chuyên gia):</label>';
+            echo '<textarea name="halong_tour_expert_advice" rows="2" style="width:100%;padding:6px;" placeholder="Lời khuyên khi chọn hành trình này...">' . esc_textarea($expert_advice) . '</textarea></div>';
+        },
+        'tour_collection',
+        'normal',
+        'high'
+    );
+});
+
+add_action('save_post_tour_collection', function ($post_id) {
+    if (!isset($_POST['halong_tour_meta_nonce']) || !wp_verify_nonce($_POST['halong_tour_meta_nonce'], 'halong_tour_meta_nonce')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (isset($_POST['halong_tour_hero_image_url'])) {
+        update_post_meta($post_id, 'hero_image_url', esc_url_raw($_POST['halong_tour_hero_image_url']));
+    }
+    if (isset($_POST['halong_tour_eyebrow'])) {
+        update_post_meta($post_id, 'eyebrow', sanitize_text_field($_POST['halong_tour_eyebrow']));
+    }
+    if (isset($_POST['halong_tour_collection_type'])) {
+        update_post_meta($post_id, 'collection_type', sanitize_text_field($_POST['halong_tour_collection_type']));
+    }
+    if (isset($_POST['halong_tour_subtitle'])) {
+        update_post_meta($post_id, 'subtitle', sanitize_textarea_field($_POST['halong_tour_subtitle']));
+    }
+    if (isset($_POST['halong_tour_price_range_text'])) {
+        update_post_meta($post_id, 'price_range_text', sanitize_text_field($_POST['halong_tour_price_range_text']));
+    }
+    if (isset($_POST['halong_tour_best_months_text'])) {
+        update_post_meta($post_id, 'best_months_text', sanitize_text_field($_POST['halong_tour_best_months_text']));
+    }
+    if (isset($_POST['halong_tour_key_highlights'])) {
+        update_post_meta($post_id, 'key_highlights', sanitize_textarea_field($_POST['halong_tour_key_highlights']));
+    }
+    if (isset($_POST['halong_tour_expert_advice'])) {
+        update_post_meta($post_id, 'expert_advice', sanitize_textarea_field($_POST['halong_tour_expert_advice']));
+    }
 });
 
 add_action('save_post_cruise', function ($post_id) {
