@@ -31,6 +31,9 @@ type WpCruisePost = {
     life_on_board: string;
     highlights: string; // one per line
     tags: string; // one per line, e.g. "luxury\nbest\nfamily"
+    hero_image?: any;
+    hero_image_url?: string;
+    external_gallery?: any[];
     gallery: { url: string }[];
     itinerary: {
       title: string;
@@ -68,12 +71,23 @@ function splitLines(value: string | undefined): string[] {
 }
 
 function mapWpCruise(post: WpCruisePost): Cruise {
-  const a = post.acf;
+  const a = post.acf || {};
+  const cruiseName = a.breadcrumb_label || (post as any).title?.rendered || post.slug;
+  const mockFallback = getMockBySlug(post.slug) || mockCruises.find((m: any) => m.name.toLowerCase() === cruiseName.toLowerCase());
+
+  const heroImage = (a as any).hero_image_url || (typeof a.hero_image === "string" ? a.hero_image : (a.hero_image as any)?.url) || mockFallback?.heroImage || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || (a.gallery?.[0]?.url ?? "");
+
+  const extGalleryUrls = ((a as any).external_gallery ?? []).map((e: any) => (typeof e === "string" ? e : e?.image_url || e?.url)).filter(Boolean);
+  const acfGalleryUrls = (a.gallery ?? []).map((g: any) => (typeof g === "string" ? g : g?.url || g?.image_url)).filter(Boolean);
+  const galleryImages = extGalleryUrls.length > 0 
+    ? extGalleryUrls 
+    : (acfGalleryUrls.length > 0 ? acfGalleryUrls : (mockFallback?.galleryImages && mockFallback.galleryImages.length > 0 ? mockFallback.galleryImages : [heroImage].filter(Boolean)));
+
   const itinerary: ItineraryDay[] = (a.itinerary ?? []).map((d, i) => ({
     day: i + 1,
-    title: d.title,
-    location: d.location,
-    image: d.image?.url,
+    title: d.title || `Day ${i + 1}`,
+    location: d.location || "Ha Long Bay",
+    image: d.image?.url || galleryImages[i % galleryImages.length] || "",
     blocks: [
       d.am ? { period: "AM" as const, text: d.am } : null,
       d.pm ? { period: "PM" as const, text: d.pm } : null,
@@ -81,57 +95,124 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     ].filter((b): b is { period: "AM" | "PM" | "EVE"; text: string } => Boolean(b)),
   }));
 
-  const cabins: Cabin[] = (a.cabins ?? []).map((c) => ({
-    name: c.name,
-    cabinCount: c.cabin_count,
-    guests: c.guests,
-    size: c.size,
-    beds: c.beds,
-    description: c.description,
-    image: c.image?.url ?? "",
+  const parsedCabins: Cabin[] = (a.cabins ?? []).map((c: any, i: number) => {
+    const rawImage = typeof c.image === "string" ? c.image : (c.image?.url || c.image_url || "");
+    const rawGallery = Array.isArray(c.gallery_images)
+      ? c.gallery_images.map((g: any) => (typeof g === "string" ? g : (g?.url || g?.image_url || "")))
+      : (Array.isArray(c.gallery) ? c.gallery.map((g: any) => (typeof g === "string" ? g : g?.url)) : []);
+
+    let validGallery = rawGallery.filter(Boolean);
+    if (validGallery.length === 0 && rawImage) {
+      validGallery = [rawImage];
+    }
+
+    const fallbackCabin = mockFallback?.cabins?.[i] || mockFallback?.cabins?.[0];
+    if (validGallery.length === 0) {
+      if (fallbackCabin?.galleryImages && fallbackCabin.galleryImages.length > 0) {
+        validGallery = fallbackCabin.galleryImages;
+      } else if (fallbackCabin?.image) {
+        validGallery = [fallbackCabin.image];
+      } else if (galleryImages.length > 0) {
+        validGallery = [galleryImages[i % galleryImages.length]];
+      }
+    }
+
+    const finalImage = rawImage || validGallery[0] || fallbackCabin?.image || heroImage || "";
+
+    return {
+      name: c.name || fallbackCabin?.name || "Suite Cabin",
+      cabinCount: c.cabin_count || fallbackCabin?.cabinCount || 10,
+      guests: c.guests || fallbackCabin?.guests || "2–3",
+      size: c.size || fallbackCabin?.size || "28 m²",
+      beds: c.beds || fallbackCabin?.beds || "Double/Twin",
+      description: c.description || fallbackCabin?.description || "Luxury oceanview suite with private balcony.",
+      image: finalImage,
+      galleryImages: validGallery,
+    };
+  });
+
+  const finalCabins = parsedCabins.length > 0 ? parsedCabins : (mockFallback?.cabins || []);
+
+  const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s: any, i: number) => ({
+    name: s.name || mockFallback?.socialAreas?.[i]?.name || "Social Area",
+    image: typeof s.image === "string" ? s.image : (s.image?.url || mockFallback?.socialAreas?.[i]?.image || heroImage),
   }));
 
-  const socialAreas: SocialArea[] = (a.social_areas ?? []).map((s) => ({
-    name: s.name,
-    image: s.image?.url ?? "",
-  }));
+  const finalSocialAreas = socialAreas.length > 0 ? socialAreas : (mockFallback?.socialAreas || []);
 
   return {
     slug: post.slug,
-    name: a.breadcrumb_label,
-    tagline: a.tagline,
-    region: a.region,
-    breadcrumbLabel: a.breadcrumb_label,
-    tags: splitLines(a.tags).map((t) => t.toLowerCase()),
-    durationDays: a.duration_days,
-    durationNights: a.duration_nights,
-    guestsMax: a.guests_max,
-    cabinCount: a.cabin_count,
-    startingPrice: a.starting_price ? Number(a.starting_price) : null,
-    heroImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? "",
-    galleryImages: (a.gallery ?? []).map((g) => g.url),
-    overview: splitLines(a.overview),
-    lifeOnBoard: splitLines(a.life_on_board),
-    highlights: splitLines(a.highlights),
-    itinerary,
-    socialAreas,
-    cabins,
-    features: splitLines(a.features),
-    equipment: splitLines(a.equipment),
-    deckPlanImage: a.deck_plan?.url,
-    relatedSlugs: (a.related ?? []).map((r) => r.post_name),
+    name: a.breadcrumb_label || mockFallback?.name || cruiseName,
+    tagline: a.tagline || mockFallback?.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
+    region: a.region || mockFallback?.region || "Ha Long Bay",
+    breadcrumbLabel: a.breadcrumb_label || mockFallback?.breadcrumbLabel || cruiseName,
+    tags: splitLines(a.tags).length > 0 ? splitLines(a.tags).map((t) => t.toLowerCase()) : (mockFallback?.tags || ["luxury"]),
+    durationDays: a.duration_days || mockFallback?.durationDays || 2,
+    durationNights: a.duration_nights || mockFallback?.durationNights || 1,
+    guestsMax: a.guests_max || mockFallback?.guestsMax || 48,
+    cabinCount: a.cabin_count || mockFallback?.cabinCount || 20,
+    startingPrice: a.starting_price ? Number(a.starting_price) : (mockFallback?.startingPrice || 150),
+    heroImage,
+    galleryImages,
+    overview: splitLines(a.overview).length > 0 ? splitLines(a.overview) : (mockFallback?.overview || []),
+    lifeOnBoard: splitLines(a.life_on_board).length > 0 ? splitLines(a.life_on_board) : (mockFallback?.lifeOnBoard || []),
+    highlights: splitLines(a.highlights).length > 0 ? splitLines(a.highlights) : (mockFallback?.highlights || []),
+    itinerary: itinerary.length > 0 ? itinerary : (mockFallback?.itinerary || []),
+    socialAreas: finalSocialAreas,
+    cabins: finalCabins,
+    features: splitLines(a.features).length > 0 ? splitLines(a.features) : (mockFallback?.features || []),
+    equipment: splitLines(a.equipment).length > 0 ? splitLines(a.equipment) : (mockFallback?.equipment || []),
+    deckPlanImage: typeof a.deck_plan === "string" ? a.deck_plan : a.deck_plan?.url,
+    relatedSlugs: (a.related ?? []).map((r) => r.post_name).length > 0 ? (a.related ?? []).map((r) => r.post_name) : (mockFallback?.relatedSlugs || []),
   };
 }
 
 export async function getAllCruises(): Promise<Cruise[]> {
   if (!WP_URL) return mockCruises;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=50`, {
-      next: { revalidate: 300 },
-    });
-    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
-    const posts: WpCruisePost[] = await res.json();
-    return posts.map(mapWpCruise);
+    let allPosts: WpCruisePost[] = [];
+    let page = 1;
+    let totalPages = 1;
+
+    while (page <= totalPages) {
+      let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&per_page=100&page=${page}`, {
+        next: { revalidate: 300 },
+      });
+
+      if (!res.ok) {
+        res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&per_page=100&page=${page}`, {
+          next: { revalidate: 300 },
+        });
+      }
+
+      if (!res.ok) break;
+
+      const totalPagesHeader = res.headers.get("X-WP-TotalPages");
+      if (totalPagesHeader) {
+        totalPages = parseInt(totalPagesHeader, 10) || 1;
+      }
+
+      const posts: WpCruisePost[] = await res.json();
+      if (!Array.isArray(posts) || posts.length === 0) break;
+
+      allPosts = allPosts.concat(posts);
+      page++;
+    }
+
+    const cruiseMap = new Map<string, Cruise>();
+    // First populate with all 94 mock cruises
+    mockCruises.forEach((c) => cruiseMap.set(c.slug, c));
+
+    // Merge with live WP cruises
+    if (allPosts.length > 0) {
+      allPosts.forEach((post) => {
+        const mapped = mapWpCruise(post);
+        const existing = cruiseMap.get(mapped.slug);
+        cruiseMap.set(mapped.slug, existing ? { ...existing, ...mapped } : mapped);
+      });
+    }
+
+    return Array.from(cruiseMap.values());
   } catch (err) {
     console.error("[wp] falling back to mock cruise data:", err);
     return mockCruises;
@@ -139,18 +220,27 @@ export async function getAllCruises(): Promise<Cruise[]> {
 }
 
 export async function getCruiseBySlug(slug: string): Promise<Cruise | undefined> {
-  if (!WP_URL) return getMockBySlug(slug);
+  const mockFallback = getMockBySlug(slug);
+  if (!WP_URL) return mockFallback;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises?_embed&slug=${encodeURIComponent(slug)}`, {
       next: { revalidate: 300 },
     });
+
+    if (!res.ok) {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/cruises-vietnam?_embed&slug=${encodeURIComponent(slug)}`, {
+        next: { revalidate: 300 },
+      });
+    }
+
     if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
     const posts: WpCruisePost[] = await res.json();
-    if (!posts.length) return undefined;
-    return mapWpCruise(posts[0]);
+    if (!Array.isArray(posts) || !posts.length) return mockFallback;
+    const mapped = mapWpCruise(posts[0]);
+    return mockFallback ? { ...mockFallback, ...mapped } : mapped;
   } catch (err) {
     console.error("[wp] falling back to mock cruise data:", err);
-    return getMockBySlug(slug);
+    return mockFallback;
   }
 }
 
