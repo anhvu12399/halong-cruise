@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug, getRelatedCruisesForGuide } from "@/lib/wp";
 import CruiseCard from "@/components/CruiseCard";
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const guides = await getAllGuides();
   return guides.map((g) => ({ slug: g.slug }));

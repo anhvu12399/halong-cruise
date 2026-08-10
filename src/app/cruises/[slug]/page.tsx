@@ -10,6 +10,9 @@ import SocialAreasGallery from "@/components/SocialAreasGallery";
 import RelatedCruisesCarousel from "@/components/RelatedCruisesCarousel";
 import CabinGallery from "@/components/CabinGallery";
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const cruises = await getAllCruises();
   return cruises.map((c) => ({ slug: c.slug }));

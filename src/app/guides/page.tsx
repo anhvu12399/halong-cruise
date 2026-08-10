@@ -1,6 +1,8 @@
 import { getAllGuides } from "@/lib/wp";
 import GuideCard from "@/components/GuideCard";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Travel Guides",
   description: "Practical, unpadded guides to visiting Ha Long, Lan Ha and Bai Tu Long Bay.",
