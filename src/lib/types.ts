@@ -55,6 +55,7 @@ export type Cabin = {
 export type SocialArea = {
   name: string;
   image: string;
+  alt?: string;
 };
 
 export type Cruise = {
@@ -82,8 +83,65 @@ export type Cruise = {
   equipment: string[];
   deckPlanImage?: string;
   relatedSlugs: string[];
+  photos?: any[];
+  rating?: number;
+  reviewCount?: number;
+  address?: string;
+  programs?: any[];
 };
 
 export type PressLogo = {
   name: string;
+};
+
+export type TourCollectionFaq = {
+  question: string;
+  answer: string;
+};
+
+export type TourCollection = {
+  slug: string;
+  type: string;
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  heroImage: string;
+  descriptionParagraphs: string[];
+  keyHighlights: string[];
+  priceRangeText: string;
+  bestMonthsText: string;
+  expertAdvice: string;
+  faqs: TourCollectionFaq[];
+};
+
+export type HomepageContent = {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroBackground: string;
+  tripTypesTitle: string;
+  tripTypesDescription: string;
+  selectedStyles: TourCollection[];
+  regionsTitle: string;
+  regionsDescription: string;
+  selectedRegions: TourCollection[];
+  featuredTitle: string;
+  featuredCruises: Cruise[];
+  testimonialsTitle: string;
+  testimonials: { quote: string; author: string; location: string }[];
+  guidesTitle: string;
+  guidesList: { title: string; url: string; image: string; date: string; readTime: string }[];
+  announcementBar: { text: string; linkText: string; linkUrl: string };
+  categoryTilesSection: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    tiles: { label: string; subtitle: string; href: string; image: string; badge?: string }[];
+  };
+  leadCapture: {
+    shortlistTitle: string;
+    shortlistSubtitle: string;
+    shortlistDesc: string;
+    stickyCtaText: string;
+    stickyCtaWhatsapp: string;
+  };
 };
