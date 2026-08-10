@@ -7,21 +7,40 @@ import CategoryTiles from "@/components/CategoryTiles";
 import SectionHeading from "@/components/SectionHeading";
 import HeroSearch from "@/components/HeroSearch";
 import GuideCard from "@/components/GuideCard";
+import HeroSlideshow from "@/components/HeroSlideshow";
+
+const HERO_SLIDES = [
+  {
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
+    name: "Majesty Luxury Prime Cruise in Ha Long Bay",
+    slug: "majesty-luxury-prime-cruise-by-premier-group",
+  },
+  {
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783924563.jpg?k=a0d48a2293f3571e21b105f812db19e32e2bcbaf230265aeb05a952bc38e6a48&o=&hp=1",
+    name: "Genesis Regal Luxury Cruise in Lan Ha Bay",
+    slug: "genesis-luxury-regal-cruise-by-premier-group",
+  },
+  {
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/784071520.jpg?k=31b1d21db5f33cfa693f5ab9a6f6a700d1012452cf2c9bd06ca620ba5b261391&o=&hp=1",
+    name: "Indochine Heritage Cruise with Sundeck Pool",
+    slug: "mon-cheri-cruises",
+  },
+];
 
 const REGIONS = [
   {
     name: "Ha Long Bay",
-    seed: "region-halong",
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
     copy: "The UNESCO-listed original: nearly 2,000 limestone karsts rising out of a single bay, and the busiest water in the north.",
   },
   {
     name: "Lan Ha Bay",
-    seed: "region-lanha",
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=",
     copy: "The same geology, a fraction of the traffic. Most of our two- and three-day sailings favour this route.",
   },
   {
     name: "Bai Tu Long Bay",
-    seed: "region-baitulong",
+    image: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/598036986.jpg?k=c4e1a6957b15cfbb4441e1470d2860c560eb12eb7798ca91ceea877d0507ea5c&o=",
     copy: "The quiet north. National park coastline, mangrove lagoons, and boats that go days without seeing another ship.",
   },
 ];
@@ -34,65 +53,10 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex min-h-[92vh] items-end overflow-hidden bg-teal-950">
-        <Image
-          src="https://picsum.photos/seed/halong-hero/2000/1200"
-          alt="Junk boats at anchor among the karsts of Ha Long Bay at dusk"
-          fill
-          priority
-          className="object-cover opacity-70"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/40 to-teal-950/10" />
-        <div className="chart-grid absolute inset-0 opacity-40" />
-
-        <div className="container-content relative z-10 pb-20 pt-40">
-          <p className="eyebrow mb-5">Small-Ship Sailing · Ha Long, Lan Ha &amp; Bai Tu Long Bay</p>
-          <h1 className="max-w-3xl font-display text-5xl font-normal leading-[1.08] tracking-tight text-sand-50 md:text-7xl">
-            Three days on the water,{" "}
-            <span className="italic text-terracotta-400">not much of a schedule.</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-sand-100/80">
-            We book directly with a short list of small-ship operators across northern Vietnam's bays —
-            no resale markup, no call centre, real availability.
-          </p>
-
-          <div className="mt-8">
-            <HeroSearch />
-          </div>
-
-          <div className="mt-7 flex flex-wrap items-center gap-4">
-            <Link
-              href="/cruises"
-              className="rounded-full bg-terracotta-500 px-7 py-3 font-mono text-xs uppercase tracking-wideish text-sand-50 transition hover:bg-terracotta-600"
-            >
-              Browse Cruises
-            </Link>
-            <Link
-              href="/inquire"
-              className="rounded-full border border-sand-100/30 px-7 py-3 font-mono text-xs uppercase tracking-wideish text-sand-50 transition hover:border-brass-300 hover:text-brass-300"
-            >
-              Talk to Someone
-            </Link>
-          </div>
-        </div>
-
-        {/* Log strip */}
-        <div className="container-content relative z-10 grid grid-cols-3 gap-6 border-t border-sand-100/15 py-6 font-mono text-sand-100/70 md:grid-cols-3">
-          <div>
-            <p className="text-xs uppercase tracking-wideish text-brass-300">Sailings</p>
-            <p className="mt-1 text-2xl text-sand-50">{cruises.length} ships</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-wideish text-brass-300">Duration</p>
-            <p className="mt-1 text-2xl text-sand-50">2–4 days</p>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-wideish text-brass-300">Departs</p>
-            <p className="mt-1 text-2xl text-sand-50">Hanoi, daily</p>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slideshow */}
+      <HeroSlideshow slides={HERO_SLIDES} cruiseCount={cruises.length}>
+        <HeroSearch />
+      </HeroSlideshow>
 
       {/* Choose your cruise — category tiles */}
       <section className="container-content py-24 md:py-28">
@@ -146,10 +110,11 @@ export default async function HomePage() {
             <div key={region.name} className="overflow-hidden rounded-2xl bg-teal-950">
               <div className="relative aspect-[4/3]">
                 <Image
-                  src={`https://picsum.photos/seed/${region.seed}/900/700`}
+                  src={region.image}
                   alt={region.name}
                   fill
-                  className="object-cover"
+                  unoptimized
+                  className="object-cover opacity-90"
                 />
               </div>
               <div className="p-6">
