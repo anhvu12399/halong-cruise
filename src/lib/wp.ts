@@ -60,6 +60,7 @@ type WpCruisePost = {
   };
   _embedded?: {
     "wp:featuredmedia"?: WpMedia[];
+    [key: string]: any;
   };
 };
 
@@ -79,6 +80,67 @@ function splitLines(value: string | undefined): string[] {
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
+}
+
+function extractWpTags(post: WpCruisePost, mockFallbackTags?: string[]): string[] {
+  const extracted: string[] = [];
+  const a = post.acf || {};
+
+  // 1. Check ACF tags (string, array of strings, array of objects, etc.)
+  if (Array.isArray(a.tags)) {
+    a.tags.forEach((item: any) => {
+      const val = typeof item === "string" ? item : (item?.name || item?.slug || item?.value || "");
+      if (val) extracted.push(val);
+    });
+  } else if (typeof a.tags === "string" && a.tags.trim()) {
+    a.tags.split(/[\r\n,]+/).forEach((t: string) => {
+      if (t.trim()) extracted.push(t.trim());
+    });
+  }
+
+  // 2. Check ACF category / cruise_category
+  const cat = (a as any).cruise_category || (a as any).category;
+  if (Array.isArray(cat)) {
+    cat.forEach((item: any) => {
+      const val = typeof item === "string" ? item : (item?.name || item?.slug || item?.value || "");
+      if (val) extracted.push(val);
+    });
+  } else if (typeof cat === "string" && cat.trim()) {
+    cat.split(/[\r\n,]+/).forEach((t: string) => {
+      if (t.trim()) extracted.push(t.trim());
+    });
+  }
+
+  // 3. Check WP Taxonomy embedded terms
+  if (post._embedded && post._embedded["wp:term"]) {
+    post._embedded["wp:term"].forEach((termGroup: any) => {
+      if (Array.isArray(termGroup)) {
+        termGroup.forEach((term: any) => {
+          if (term?.slug) extracted.push(term.slug);
+          if (term?.name) extracted.push(term.name);
+        });
+      }
+    });
+  }
+
+  // Normalize tags (map aliases to standard keys: luxury, deluxe, budget, newest, honeymoon, family, best, group, deals)
+  const normalized = extracted.map((t) => {
+    const lower = t.toLowerCase().trim();
+    if (lower.includes("luxury")) return "luxury";
+    if (lower.includes("deluxe")) return "deluxe";
+    if (lower.includes("budget")) return "budget";
+    if (lower.includes("newest") || lower.includes("new")) return "newest";
+    if (lower.includes("honeymoon")) return "honeymoon";
+    if (lower.includes("family")) return "family";
+    if (lower.includes("best")) return "best";
+    if (lower.includes("group")) return "group";
+    if (lower.includes("deal") || lower.includes("offer") || lower.includes("special")) return "deals";
+    return lower;
+  });
+
+  const unique = Array.from(new Set(normalized)).filter(Boolean);
+  if (unique.length > 0) return unique;
+  return mockFallbackTags && mockFallbackTags.length > 0 ? mockFallbackTags : ["luxury"];
 }
 
 function mapWpCruise(post: WpCruisePost): Cruise {
@@ -158,7 +220,7 @@ function mapWpCruise(post: WpCruisePost): Cruise {
     tagline: a.tagline || mockFallback?.tagline || `Luxury small-ship sailing aboard ${cruiseName}.`,
     region: a.region || mockFallback?.region || "Ha Long Bay",
     breadcrumbLabel: a.breadcrumb_label || mockFallback?.breadcrumbLabel || cruiseName,
-    tags: splitLines(a.tags).length > 0 ? splitLines(a.tags).map((t) => t.toLowerCase()) : (mockFallback?.tags || ["luxury"]),
+    tags: extractWpTags(post, mockFallback?.tags),
     durationDays: a.duration_days || mockFallback?.durationDays || 2,
     durationNights: a.duration_nights || mockFallback?.durationNights || 1,
     guestsMax: a.guests_max || mockFallback?.guestsMax || 48,

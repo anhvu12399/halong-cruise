@@ -193,6 +193,47 @@ add_action('init', function () {
         'rewrite' => ['slug' => 'cruises'],
     ]);
 
+    register_taxonomy('cruise_category', 'cruise', [
+        'labels' => [
+            'name' => 'Cruise Categories',
+            'singular_name' => 'Cruise Category',
+            'search_items' => 'Search Categories',
+            'all_items' => 'All Categories',
+            'edit_item' => 'Edit Category',
+            'update_item' => 'Update Category',
+            'add_new_item' => 'Add New Category',
+            'new_item_name' => 'New Category Name',
+            'menu_name' => 'Categories (Phân loại tàu)',
+        ],
+        'hierarchical' => true,
+        'show_ui' => true,
+        'show_in_rest' => true,
+        'rest_base' => 'cruise-categories',
+        'show_admin_column' => true,
+        'query_var' => true,
+        'rewrite' => ['slug' => 'cruise-category'],
+    ]);
+
+    $default_terms = [
+        'Luxury' => 'Full-service ships, top cabins',
+        'Deluxe' => 'Comfortable, well-priced',
+        'Budget' => 'Simple, well-run, cheaper',
+        'Newest' => 'Launched in the last year',
+        'Honeymoon' => 'Quiet cabins, private decks',
+        'Family' => 'Space to spread out',
+        'Best Cruises' => 'Our highest-rated sailings (Editors Picks)',
+        'Group' => 'Charters & larger parties',
+        'Special Deals' => 'Best offers & promotions',
+    ];
+    foreach ($default_terms as $term_name => $desc) {
+        if (!term_exists($term_name, 'cruise_category')) {
+            wp_insert_term($term_name, 'cruise_category', [
+                'description' => $desc,
+                'slug' => sanitize_title($term_name),
+            ]);
+        }
+    }
+
     register_post_type('inquiry', [
         'label' => 'Inquiries',
         'labels' => [
@@ -356,6 +397,7 @@ add_filter('manage_cruise_posts_columns', function ($columns) {
         'cb' => $columns['cb'],
         'halong_image' => 'Image',
         'title' => 'Cruise Name',
+        'halong_category' => 'Category',
         'halong_region' => 'Region',
         'halong_price' => 'Starting Price',
         'halong_duration' => 'Duration',
@@ -369,6 +411,9 @@ add_action('manage_cruise_posts_custom_column', function ($column, $post_id) {
         $image = halong_cruise_field('hero_image_url', $post_id);
         if (!$image) $image = get_the_post_thumbnail_url($post_id, 'thumbnail');
         echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:72px;height:48px;object-fit:cover;border-radius:5px">' : '<span aria-hidden="true">—</span>';
+    } elseif ($column === 'halong_category') {
+        $terms = wp_get_post_terms($post_id, 'cruise_category', ['fields' => 'names']);
+        echo !empty($terms) ? '<span style="background:#e7f3ff;color:#0c4a6e;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">' . esc_html(implode(', ', $terms)) . '</span>' : '<span style="color:#999">—</span>';
     } elseif ($column === 'halong_region') {
         echo esc_html(halong_cruise_field('region', $post_id) ?: '—');
     } elseif ($column === 'halong_price') {
@@ -418,9 +463,48 @@ add_filter('post_row_actions', function ($actions, $post) {
     return $actions;
 }, 10, 2);
 
-add_action('post_submitbox_misc_actions', function ($post) {
-    if (!$post || !in_array($post->post_type, ['cruise', 'guide'], true) || !$post->ID) return;
-    echo '<div class="misc-pub-section"><span class="dashicons dashicons-external" style="margin-right:6px"></span><a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '"><strong>View on frontend ↗</strong></a></div>';
+add_action('add_meta_boxes', function () {
+    add_meta_box(
+        'halong_cruise_category_meta',
+        '🚢 Cruise Category / Style (Phân loại tàu)',
+        function ($post) {
+            wp_nonce_field('halong_cruise_category_nonce', 'halong_cruise_category_nonce');
+            $selected_categories = wp_get_post_terms($post->ID, 'cruise_category', ['fields' => 'ids']);
+            $all_terms = get_terms(['taxonomy' => 'cruise_category', 'hide_empty' => false]);
+            $acf_tags = halong_cruise_field('tags', $post->ID);
+            
+            echo '<div style="margin-bottom:8px;font-size:12px;color:#50575e;">Chọn phân loại cho tàu (hiển thị trên các ô danh mục ở trang chủ):</div>';
+            echo '<div style="display:flex;flex-wrap:wrap;gap:6px 12px;background:#f9f9f9;padding:10px;border:1px solid #ccd0d4;border-radius:6px;">';
+            if (!empty($all_terms) && !is_wp_error($all_terms)) {
+                foreach ($all_terms as $term) {
+                    $checked = in_array($term->term_id, $selected_categories, true) ? 'checked' : '';
+                    echo '<label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:13px;font-weight:500;">';
+                    echo '<input type="checkbox" name="halong_cruise_categories[]" value="' . esc_attr($term->term_id) . '" ' . $checked . '>';
+                    echo esc_html($term->name);
+                    echo '</label>';
+                }
+            }
+            echo '</div>';
+            echo '<div style="margin-top:10px;"><label style="font-weight:600;display:block;margin-bottom:3px;font-size:12px;">Custom Tags (Mỗi từ 1 dòng):</label>';
+            echo '<textarea name="halong_cruise_tags" rows="2" style="width:100%;font-family:monospace;font-size:12px;" placeholder="luxury&#10;best&#10;family">' . esc_textarea(is_string($acf_tags) ? $acf_tags : implode("\n", (array)$acf_tags)) . '</textarea></div>';
+        },
+        'cruise',
+        'side',
+        'default'
+    );
+});
+
+add_action('save_post_cruise', function ($post_id) {
+    if (!isset($_POST['halong_cruise_category_nonce']) || !wp_verify_nonce($_POST['halong_cruise_category_nonce'], 'halong_cruise_category_nonce')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    $cat_ids = isset($_POST['halong_cruise_categories']) ? array_map('intval', $_POST['halong_cruise_categories']) : [];
+    wp_set_object_terms($post_id, $cat_ids, 'cruise_category');
+
+    if (isset($_POST['halong_cruise_tags'])) {
+        update_post_meta($post_id, 'tags', sanitize_textarea_field($_POST['halong_cruise_tags']));
+    }
 });
 
 /* Instant Next.js Revalidation Trigger on Save/Publish */
