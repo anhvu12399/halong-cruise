@@ -1,7 +1,5 @@
 import { Guide } from "./types";
 
-const img = (seed: string, w = 1400, h = 900) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
-
 const p = (text: string) => `<p>${text}</p>`;
 
 export const guides: Guide[] = [
@@ -9,11 +7,11 @@ export const guides: Guide[] = [
     slug: "best-time-to-visit-ha-long-bay",
     title: "The best time to visit Ha Long Bay",
     excerpt: "Weather, crowds, and water clarity change more than you'd think across the seasons — here's how to time it.",
-    coverImage: img("guide-season"),
+    coverImage: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1",
     region: "Ha Long Bay",
     readMinutes: 6,
     publishedAt: "Jul 2026",
-    relatedCruiseSlugs: ["au-co", "jade-serenity"],
+    relatedCruiseSlugs: ["majesty-luxury-prime-cruise-by-premier-group", "genesis-luxury-regal-cruise-by-premier-group"],
     bodyHtml: [
       p("October through December gets the most recommendations, and for good reason: skies are clearer, humidity drops, and the karsts photograph the way you've seen them online. It's also the busiest stretch — book six to eight weeks out for anything with fewer than 20 cabins."),
       "<h3>Shoulder season: March–April, late September</h3>",
@@ -28,10 +26,10 @@ export const guides: Guide[] = [
     slug: "ha-long-vs-lan-ha-bay",
     title: "Ha Long Bay or Lan Ha Bay — which one, actually",
     excerpt: "Same limestone, very different traffic. A straight answer on which bay fits which trip.",
-    coverImage: img("guide-compare"),
+    coverImage: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/294655147.jpg?k=1c13cce7a0f9d3f6b4a0ec31c52fe348513b26920c11bd680643c4a7aff977b9&o=",
     readMinutes: 5,
     publishedAt: "Jun 2026",
-    relatedCruiseSlugs: ["indigo-pearl", "au-co"],
+    relatedCruiseSlugs: ["genesis-luxury-regal-cruise-by-premier-group", "mon-cheri-cruises"],
     bodyHtml: [
       p("Ha Long Bay is the name everyone knows, the UNESCO site, and — as a direct result — the busiest water in northern Vietnam. Lan Ha Bay sits just south, same geology, a fraction of the boat traffic, because most large ships still depart from Ha Long City rather than Cat Ba."),
       "<h3>Pick Ha Long if</h3>",
@@ -45,10 +43,10 @@ export const guides: Guide[] = [
     slug: "what-to-pack-for-a-bay-cruise",
     title: "What to actually pack for a Ha Long Bay cruise",
     excerpt: "Shorter than most packing lists, because most of what you'll read online is padding.",
-    coverImage: img("guide-pack"),
+    coverImage: "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783924563.jpg?k=a0d48a2293f3571e21b105f812db19e32e2bcbaf230265aeb05a952bc38e6a48&o=&hp=1",
     readMinutes: 4,
     publishedAt: "May 2026",
-    relatedCruiseSlugs: ["vermilion-sails"],
+    relatedCruiseSlugs: ["mon-cheri-cruises"],
     bodyHtml: [
       p("Boats run air conditioning and provide towels, so you don't need to overpack. What actually matters:"),
       "<ul><li>Reef-safe sunscreen — cheap sunscreen is the one thing every cabin runs out of</li><li>A dry bag for the kayak excursions</li><li>Light layers for the sundeck after sunset, even in summer</li><li>Cash — most on-board bars and spas don't take cards</li><li>Motion-sickness tablets if you're prone to it; the bay is usually calm, but not always</li></ul>",

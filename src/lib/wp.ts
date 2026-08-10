@@ -258,16 +258,18 @@ export const isLive = Boolean(WP_URL);
 /* ------------------------------------------------------------------ */
 
 type WpGuidePost = {
+  id: number;
   slug: string;
   title: { rendered: string };
   content: { rendered: string };
+  excerpt?: { rendered: string };
   date: string;
-  acf: {
-    excerpt: string;
+  acf?: {
+    excerpt?: string;
     cover_image_url?: string;
     region?: string;
-    read_minutes: number;
-    related: { post_name: string }[];
+    read_minutes?: number;
+    related?: { post_name: string }[];
   };
   _embedded?: {
     "wp:featuredmedia"?: WpMedia[];
@@ -279,13 +281,30 @@ function formatWpDate(iso: string): string {
   return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 }
 
+function extractFirstImageFromHtml(html: string): string {
+  if (!html) return "";
+  const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+  return match ? match[1] : "";
+}
+
 function mapWpGuide(post: WpGuidePost): Guide {
+  const acfExcerpt = post.acf?.excerpt;
+  const rawExcerpt = post.excerpt?.rendered ? post.excerpt.rendered.replace(/<[^>]+>/g, "").trim() : "";
+  const finalExcerpt = acfExcerpt || rawExcerpt || "Practical travel notes and guides for Ha Long Bay sailings.";
+
+  const coverFromAcf = post.acf?.cover_image_url;
+  const coverFromMedia = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  const coverFromContent = extractFirstImageFromHtml(post.content.rendered);
+  const fallbackCover = "https://cf.bstatic.com/xdata/images/hotel/max1280x900/783832264.jpg?k=211297536d21da0f27b9567678c717d3603a4d909e41167d9b6503efd4bc55f8&o=&hp=1";
+
+  const coverImage = coverFromAcf || coverFromMedia || coverFromContent || fallbackCover;
+
   return {
     slug: post.slug,
-    title: post.title.rendered,
-    excerpt: post.acf?.excerpt ?? "",
-    coverImage: post.acf?.cover_image_url || post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "",
-    region: post.acf?.region || undefined,
+    title: post.title?.rendered ? post.title.rendered.replace(/&#8211;|&#8212;/g, "—") : post.slug,
+    excerpt: finalExcerpt,
+    coverImage,
+    region: post.acf?.region || "Ha Long Bay",
     readMinutes: post.acf?.read_minutes ?? 5,
     publishedAt: formatWpDate(post.date),
     bodyHtml: post.content.rendered,
@@ -296,12 +315,39 @@ function mapWpGuide(post: WpGuidePost): Guide {
 export async function getAllGuides(): Promise<Guide[]> {
   if (!WP_URL) return mockGuides;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/guides?_embed&per_page=50`, {
+    let posts: WpGuidePost[] = [];
+
+    // 1. Try /wp-json/wp/v2/guides
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/guides?_embed&per_page=100`, {
       next: { revalidate: 300 },
     });
-    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
-    const posts: WpGuidePost[] = await res.json();
-    return posts.map(mapWpGuide);
+
+    if (res.ok) {
+      posts = await res.json();
+    }
+
+    // 2. If guides CPT is empty or 404, try standard WP posts /wp-json/wp/v2/posts
+    if (!Array.isArray(posts) || posts.length === 0) {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=100`, {
+        next: { revalidate: 300 },
+      });
+      if (res.ok) {
+        posts = await res.json();
+      }
+    }
+
+    if (!Array.isArray(posts) || posts.length === 0) return mockGuides;
+
+    const liveGuides = posts.map(mapWpGuide);
+
+    // Merge WP guides with mockGuides, keeping live WP guides first!
+    const guideMap = new Map<string, Guide>();
+    liveGuides.forEach((g) => guideMap.set(g.slug, g));
+    mockGuides.forEach((g) => {
+      if (!guideMap.has(g.slug)) guideMap.set(g.slug, g);
+    });
+
+    return Array.from(guideMap.values());
   } catch (err) {
     console.error("[wp] falling back to mock guide data:", err);
     return mockGuides;
@@ -309,18 +355,29 @@ export async function getAllGuides(): Promise<Guide[]> {
 }
 
 export async function getGuideBySlug(slug: string): Promise<Guide | undefined> {
-  if (!WP_URL) return getMockGuideBySlug(slug);
+  const mockFallback = getMockGuideBySlug(slug);
+  if (!WP_URL) return mockFallback;
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/guides?_embed&slug=${encodeURIComponent(slug)}`, {
+    // 1. Try /wp-json/wp/v2/guides?slug=...
+    let res = await fetch(`${WP_URL}/wp-json/wp/v2/guides?_embed&slug=${encodeURIComponent(slug)}`, {
       next: { revalidate: 300 },
     });
-    if (!res.ok) throw new Error(`WordPress responded ${res.status}`);
-    const posts: WpGuidePost[] = await res.json();
-    if (!posts.length) return undefined;
-    return mapWpGuide(posts[0]);
+    let posts: WpGuidePost[] = res.ok ? await res.json() : [];
+
+    // 2. Try /wp-json/wp/v2/posts?slug=...
+    if (!Array.isArray(posts) || posts.length === 0) {
+      res = await fetch(`${WP_URL}/wp-json/wp/v2/posts?_embed&slug=${encodeURIComponent(slug)}`, {
+        next: { revalidate: 300 },
+      });
+      if (res.ok) posts = await res.json();
+    }
+
+    if (!Array.isArray(posts) || !posts.length) return mockFallback;
+    const wpGuide = mapWpGuide(posts[0]);
+    return mockFallback ? { ...mockFallback, ...wpGuide } : wpGuide;
   } catch (err) {
     console.error("[wp] falling back to mock guide data:", err);
-    return getMockGuideBySlug(slug);
+    return mockFallback;
   }
 }
 
