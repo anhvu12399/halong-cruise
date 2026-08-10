@@ -492,8 +492,30 @@ add_action('manage_tour_collection_posts_custom_column', function ($column, $pos
     }
 }, 10, 2);
 
+add_action('acf/init', function () {
+    if (!function_exists('acf_add_local_field_group')) return;
+
+    acf_add_local_field_group([
+        'key' => 'group_halong_tour_collection_cms',
+        'title' => 'Tour Collection Details',
+        'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'tour_collection']]],
+        'fields' => [
+            ['key' => 'field_tour_hero_image_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_tour_eyebrow', 'name' => 'eyebrow', 'label' => 'Eyebrow', 'type' => 'text'],
+            ['key' => 'field_tour_subtitle', 'name' => 'subtitle', 'label' => 'Subtitle / Tagline', 'type' => 'textarea', 'rows' => 2],
+            ['key' => 'field_tour_collection_type', 'name' => 'collection_type', 'label' => 'Collection Type', 'type' => 'select',
+                'choices' => ['style' => 'By Style', 'region' => 'By Region', 'duration' => 'By Duration']],
+            ['key' => 'field_tour_price_range_text', 'name' => 'price_range_text', 'label' => 'Price Range Text', 'type' => 'text'],
+            ['key' => 'field_tour_best_months_text', 'name' => 'best_months_text', 'label' => 'Best Months Text', 'type' => 'text'],
+            ['key' => 'field_tour_key_highlights', 'name' => 'key_highlights', 'label' => 'Key Highlights (1 per line)', 'type' => 'textarea', 'rows' => 3],
+            ['key' => 'field_tour_expert_advice', 'name' => 'expert_advice', 'label' => 'Expert Advice', 'type' => 'textarea', 'rows' => 2],
+        ],
+    ]);
+});
+
 add_filter('post_row_actions', function ($actions, $post) {
-    if (in_array($post->post_type, ['cruise', 'guide'], true)) {
+    if (in_array($post->post_type, ['cruise', 'guide', 'tour_collection'], true)) {
         $actions['halong_frontend'] = '<a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '">View Frontend ↗</a>';
     }
     return $actions;
