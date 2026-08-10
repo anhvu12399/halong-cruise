@@ -252,9 +252,8 @@ add_action('admin_menu', function () {
 
 function halong_frontend_base_url() {
     $url = trim((string) get_option('frontend_site_url', ''));
-    /* Default to production Vercel frontend URL */
-    if (!$url || untrailingslashit($url) === 'https://www.halongbestcruises.com') {
-        $url = 'https://halong-cruise.vercel.app';
+    if (!$url) {
+        $url = 'https://www.halongbestcruises.com';
     }
     return untrailingslashit($url);
 }
