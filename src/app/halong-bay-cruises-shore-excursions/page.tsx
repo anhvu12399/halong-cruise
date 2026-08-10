@@ -12,9 +12,6 @@ export async function generateMetadata() {
     title: "Halong Bay Cruises & Shore Excursions | Private Vietnam Tours",
     description:
       "Book Halong Bay cruises, private shore excursions and tailor-made Vietnam tours. Local experts, private transfers, guides and flexible itineraries.",
-    openGraph: {
-      images: ["/images/halong-shore-excursions-hero.jpg"],
-    },
   };
 }
 
@@ -35,14 +32,15 @@ export default async function HalongBayCruisesShoreExcursionsExactPage() {
   }
   if (!guide) notFound();
 
-  const heroImage = "/images/halong-shore-excursions-hero.jpg";
+  const extraImage = "/images/halong-shore-excursions-hero.jpg";
   const relatedCruises = await getRelatedCruisesForGuide(guide);
 
   return (
     <article className="bg-sand-50">
+      {/* Hero banner always uses the Featured Image from WordPress backend */}
       <div className="relative h-[48vh] min-h-[360px] w-full overflow-hidden bg-teal-950">
-        <Image src={heroImage} alt={guide.title} fill priority className="object-cover opacity-85" />
-        <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/30 to-transparent" />
+        <Image src={guide.coverImage} alt={guide.title} fill priority className="object-cover opacity-75" />
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/25 to-transparent" />
         <div className="container-content absolute inset-x-0 bottom-10">
           <p className="eyebrow mb-3 text-sand-100/80">
             <Link href="/" className="hover:text-brass-300">
@@ -57,9 +55,10 @@ export default async function HalongBayCruisesShoreExcursionsExactPage() {
       </div>
 
       <div className="container-content max-w-2xl py-16 md:py-24">
+        {/* Additional inline photo inside the article content */}
         <div className="mb-10 overflow-hidden rounded-2xl border border-ink-300/20 shadow-sm">
           <Image
-            src={heroImage}
+            src={extraImage}
             alt="Ha Long Bay Luxury Cruise Aerial View"
             width={1200}
             height={700}
