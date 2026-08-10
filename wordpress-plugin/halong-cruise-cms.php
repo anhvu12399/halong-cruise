@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Ha Long Cruise CMS
- * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, guides, frontend pages, and instant Next.js revalidation.
- * Version: 6.6.3
+ * Description: Complete headless CMS for the Ha Long Bay Cruises Next.js website. Includes ACF Free repeater support, direct image URLs, navigation, branding, cruises, tours, and frontend pages.
+ * Version: 6.6.1
  * Author: Ha Long Best Cruises
  */
 
@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) exit;
 /* Explain the only required companion plugin instead of silently hiding fields. */
 add_action('admin_notices', function () {
     if (function_exists('acf_add_local_field_group')) return;
-    echo '<div class="notice notice-error"><p><strong>Ha Long Cruise CMS:</strong> Install and activate the free <a href="' . esc_url(admin_url('plugin-install.php?s=Advanced%20Custom%20Fields&tab=search&type=term')) . '">Advanced Custom Fields (ACF)</a> plugin to display the Cruise & Guide details fields. ACF Pro is not required.</p></div>';
+    echo '<div class="notice notice-error"><p><strong>Ha Long Cruise CMS:</strong> Install and activate the free <a href="' . esc_url(admin_url('plugin-install.php?s=Advanced%20Custom%20Fields&tab=search&type=term')) . '">Advanced Custom Fields (ACF)</a> plugin to display the Cruise Details fields. ACF Pro is not required.</p></div>';
 });
 
 /* ------------------------------------------------------------------ */
@@ -144,6 +144,7 @@ add_action('admin_footer', function () {
     <style>
       .halong-image-preview{display:block;max-width:240px;max-height:150px;margin-top:8px;border:1px solid #c3c4c7;border-radius:8px;background:#fff;object-fit:contain;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
       .halong-image-preview.is-logo{max-height:80px;background:#102f31}
+      #halong-team-preview{margin-top:16px}.halong-preview-card{overflow:hidden;border:1px solid #c3c4c7;border-radius:10px;background:#f6efdd;box-shadow:0 1px 4px rgba(0,0,0,.08)}.halong-preview-head{padding:14px 16px 6px;color:#b68b36;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.halong-preview-title{padding:0 16px 12px;color:#102f31;font-family:Georgia,serif;font-size:24px;font-style:italic}.halong-preview-members{display:grid;gap:12px;padding:0 16px 16px}.halong-preview-member{display:flex;gap:10px}.halong-preview-avatar{width:42px;height:42px;flex:none;border-radius:50%;object-fit:cover;background:#062f31;color:#fff;text-align:center;font:italic 20px/42px Georgia,serif}.halong-preview-name{font-weight:700;color:#172a2b}.halong-preview-role{color:#b68b36;font-size:9px;letter-spacing:.08em;text-transform:uppercase}.halong-preview-bio{margin-top:3px;color:#536261;font-size:11px;line-height:1.35}.halong-preview-contact{display:grid;gap:7px;padding:13px 16px;background:#062f31;color:#fff;font-size:11px}.halong-preview-contact strong{color:#d0aa55;font-size:9px;letter-spacing:.08em;text-transform:uppercase}.halong-preview-empty{padding:0 16px 16px;color:#646970;font-style:italic}
     </style>
     <script>
     (function(){
@@ -165,17 +166,34 @@ add_action('admin_footer', function () {
       document.addEventListener('change',function(e){if(e.target.matches('input[type="url"],input[type="text"]')) preview(e.target)});
       document.addEventListener('DOMContentLoaded',scan); setTimeout(scan,500); setTimeout(scan,1500);
     })();
+    (function(){
+      if(document.body.classList.contains('post-type-homepage_content')===false) return;
+      function esc(value){var node=document.createElement('div');node.textContent=value||'';return node.innerHTML}
+      function field(name){var root=document.querySelector('.acf-field[data-name="'+name+'"]');var input=root&&root.querySelector('input,textarea');return input?input.value:''}
+      function cell(row,name){var input=row.querySelector('[name$="['+name+']"]');return input?input.value:''}
+      function render(){
+        var target=document.getElementById('halong-team-preview'); if(!target) return;
+        var repeater=document.querySelector('.acf-field[data-name="team_members"] .acf-repeater, .halong-free-repeater[data-name="team_members"]');
+        var rows=repeater?Array.from(repeater.querySelectorAll('.acf-row:not(.acf-clone), .halong-repeater-row')).filter(function(row){return !row.closest('template')}):[];
+        var members=rows.map(function(row){
+          var name=cell(row,'name'); if(!name) return '';
+          var image=cell(row,'image_url'), initial=cell(row,'initial')||name.charAt(0);
+          var avatar=/^https?:\/\//i.test(image)?'<img class="halong-preview-avatar" src="'+esc(image)+'" alt="">':'<span class="halong-preview-avatar">'+esc(initial)+'</span>';
+          return '<div class="halong-preview-member">'+avatar+'<div><div class="halong-preview-name">'+esc(name)+'</div><div class="halong-preview-role">'+esc(cell(row,'role'))+'</div><div class="halong-preview-bio">'+esc(cell(row,'bio'))+'</div></div></div>';
+        }).filter(Boolean).join('');
+        target.innerHTML='<div class="postbox"><div class="postbox-header"><h2>Homepage Section Preview</h2></div><div class="inside"><div class="halong-preview-card"><div class="halong-preview-head">'+esc(field('team_eyebrow')||'The people behind the site')+'</div><div class="halong-preview-title">'+esc(field('team_title')||'Our team.')+'</div><div class="halong-preview-members">'+(members||'<div class="halong-preview-empty">Add a team member to preview it here.</div>')+'</div><div class="halong-preview-contact"><div><strong>'+esc(field('contact_whatsapp_label')||'WhatsApp')+'</strong><br>'+esc(field('contact_whatsapp')||'+84 905 999 888')+'</div><div><strong>'+esc(field('contact_email_label')||'Email')+'</strong><br>'+esc(field('contact_email')||'hello@halongbestcruises.com')+'</div><div><strong>'+esc(field('contact_office_label')||'Office')+'</strong><br>'+esc(field('contact_office')||'Hanoi Old Quarter, Vietnam')+' · '+esc(field('contact_hours')||'Mon–Sat · 8am–8pm ICT')+'</div></div></div><p class="description">Live preview — save/update the page to publish these changes.</p></div></div>';
+      }
+      function mount(){
+        if(document.getElementById('halong-team-preview')) return render();
+        var column=document.getElementById('postbox-container-1')||document.querySelector('#post-body-content'); if(!column) return;
+        var target=document.createElement('div');target.id='halong-team-preview';column.appendChild(target);render();
+        var timer;document.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(render,120)});document.addEventListener('change',render);document.addEventListener('click',function(e){if(e.target.closest('.acf-button,.halong-add-row,.halong-remove-row')) setTimeout(render,150)});
+      }
+      document.addEventListener('DOMContentLoaded',mount);setTimeout(mount,700);
+    })();
     </script>
     <?php
 });
-
-/* Enable Classic Editor interface for Cruises, Guides, and Tour Collections (Kiểu ngày xưa) */
-add_filter('use_block_editor_for_post_type', function ($use_block_editor, $post_type) {
-    if (in_array($post_type, ['cruise', 'guide', 'tour_collection'], true)) {
-        return false;
-    }
-    return $use_block_editor;
-}, 10, 2);
 
 /* ------------------------------------------------------------------ */
 /* 1. Custom Post Types                                               */
@@ -299,27 +317,6 @@ add_action('admin_menu', function () {
     );
 });
 
-function halong_frontend_base_url() {
-    $url = trim((string) get_option('frontend_site_url', ''));
-    if (!$url) {
-        $url = 'https://www.halongbestcruises.com';
-    }
-    return untrailingslashit($url);
-}
-
-function halong_cruise_frontend_url($post_id) {
-    $base = halong_frontend_base_url();
-    $post_type = get_post_type($post_id);
-    $slug = get_post_field('post_name', $post_id);
-    if ($post_type === 'guide') {
-        if ($slug === 'asia-shore-excursions' || strpos($slug, 'halong-bay-cruises-shore-excursions') !== false) {
-            return $base . '/' . $slug;
-        }
-        return $base . '/guides/' . $slug;
-    }
-    return $base . '/cruises/' . $slug;
-}
-
 function render_halong_cms_homepage_settings() {
     if (isset($_POST['save_halong_options'])) {
         check_admin_referer('halong_options_verify');
@@ -355,14 +352,10 @@ function render_halong_cms_homepage_settings() {
         <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 20px;">Website Quick Settings</h1>
         <form method="post" action="">
             <?php wp_nonce_field('halong_options_verify'); ?>
-            <div style="background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #ccd0d4; max-width: 900px;">
-                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 0;">1. Homepage Hero & Frontend URL</h2>
+            <div style="background: #fff; padding: 25px; border-radius: 8px; border: 1px solid #ccd0d4; max-w: 900px;">
+                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 0;">1. Homepage Hero</h2>
                 
                 <table class="form-table">
-                    <tr>
-                        <th scope="row"><label for="frontend_site_url">Frontend Website URL</label></th>
-                        <td><input name="frontend_site_url" type="url" id="frontend_site_url" value="<?php echo esc_attr($frontend_url); ?>" class="regular-text" style="width:100%"><p class="description">Used by the View Frontend links for Cruises and Travel Guides.</p></td>
-                    </tr>
                     <tr>
                         <th scope="row"><label for="home_hero_title">Main Hero Title (H1)</label></th>
                         <td><input name="home_hero_title" type="text" id="home_hero_title" value="<?php echo esc_attr($hero_title); ?>" class="regular-text" style="width: 100%;"></td>
@@ -383,6 +376,39 @@ function render_halong_cms_homepage_settings() {
                         <th scope="row"><label for="site_email">Contact Email</label></th>
                         <td><input name="site_email" type="text" id="site_email" value="<?php echo esc_attr($email); ?>" class="regular-text"></td>
                     </tr>
+                    <tr>
+                        <th scope="row"><label for="frontend_site_url">Frontend Website URL</label></th>
+                        <td><input name="frontend_site_url" type="url" id="frontend_site_url" value="<?php echo esc_attr($frontend_url); ?>" class="regular-text" style="width:100%"><p class="description">Used by the View Frontend links in the Cruises list.</p></td>
+                    </tr>
+                </table>
+
+                <h2 style="font-size: 18px; border-bottom: 2px solid #2271b1; padding-bottom: 8px; margin-top: 30px;">2. Tour and Destination Page Titles</h2>
+                
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="tour_day_title">Day Cruises Page</label></th>
+                        <td><input name="tour_day_title" type="text" id="tour_day_title" value="<?php echo esc_attr($tour_day); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_2d1n_title">2 Days / 1 Night Page</label></th>
+                        <td><input name="tour_2d1n_title" type="text" id="tour_2d1n_title" value="<?php echo esc_attr($tour_2d1n); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_3d2n_title">3 Days / 2 Nights Page</label></th>
+                        <td><input name="tour_3d2n_title" type="text" id="tour_3d2n_title" value="<?php echo esc_attr($tour_3d2n); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_halong_title">Ha Long Bay Page</label></th>
+                        <td><input name="tour_halong_title" type="text" id="tour_halong_title" value="<?php echo esc_attr($tour_hl); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_lanha_title">Lan Ha Bay Page</label></th>
+                        <td><input name="tour_lanha_title" type="text" id="tour_lanha_title" value="<?php echo esc_attr($tour_lh); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="tour_baitulong_title">Bai Tu Long Bay Page</label></th>
+                        <td><input name="tour_baitulong_title" type="text" id="tour_baitulong_title" value="<?php echo esc_attr($tour_btl); ?>" class="regular-text"></td>
+                    </tr>
                 </table>
 
                 <p class="submit" style="margin-top: 25px;">
@@ -399,13 +425,33 @@ function halong_cruise_field($name, $post_id) {
     return function_exists('get_field') ? get_field($name, $post_id) : get_post_meta($post_id, $name, true);
 }
 
-/* Cruises admin list columns */
+function halong_frontend_base_url() {
+    $url = trim((string) get_option('frontend_site_url', ''));
+    /* Migrate the incorrect default shipped briefly in v6.2–v6.3.1. */
+    if (!$url || untrailingslashit($url) === 'https://www.halongbestcruises.com') {
+        $url = 'https://halong-cruise.vercel.app';
+    }
+    return untrailingslashit($url);
+}
+
+function halong_cruise_frontend_url($post_id) {
+    $base = halong_frontend_base_url();
+    $post_type = get_post_type($post_id);
+    $slug = get_post_field('post_name', $post_id);
+    if ($post_type === 'guide') {
+        if ($slug === 'asia-shore-excursions' || strpos($slug, 'halong-bay-cruises-shore-excursions') !== false) {
+            return $base . '/' . $slug;
+        }
+        return $base . '/guides/' . $slug;
+    }
+    return $base . '/cruises/' . $slug;
+}
+
 add_filter('manage_cruise_posts_columns', function ($columns) {
     return [
         'cb' => $columns['cb'],
         'halong_image' => 'Image',
         'title' => 'Cruise Name',
-        'halong_category' => 'Category',
         'halong_region' => 'Region',
         'halong_price' => 'Starting Price',
         'halong_duration' => 'Duration',
@@ -419,9 +465,6 @@ add_action('manage_cruise_posts_custom_column', function ($column, $post_id) {
         $image = halong_cruise_field('hero_image_url', $post_id);
         if (!$image) $image = get_the_post_thumbnail_url($post_id, 'thumbnail');
         echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:72px;height:48px;object-fit:cover;border-radius:5px">' : '<span aria-hidden="true">—</span>';
-    } elseif ($column === 'halong_category') {
-        $terms = wp_get_post_terms($post_id, 'cruise_category', ['fields' => 'names']);
-        echo !empty($terms) ? '<span style="background:#e7f3ff;color:#0c4a6e;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">' . esc_html(implode(', ', $terms)) . '</span>' : '<span style="color:#999">—</span>';
     } elseif ($column === 'halong_region') {
         echo esc_html(halong_cruise_field('region', $post_id) ?: '—');
     } elseif ($column === 'halong_price') {
@@ -436,288 +479,601 @@ add_action('manage_cruise_posts_custom_column', function ($column, $post_id) {
     }
 }, 10, 2);
 
-/* Guides admin list columns */
+add_filter('post_row_actions', function ($actions, $post) {
+    if ($post->post_type === 'cruise') {
+        $actions['halong_frontend'] = '<a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '">View Frontend</a>';
+    }
+    return $actions;
+}, 10, 2);
+
+add_action('post_submitbox_misc_actions', function ($post) {
+    if (!$post || $post->post_type !== 'cruise' || !$post->ID) return;
+    echo '<div class="misc-pub-section"><span class="dashicons dashicons-external" style="margin-right:6px"></span><a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '"><strong>View this cruise on frontend</strong></a></div>';
+});
+
+add_action('admin_head-edit.php', function () {
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if ($screen && $screen->post_type === 'cruise') echo '<style>.column-halong_image{width:88px}.column-halong_price,.column-halong_duration{width:110px}.column-halong_frontend{width:135px}</style>';
+});
+
+/* Cruise editing is field-driven; the classic screen keeps all ACF tabs visible. */
+add_filter('use_block_editor_for_post_type', function ($use_block_editor, $post_type) {
+    return in_array($post_type, ['cruise', 'guide', 'tour_collection'], true) ? false : $use_block_editor;
+}, 10, 2);
+
+add_action('admin_menu', function () {
+    add_submenu_page(
+        'edit.php?post_type=cruise',
+        'Import Frontend Cruise Data',
+        'Import Frontend Data',
+        'manage_options',
+        'halong-import-frontend-cruises',
+        'halong_render_cruise_importer'
+    );
+});
+
+function halong_import_itinerary_days($days) {
+    $result = [];
+    foreach ((array) $days as $day) {
+        $row = [
+            'title' => sanitize_text_field($day['title'] ?? ''),
+            'location' => sanitize_text_field($day['location'] ?? ''),
+            'image_url' => esc_url_raw($day['image'] ?? ''),
+            'am' => '', 'pm' => '', 'eve' => '',
+        ];
+        foreach ((array) ($day['blocks'] ?? []) as $block) {
+            $period = strtolower((string) ($block['period'] ?? ''));
+            if (in_array($period, ['am', 'pm', 'eve'], true)) $row[$period] = sanitize_textarea_field($block['text'] ?? '');
+        }
+        $result[] = $row;
+    }
+    return $result;
+}
+
+function halong_set_imported_field($name, $value, $post_id, $overwrite) {
+    $current = function_exists('get_field') ? get_field($name, $post_id, false) : get_post_meta($post_id, $name, true);
+    if (!$overwrite && $current !== false && $current !== '' && $current !== null && $current !== []) return;
+    if (function_exists('update_field')) update_field($name, $value, $post_id);
+    else update_post_meta($post_id, $name, $value);
+}
+
+function halong_import_frontend_cruises($endpoint, $overwrite = false, $replace_cabins = false) {
+    if (!function_exists('update_field')) return new WP_Error('halong_acf_missing', 'Activate ACF Free before importing cruise fields.');
+    $response = wp_remote_get($endpoint, ['timeout' => 60, 'redirection' => 3]);
+    $payload = null;
+    if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+        $payload = json_decode(wp_remote_retrieve_body($response), true);
+    }
+    if (!is_array($payload['cruises'] ?? null) || intval($payload['version'] ?? 0) < 3) {
+        $bundled_file = plugin_dir_path(__FILE__) . 'frontend-cruises.json';
+        if (is_readable($bundled_file)) $payload = json_decode(file_get_contents($bundled_file), true);
+    }
+    if (!is_array($payload['cruises'] ?? null)) return new WP_Error('halong_export_invalid', 'No valid cruise export was found online or in the plugin package.');
+
+    $imported = 0; $created = 0; $skipped = 0;
+    foreach ($payload['cruises'] as $cruise) {
+        $slug = sanitize_title($cruise['slug'] ?? '');
+        if (!$slug) { $skipped++; continue; }
+        $post = get_page_by_path($slug, OBJECT, 'cruise');
+        if (!$post) {
+            $post_id = wp_insert_post(['post_type' => 'cruise', 'post_status' => 'publish', 'post_title' => sanitize_text_field($cruise['name'] ?? $slug), 'post_name' => $slug], true);
+            if (is_wp_error($post_id)) { $skipped++; continue; }
+            $created++;
+        } else {
+            $post_id = $post->ID;
+        }
+
+        $simple = [
+            'tagline' => sanitize_text_field($cruise['tagline'] ?? ''),
+            'breadcrumb_label' => sanitize_text_field($cruise['breadcrumbLabel'] ?? $cruise['name'] ?? ''),
+            'region' => sanitize_text_field($cruise['region'] ?? ''),
+            'starting_price' => isset($cruise['startingPrice']) ? floatval($cruise['startingPrice']) : '',
+            'duration_days' => absint($cruise['durationDays'] ?? 0),
+            'duration_nights' => absint($cruise['durationNights'] ?? 0),
+            'cabin_count' => absint($cruise['cabinCount'] ?? 0),
+            'guests_max' => absint($cruise['guestsMax'] ?? 0),
+            'tags' => array_values(array_map('sanitize_text_field', (array) ($cruise['tags'] ?? []))),
+            'overview' => implode("\n\n", array_map('wp_kses_post', (array) ($cruise['overview'] ?? []))),
+            'highlights' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['highlights'] ?? []))),
+            'life_on_board' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['lifeOnBoard'] ?? []))),
+            'hero_image_url' => esc_url_raw($cruise['heroImage'] ?? ''),
+            'features' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['features'] ?? []))),
+            'equipment' => implode("\n", array_map('sanitize_text_field', (array) ($cruise['equipment'] ?? []))),
+            'deck_plan_url' => esc_url_raw($cruise['deckPlanImage'] ?? ''),
+        ];
+        foreach ($simple as $name => $value) halong_set_imported_field($name, $value, $post_id, $overwrite);
+
+        $photos = [];
+        foreach ((array) ($cruise['photos'] ?? []) as $photo) {
+            if (!empty($photo['url'])) $photos[] = ['image_url' => esc_url_raw($photo['url']), 'alt_text' => sanitize_text_field($photo['alt'] ?? '')];
+        }
+        if (!$photos) foreach ((array) ($cruise['galleryImages'] ?? []) as $url) if ($url) $photos[] = ['image_url' => esc_url_raw($url), 'alt_text' => sanitize_text_field($cruise['name'] ?? '')];
+        halong_set_imported_field('external_gallery', $photos, $post_id, $overwrite);
+
+        $cabins = [];
+        foreach ((array) ($cruise['cabins'] ?? []) as $cabin) {
+            $gallery = [];
+            foreach ((array) ($cabin['galleryImages'] ?? []) as $url) if ($url) $gallery[] = ['image_url' => esc_url_raw($url)];
+            $cabins[] = [
+                'name' => sanitize_text_field($cabin['name'] ?? ''), 'cabin_count' => absint($cabin['cabinCount'] ?? 0),
+                'size' => sanitize_text_field($cabin['size'] ?? ''), 'guests' => sanitize_text_field($cabin['guests'] ?? ''),
+                'beds' => sanitize_text_field($cabin['beds'] ?? ''), 'description' => sanitize_textarea_field($cabin['description'] ?? ''),
+                'image_url' => esc_url_raw($cabin['image'] ?? ''), 'gallery_urls' => $gallery,
+            ];
+        }
+        halong_set_imported_field('cabins', $cabins, $post_id, $overwrite || $replace_cabins);
+
+        foreach ((array) ($cruise['programs'] ?? []) as $program) {
+            $id = sanitize_key($program['id'] ?? '');
+            if ($id === '2d1n' || $id === '3d2n') halong_set_imported_field('itinerary_' . $id, halong_import_itinerary_days($program['days'] ?? []), $post_id, $overwrite);
+        }
+        if (empty($cruise['programs']) && !empty($cruise['itinerary'])) halong_set_imported_field('itinerary', halong_import_itinerary_days($cruise['itinerary']), $post_id, $overwrite);
+
+        $areas = [];
+        foreach ((array) ($cruise['socialAreas'] ?? []) as $area) $areas[] = ['name' => sanitize_text_field($area['name'] ?? ''), 'image_url' => esc_url_raw($area['image'] ?? ''), 'alt_text' => sanitize_text_field($area['alt'] ?? '')];
+        halong_set_imported_field('social_areas', $areas, $post_id, $overwrite);
+        $imported++;
+    }
+    return ['imported' => $imported, 'created' => $created, 'skipped' => $skipped, 'total' => count($payload['cruises'])];
+}
+
+function halong_render_cruise_importer() {
+    if (!current_user_can('manage_options')) return;
+    $default_endpoint = halong_frontend_base_url() . '/api/cms-export';
+    $result = null;
+    if (isset($_POST['halong_run_cruise_import'])) {
+        check_admin_referer('halong_import_frontend_cruises');
+        $endpoint = esc_url_raw($_POST['export_endpoint'] ?? $default_endpoint);
+        $result = halong_import_frontend_cruises($endpoint, !empty($_POST['overwrite_existing']), !empty($_POST['replace_cabins_only']));
+    }
+    ?>
+    <div class="wrap"><h1>Import Frontend Cruise Data</h1>
+      <p>This copies the cruise catalogue currently stored in the Next.js frontend into the matching WordPress ACF fields. Cruises are matched by slug; missing cruises are created. If the online export is unavailable, the plugin automatically uses its bundled frontend catalogue.</p>
+      <?php if (is_wp_error($result)) : ?><div class="notice notice-error"><p><?php echo esc_html($result->get_error_message()); ?></p></div>
+      <?php elseif (is_array($result)) : ?><div class="notice notice-success"><p><strong>Import complete:</strong> <?php echo esc_html($result['imported']); ?> cruises processed, <?php echo esc_html($result['created']); ?> created, <?php echo esc_html($result['skipped']); ?> skipped.</p></div><?php endif; ?>
+      <form method="post" style="max-width:850px;background:#fff;border:1px solid #ccd0d4;padding:24px;margin-top:20px">
+        <?php wp_nonce_field('halong_import_frontend_cruises'); ?>
+        <table class="form-table"><tr><th><label for="export_endpoint">Frontend Export URL</label></th><td><input class="large-text" type="url" id="export_endpoint" name="export_endpoint" required value="<?php echo esc_attr($default_endpoint); ?>"><p class="description">The latest frontend must be deployed before running this import.</p></td></tr>
+        <tr><th>Existing data</th><td><label><input type="checkbox" name="overwrite_existing" value="1"> Overwrite fields that already contain WordPress data</label><p class="description">Leave unchecked for the safest first import: only empty fields are filled.</p></td></tr>
+        <tr><th>Cabin cleanup</th><td><label><input type="checkbox" name="replace_cabins_only" value="1"> Replace cabin data only</label><p class="description">Use this after importing plugin v6.3–v6.4. It removes duplicated cabin/rate rows and filters maps, caves, restaurants, decks, pools, and other non-room photos out of cabin galleries without overwriting other cruise fields.</p></td></tr></table>
+        <p class="submit"><button class="button button-primary button-large" type="submit" name="halong_run_cruise_import" value="1">Import / Sync Cruises Now</button></p>
+      </form>
+    </div>
+    <?php
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. Cruise Fields                                                   */
+/* ------------------------------------------------------------------ */
+add_action('acf/init', function () {
+    if (!function_exists('acf_add_local_field_group')) return;
+
+    acf_add_local_field_group([
+        'key' => 'group_cruise_cms',
+        'title' => 'Cruise Details',
+        'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'cruise']]],
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'fields' => [
+
+            /* TAB 1: GENERAL */
+            ['key' => 'tab_general', 'label' => 'General & Pricing', 'type' => 'tab'],
+            ['key' => 'field_tagline', 'name' => 'tagline', 'label' => 'Tagline', 'type' => 'text',
+                'instructions' => 'A short sentence displayed below the cruise name on the hero banner.'],
+            ['key' => 'field_breadcrumb', 'name' => 'breadcrumb_label', 'label' => 'Display Name', 'type' => 'text',
+                'instructions' => 'Optional display name used in breadcrumbs and cruise cards.'],
+            ['key' => 'field_region', 'name' => 'region', 'label' => 'Cruising Region', 'type' => 'select',
+                'choices' => ['Ha Long Bay' => 'Ha Long Bay', 'Lan Ha Bay' => 'Lan Ha Bay', 'Bai Tu Long Bay' => 'Bai Tu Long Bay', 'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay']],
+            ['key' => 'field_price', 'name' => 'starting_price', 'label' => 'Starting Price (USD per guest)', 'type' => 'number',
+                'instructions' => 'Leave blank to display "Price on request".'],
+            ['key' => 'field_days', 'name' => 'duration_days', 'label' => 'Duration — Days', 'type' => 'number', 'default_value' => 2],
+            ['key' => 'field_nights', 'name' => 'duration_nights', 'label' => 'Duration — Nights', 'type' => 'number', 'default_value' => 1],
+            ['key' => 'field_cabin_count', 'name' => 'cabin_count', 'label' => 'Total Cabins', 'type' => 'number'],
+            ['key' => 'field_guests', 'name' => 'guests_max', 'label' => 'Maximum Guests', 'type' => 'number'],
+            ['key' => 'field_tags', 'name' => 'tags', 'label' => 'Category Tags', 'type' => 'checkbox',
+                'choices' => [
+                    'best-value' => 'Best Value', 'best' => 'Best Cruise', 'deluxe' => 'Deluxe',
+                    'luxury' => 'Luxury', '5-star' => '5-Star', 'boutique' => 'Boutique',
+                    'family' => 'Family', 'couples' => 'Couples / Honeymoon',
+                    'group' => 'Group / Charter', 'private-charter' => 'Private Charter',
+                    'small-ship' => 'Small Ship', 'newest' => 'Newest', 'popular' => 'Popular',
+                ]],
+
+            /* TAB 2: CONTENT */
+            ['key' => 'tab_content', 'label' => 'Overview & Highlights', 'type' => 'tab'],
+            ['key' => 'field_overview', 'name' => 'overview', 'label' => 'Overview', 'type' => 'wysiwyg',
+                'instructions' => 'Introduce the cruise, design style, service, and guest experience.'],
+            ['key' => 'field_highlights', 'name' => 'highlights', 'label' => 'Highlights', 'type' => 'textarea',
+                'instructions' => 'Enter one highlight per line.', 'rows' => 5],
+            ['key' => 'field_life', 'name' => 'life_on_board', 'label' => 'Life on Board', 'type' => 'textarea',
+                'instructions' => 'Dining, spa, kayaking, entertainment, and onboard activities. Enter one item per line.', 'rows' => 5],
+
+            ['key' => 'tab_cruise_urls', 'label' => 'Images & Gallery', 'type' => 'tab'],
+            ['key' => 'field_hero_image_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url',
+                'instructions' => 'Paste the full exterior cruise image URL. A live preview is displayed below the field.'],
+            ['key' => 'field_external_gallery', 'name' => 'external_gallery', 'label' => 'Direct Image URL Gallery', 'type' => 'repeater', 'button_label' => 'Add Gallery Image',
+                'sub_fields' => [
+                    ['key' => 'field_external_gallery_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url', 'required' => 1],
+                    ['key' => 'field_external_gallery_alt', 'name' => 'alt_text', 'label' => 'Alt Text / Description', 'type' => 'text'],
+                ]],
+
+            /* TAB 3: CABINS */
+            ['key' => 'tab_cabins', 'label' => 'Cabin Categories', 'type' => 'tab'],
+            ['key' => 'field_cabins', 'name' => 'cabins', 'label' => 'Cabin Categories', 'type' => 'repeater',
+                'button_label' => 'Add Cabin Category',
+                'sub_fields' => [
+                    ['key' => 'field_cb_name', 'name' => 'name', 'label' => 'Category Name', 'type' => 'text', 'required' => 1],
+                    ['key' => 'field_cb_count', 'name' => 'cabin_count', 'label' => 'Number of Cabins', 'type' => 'number'],
+                    ['key' => 'field_cb_size', 'name' => 'size', 'label' => 'Cabin Size (for example: 28 m²)', 'type' => 'text'],
+                    ['key' => 'field_cb_guests', 'name' => 'guests', 'label' => 'Guests (for example: 2–3)', 'type' => 'text'],
+                    ['key' => 'field_cb_beds', 'name' => 'beds', 'label' => 'Bed Type (for example: Double / Twin)', 'type' => 'text'],
+                    ['key' => 'field_cb_desc', 'name' => 'description', 'label' => 'Description', 'type' => 'textarea', 'rows' => 3],
+                    ['key' => 'field_cb_image', 'name' => 'image_url', 'label' => 'Main Cabin Image URL', 'type' => 'url'],
+                    ['key' => 'field_cb_gallery', 'name' => 'gallery_urls', 'label' => 'Cabin Image URLs', 'type' => 'repeater', 'button_label' => 'Add Cabin Image',
+                        'sub_fields' => [['key' => 'field_cb_gallery_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url']]],
+                ]],
+
+            /* TAB 4: ITINERARIES */
+            ['key' => 'tab_itinerary', 'label' => 'Itineraries', 'type' => 'tab'],
+            ['key' => 'field_itinerary_2d1n', 'name' => 'itinerary_2d1n', 'label' => '2 Days / 1 Night Itinerary', 'type' => 'repeater',
+                'button_label' => 'Add Itinerary Day',
+                'sub_fields' => [
+                    ['key' => 'field_it_2d1n_title', 'name' => 'title', 'label' => 'Day Title', 'type' => 'text'],
+                    ['key' => 'field_it_2d1n_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+                    ['key' => 'field_it_2d1n_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_it_2d1n_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_2d1n_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_2d1n_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 2],
+                ]],
+            ['key' => 'field_itinerary_3d2n', 'name' => 'itinerary_3d2n', 'label' => '3 Days / 2 Nights Itinerary', 'type' => 'repeater',
+                'button_label' => 'Add Itinerary Day',
+                'sub_fields' => [
+                    ['key' => 'field_it_3d2n_title', 'name' => 'title', 'label' => 'Day Title', 'type' => 'text'],
+                    ['key' => 'field_it_3d2n_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+                    ['key' => 'field_it_3d2n_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_it_3d2n_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_3d2n_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_3d2n_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 2],
+                ]],
+            ['key' => 'field_itinerary', 'name' => 'itinerary', 'label' => 'Legacy / Default Itinerary', 'type' => 'repeater',
+                'instructions' => 'Kept for compatibility with existing data. New cruises should use the duration-specific itineraries above.',
+                'button_label' => 'Add Itinerary Day',
+                'sub_fields' => [
+                    ['key' => 'field_it_title', 'name' => 'title', 'label' => 'Day Title', 'type' => 'text'],
+                    ['key' => 'field_it_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+                    ['key' => 'field_it_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_it_am', 'name' => 'am', 'label' => 'Morning (AM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_pm', 'name' => 'pm', 'label' => 'Afternoon (PM)', 'type' => 'textarea', 'rows' => 2],
+                    ['key' => 'field_it_eve', 'name' => 'eve', 'label' => 'Evening', 'type' => 'textarea', 'rows' => 2],
+                ]],
+
+            /* TAB 5: FACILITIES */
+            ['key' => 'tab_media', 'label' => 'Social Areas & Facilities', 'type' => 'tab'],
+            ['key' => 'field_social', 'name' => 'social_areas', 'label' => 'Social Areas (Restaurant, Sundeck, Bar)', 'type' => 'repeater',
+                'button_label' => 'Add Social Area',
+                'sub_fields' => [
+                    ['key' => 'field_sa_name', 'name' => 'name', 'label' => 'Area Name', 'type' => 'text'],
+                    ['key' => 'field_sa_image', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                    ['key' => 'field_sa_alt', 'name' => 'alt_text', 'label' => 'Alt Text', 'type' => 'text'],
+                ]],
+            ['key' => 'field_features', 'name' => 'features', 'label' => 'Features & Amenities', 'type' => 'textarea',
+                'instructions' => 'Enter one feature per line.', 'rows' => 5],
+            ['key' => 'field_equipment', 'name' => 'equipment', 'label' => 'Equipment', 'type' => 'textarea', 'instructions' => 'Enter one item per line.', 'rows' => 5],
+            ['key' => 'field_deck_plan_url', 'name' => 'deck_plan_url', 'label' => 'Deck Plan Image URL', 'type' => 'url'],
+            ['key' => 'field_related', 'name' => 'related', 'label' => 'Related Cruises', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object', 'filters' => ['search']],
+        ],
+    ]);
+});
+
+/* ------------------------------------------------------------------ */
+/* 3B. Homepage, navigation, footer, tours, and frontend pages       */
+/* ------------------------------------------------------------------ */
+add_action('acf/init', function () {
+    if (!function_exists('acf_add_local_field_group')) return;
+
+    $link_fields = function ($prefix) {
+        return [
+            ['key' => "field_{$prefix}_label", 'name' => 'label', 'label' => 'Label', 'type' => 'text'],
+            ['key' => "field_{$prefix}_href", 'name' => 'href', 'label' => 'Link / URL', 'type' => 'text'],
+        ];
+    };
+
+    acf_add_local_field_group([
+        'key' => 'group_halong_tour_collection_v5', 'title' => 'Tour Collection Details', 'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'tour_collection']]],
+        'fields' => [
+            ['key' => 'field_tc_type', 'name' => 'collection_type', 'label' => 'Collection Type', 'type' => 'select', 'choices' => ['region' => 'Region', 'style' => 'Travel Style / Category']],
+            ['key' => 'field_tc_eyebrow', 'name' => 'eyebrow', 'label' => 'Hero Eyebrow', 'type' => 'text'],
+            ['key' => 'field_tc_title', 'name' => 'title', 'label' => 'H1 Title', 'type' => 'text'],
+            ['key' => 'field_tc_subtitle', 'name' => 'subtitle', 'label' => 'Hero Subtitle', 'type' => 'textarea', 'rows' => 3],
+            ['key' => 'field_tc_hero_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_tc_description', 'name' => 'description_paragraphs', 'label' => 'Introduction', 'type' => 'textarea', 'instructions' => 'Enter one paragraph per line.', 'rows' => 8],
+            ['key' => 'field_tc_highlights', 'name' => 'key_highlights', 'label' => 'Key Highlights', 'type' => 'textarea', 'instructions' => 'Enter one highlight per line.', 'rows' => 6],
+            ['key' => 'field_tc_price', 'name' => 'price_range_text', 'label' => 'Price Range', 'type' => 'text'],
+            ['key' => 'field_tc_months', 'name' => 'best_months_text', 'label' => 'Best Months', 'type' => 'text'],
+            ['key' => 'field_tc_advice', 'name' => 'expert_advice', 'label' => 'Expert Advice', 'type' => 'textarea'],
+            ['key' => 'field_tc_faqs', 'name' => 'faqs', 'label' => 'Frequently Asked Questions', 'type' => 'repeater', 'button_label' => 'Add FAQ', 'sub_fields' => [
+                ['key' => 'field_tc_faq_q', 'name' => 'question', 'label' => 'Question', 'type' => 'text'],
+                ['key' => 'field_tc_faq_a', 'name' => 'answer', 'label' => 'Answer', 'type' => 'textarea'],
+            ]],
+        ],
+    ]);
+
+    acf_add_local_field_group([
+        'key' => 'group_halong_homepage_v5', 'title' => 'Homepage & Global Website Settings', 'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'homepage_content']]],
+        'fields' => [
+            ['key' => 'tab_home_hero', 'label' => 'Hero', 'type' => 'tab'],
+            ['key' => 'field_home_hero_title', 'name' => 'hero_title', 'label' => 'Hero Title', 'type' => 'text'],
+            ['key' => 'field_home_hero_subtitle', 'name' => 'hero_subtitle', 'label' => 'Hero Subtitle', 'type' => 'textarea'],
+            ['key' => 'field_home_hero_bg_url', 'name' => 'hero_background_url', 'label' => 'Default Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_home_hero_slides', 'name' => 'hero_slides', 'label' => 'Hero Slides', 'type' => 'repeater', 'button_label' => 'Add Slide', 'sub_fields' => [
+                ['key' => 'field_home_slide_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                ['key' => 'field_home_slide_name', 'name' => 'name', 'label' => 'Slide Name / Alt Text', 'type' => 'text'],
+                ['key' => 'field_home_slide_link', 'name' => 'slug', 'label' => 'Slug or Link', 'type' => 'text'],
+            ]],
+
+            ['key' => 'tab_home_sections', 'label' => 'Homepage Sections', 'type' => 'tab'],
+            ['key' => 'field_home_trip_title', 'name' => 'trip_types_title', 'label' => 'Trip Types Title', 'type' => 'text'],
+            ['key' => 'field_home_trip_desc', 'name' => 'trip_types_description', 'label' => 'Trip Types Description', 'type' => 'textarea'],
+            ['key' => 'field_home_styles', 'name' => 'selected_styles', 'label' => 'Selected Travel Styles', 'type' => 'relationship', 'post_type' => ['tour_collection'], 'return_format' => 'object', 'filters' => ['search']],
+            ['key' => 'field_home_regions_title', 'name' => 'regions_title', 'label' => 'Regions Title', 'type' => 'text'],
+            ['key' => 'field_home_regions_desc', 'name' => 'regions_description', 'label' => 'Regions Description', 'type' => 'textarea'],
+            ['key' => 'field_home_regions', 'name' => 'selected_regions', 'label' => 'Selected Regions', 'type' => 'relationship', 'post_type' => ['tour_collection'], 'return_format' => 'object', 'filters' => ['search']],
+            ['key' => 'field_home_featured_title', 'name' => 'featured_title', 'label' => 'Featured Fleet Title', 'type' => 'text'],
+            ['key' => 'field_home_featured', 'name' => 'featured_cruises', 'label' => 'Featured Cruises', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object', 'filters' => ['search']],
+            ['key' => 'field_home_testimonials_title', 'name' => 'testimonials_title', 'label' => 'Testimonials Title', 'type' => 'text'],
+            ['key' => 'field_home_testimonials_eyebrow', 'name' => 'testimonials_eyebrow', 'label' => 'Testimonials Eyebrow', 'type' => 'text', 'default_value' => 'Real travellers · Verified stays'],
+            ['key' => 'field_home_testimonials_rating', 'name' => 'testimonials_rating_text', 'label' => 'Rating Summary', 'type' => 'text', 'default_value' => '4.9 / 5 · 500+ reviews'],
+            ['key' => 'field_home_testimonials', 'name' => 'testimonials', 'label' => 'Testimonials', 'type' => 'repeater', 'button_label' => 'Add Testimonial', 'sub_fields' => [
+                ['key' => 'field_home_testimonial_quote', 'name' => 'quote', 'label' => 'Quote', 'type' => 'textarea', 'rows' => 3],
+                ['key' => 'field_home_testimonial_author', 'name' => 'author', 'label' => 'Author', 'type' => 'text'],
+                ['key' => 'field_home_testimonial_location', 'name' => 'location', 'label' => 'Location', 'type' => 'text'],
+            ]],
+            ['key' => 'field_home_team_eyebrow', 'name' => 'team_eyebrow', 'label' => 'Team Eyebrow', 'type' => 'text', 'default_value' => 'The people behind the site'],
+            ['key' => 'field_home_team_title', 'name' => 'team_title', 'label' => 'Team Section Title', 'type' => 'text', 'default_value' => 'Our team.'],
+            ['key' => 'field_home_team', 'name' => 'team_members', 'label' => 'Team Members', 'type' => 'repeater', 'button_label' => 'Add Team Member', 'sub_fields' => [
+                ['key' => 'field_home_team_name', 'name' => 'name', 'label' => 'Name', 'type' => 'text', 'required' => 1],
+                ['key' => 'field_home_team_role', 'name' => 'role', 'label' => 'Role', 'type' => 'text'],
+                ['key' => 'field_home_team_experience', 'name' => 'experience', 'label' => 'Experience', 'type' => 'text'],
+                ['key' => 'field_home_team_initial', 'name' => 'initial', 'label' => 'Avatar Initial', 'type' => 'text', 'maxlength' => 2],
+                ['key' => 'field_home_team_image', 'name' => 'image_url', 'label' => 'Profile Image URL', 'type' => 'url'],
+                ['key' => 'field_home_team_bio', 'name' => 'bio', 'label' => 'Biography', 'type' => 'textarea', 'rows' => 4],
+            ]],
+            ['key' => 'field_home_contact_whatsapp_label', 'name' => 'contact_whatsapp_label', 'label' => 'WhatsApp Label', 'type' => 'text', 'default_value' => 'WhatsApp'],
+            ['key' => 'field_home_contact_whatsapp', 'name' => 'contact_whatsapp', 'label' => 'WhatsApp Number', 'type' => 'text', 'default_value' => '+84 905 999 888'],
+            ['key' => 'field_home_contact_email_label', 'name' => 'contact_email_label', 'label' => 'Email Label', 'type' => 'text', 'default_value' => 'Email'],
+            ['key' => 'field_home_contact_email', 'name' => 'contact_email', 'label' => 'Contact Email', 'type' => 'email', 'default_value' => 'hello@halongbestcruises.com'],
+            ['key' => 'field_home_contact_office_label', 'name' => 'contact_office_label', 'label' => 'Office Label', 'type' => 'text', 'default_value' => 'Office'],
+            ['key' => 'field_home_contact_office', 'name' => 'contact_office', 'label' => 'Office Address', 'type' => 'text', 'default_value' => 'Hanoi Old Quarter, Vietnam'],
+            ['key' => 'field_home_contact_hours', 'name' => 'contact_hours', 'label' => 'Office Hours', 'type' => 'text', 'default_value' => 'Mon–Sat · 8am–8pm ICT'],
+            ['key' => 'field_home_guides_title', 'name' => 'guides_title', 'label' => 'Travel Guides Title', 'type' => 'text'],
+            ['key' => 'field_home_guides', 'name' => 'guides_list', 'label' => 'Travel Guides', 'type' => 'repeater', 'button_label' => 'Add Guide', 'sub_fields' => [
+                ['key' => 'field_home_guide_title', 'name' => 'title', 'label' => 'Title', 'type' => 'text'],
+                ['key' => 'field_home_guide_url', 'name' => 'url', 'label' => 'Link / URL', 'type' => 'text'],
+                ['key' => 'field_home_guide_image_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                ['key' => 'field_home_guide_date', 'name' => 'date', 'label' => 'Date', 'type' => 'text'],
+                ['key' => 'field_home_guide_read', 'name' => 'read_time', 'label' => 'Read Time', 'type' => 'text'],
+            ]],
+            ['key' => 'field_home_category_eyebrow', 'name' => 'category_section_eyebrow', 'label' => 'Category Section Eyebrow', 'type' => 'text'],
+            ['key' => 'field_home_category_title', 'name' => 'category_section_title', 'label' => 'Category Section Title', 'type' => 'text'],
+            ['key' => 'field_home_category_desc', 'name' => 'category_section_desc', 'label' => 'Category Section Description', 'type' => 'textarea'],
+            ['key' => 'field_home_category_tiles', 'name' => 'category_tiles', 'label' => 'Category Tiles', 'type' => 'repeater', 'button_label' => 'Add Category Tile', 'sub_fields' => [
+                ['key' => 'field_home_tile_label', 'name' => 'label', 'label' => 'Label', 'type' => 'text'],
+                ['key' => 'field_home_tile_subtitle', 'name' => 'subtitle', 'label' => 'Subtitle', 'type' => 'text'],
+                ['key' => 'field_home_tile_href', 'name' => 'href', 'label' => 'Link / URL', 'type' => 'text'],
+                ['key' => 'field_home_tile_image_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+                ['key' => 'field_home_tile_badge', 'name' => 'badge', 'label' => 'Badge', 'type' => 'text'],
+            ]],
+
+            ['key' => 'tab_home_global', 'label' => 'Header / Footer / CTA', 'type' => 'tab'],
+            ['key' => 'field_home_logo_url', 'name' => 'header_logo_url', 'label' => 'Logo Image URL', 'type' => 'url', 'instructions' => 'Paste a transparent PNG, SVG, WebP, or hosted WordPress image URL. A live preview appears below.'],
+            ['key' => 'field_home_logo_alt', 'name' => 'header_logo_alt', 'label' => 'Logo Alt Text', 'type' => 'text', 'default_value' => 'Ha Long Bay Cruises'],
+            ['key' => 'field_home_logo_width', 'name' => 'header_logo_width', 'label' => 'Logo Width (pixels)', 'type' => 'number', 'default_value' => 180, 'min' => 60, 'max' => 500],
+            ['key' => 'field_home_cruises_label', 'name' => 'header_cruises_label', 'label' => 'Cruises Menu Label', 'type' => 'text', 'default_value' => 'Cruises'],
+            ['key' => 'field_home_header_cruises', 'name' => 'header_cruises', 'label' => 'Cruises Menu Items', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_cruises')],
+            ['key' => 'field_home_tours_label', 'name' => 'header_tours_label', 'label' => 'Tours Menu Label', 'type' => 'text', 'default_value' => 'Tours & Packages'],
+            ['key' => 'field_home_header_tours', 'name' => 'header_tours', 'label' => 'Tours Menu Items', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_tours')],
+            ['key' => 'field_home_guides_label', 'name' => 'header_guides_label', 'label' => 'Guides Menu Label', 'type' => 'text', 'default_value' => 'Travel Guides'],
+            ['key' => 'field_home_header_guides', 'name' => 'header_guides', 'label' => 'Guides Menu Items', 'type' => 'repeater', 'sub_fields' => $link_fields('home_header_guides')],
+            ['key' => 'field_home_about_label', 'name' => 'header_about_label', 'label' => 'About Menu Label', 'type' => 'text', 'default_value' => 'About Us'],
+            ['key' => 'field_home_header_cta_label', 'name' => 'header_cta_label', 'label' => 'Header CTA Label', 'type' => 'text', 'default_value' => 'Plan My Cruise'],
+            ['key' => 'field_home_header_cta_url', 'name' => 'header_cta_url', 'label' => 'Header CTA Link', 'type' => 'text', 'default_value' => '/inquire'],
+            ['key' => 'field_home_top_text', 'name' => 'top_bar_text', 'label' => 'Announcement Bar Text', 'type' => 'text'],
+            ['key' => 'field_home_top_link_text', 'name' => 'top_bar_link_text', 'label' => 'Announcement Link Text', 'type' => 'text'],
+            ['key' => 'field_home_top_link_url', 'name' => 'top_bar_link_url', 'label' => 'Announcement Link URL', 'type' => 'text'],
+            ['key' => 'field_home_footer_address', 'name' => 'footer_address', 'label' => 'Footer Address', 'type' => 'textarea'],
+            ['key' => 'field_home_footer_phone', 'name' => 'footer_phone', 'label' => 'Footer Phone', 'type' => 'text'],
+            ['key' => 'field_home_footer_email', 'name' => 'footer_email', 'label' => 'Footer Email', 'type' => 'email'],
+            ['key' => 'field_home_footer_cruises', 'name' => 'footer_cruises', 'label' => 'Link Cruises Footer', 'type' => 'repeater', 'sub_fields' => $link_fields('home_footer_cruises')],
+            ['key' => 'field_home_footer_tours', 'name' => 'footer_tours', 'label' => 'Link Tours Footer', 'type' => 'repeater', 'sub_fields' => $link_fields('home_footer_tours')],
+            ['key' => 'field_home_footer_guides', 'name' => 'footer_guides', 'label' => 'Link Guides Footer', 'type' => 'repeater', 'sub_fields' => $link_fields('home_footer_guides')],
+            ['key' => 'field_home_seo_title', 'name' => 'seo_title', 'label' => 'Homepage SEO Block Title', 'type' => 'text'],
+            ['key' => 'field_home_seo_text', 'name' => 'seo_text', 'label' => 'Homepage SEO Content', 'type' => 'textarea', 'rows' => 8],
+            ['key' => 'field_home_shortlist_title', 'name' => 'shortlist_form_title', 'label' => 'Shortlist Form Title', 'type' => 'text'],
+            ['key' => 'field_home_shortlist_subtitle', 'name' => 'shortlist_form_subtitle', 'label' => 'Shortlist Form Subtitle', 'type' => 'text'],
+            ['key' => 'field_home_shortlist_desc', 'name' => 'shortlist_form_desc', 'label' => 'Shortlist Form Description', 'type' => 'textarea'],
+            ['key' => 'field_home_sticky_text', 'name' => 'sticky_cta_text', 'label' => 'Sticky CTA Text', 'type' => 'text'],
+            ['key' => 'field_home_sticky_whatsapp', 'name' => 'sticky_cta_whatsapp', 'label' => 'Sticky CTA WhatsApp Number', 'type' => 'text', 'instructions' => 'Include the country code without the plus sign.'],
+        ],
+    ]);
+
+    acf_add_local_field_group([
+        'key' => 'group_halong_frontend_page_v5', 'title' => 'Frontend Page Content', 'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'frontend_page']]],
+        'fields' => [
+            ['key' => 'field_fp_route', 'name' => 'route', 'label' => 'Frontend Route', 'type' => 'text', 'instructions' => 'Examples: /about, /contact, or /guides/best-cruises', 'required' => 1],
+            ['key' => 'field_fp_eyebrow', 'name' => 'eyebrow', 'label' => 'Hero Eyebrow', 'type' => 'text'],
+            ['key' => 'field_fp_title', 'name' => 'hero_title', 'label' => 'Hero Title', 'type' => 'text'],
+            ['key' => 'field_fp_subtitle', 'name' => 'hero_subtitle', 'label' => 'Hero Subtitle', 'type' => 'textarea'],
+            ['key' => 'field_fp_image_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url'],
+            ['key' => 'field_fp_content', 'name' => 'content_html', 'label' => 'Main Content', 'type' => 'wysiwyg'],
+            ['key' => 'field_fp_sections', 'name' => 'sections', 'label' => 'Additional Content Sections', 'type' => 'repeater', 'button_label' => 'Add Section', 'sub_fields' => [
+                ['key' => 'field_fp_section_title', 'name' => 'title', 'label' => 'Title', 'type' => 'text'],
+                ['key' => 'field_fp_section_text', 'name' => 'text', 'label' => 'Content', 'type' => 'wysiwyg'],
+                ['key' => 'field_fp_section_image_url', 'name' => 'image_url', 'label' => 'Image URL', 'type' => 'url'],
+            ]],
+            ['key' => 'field_fp_meta_title', 'name' => 'meta_title', 'label' => 'SEO Title', 'type' => 'text'],
+            ['key' => 'field_fp_meta_desc', 'name' => 'meta_description', 'label' => 'SEO Description', 'type' => 'textarea'],
+        ],
+    ]);
+
+    /* Travel Guides: body is written in the normal post editor above this
+       box (post_content → content.rendered in REST); these are just the
+       structured extras the frontend cards/detail page need. */
+    acf_add_local_field_group([
+        'key' => 'group_halong_guide_v1', 'title' => 'Guide Details', 'show_in_rest' => 1,
+        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'guide']]],
+        'fields' => [
+            ['key' => 'field_guide_excerpt', 'name' => 'excerpt', 'label' => 'Excerpt', 'type' => 'textarea', 'rows' => 2,
+                'instructions' => 'One or two sentences — shown on guide cards and the homepage teaser.'],
+            ['key' => 'field_guide_cover_url', 'name' => 'cover_image_url', 'label' => 'Cover Image URL', 'type' => 'url',
+                'instructions' => 'Paste the full image URL. A live preview is displayed below the field, same as the other image fields in this plugin.'],
+            ['key' => 'field_guide_region', 'name' => 'region', 'label' => 'Region (optional)', 'type' => 'select', 'allow_null' => 1,
+                'choices' => ['Ha Long Bay' => 'Ha Long Bay', 'Lan Ha Bay' => 'Lan Ha Bay', 'Bai Tu Long Bay' => 'Bai Tu Long Bay', 'Ha Long Bay & Lan Ha Bay' => 'Ha Long Bay & Lan Ha Bay']],
+            ['key' => 'field_guide_read', 'name' => 'read_minutes', 'label' => 'Read Time (minutes)', 'type' => 'number', 'default_value' => 5],
+            ['key' => 'field_guide_related', 'name' => 'related', 'label' => 'Related Cruises', 'type' => 'relationship', 'post_type' => ['cruise'], 'return_format' => 'object', 'filters' => ['search'],
+                'instructions' => 'Cruises to recommend at the bottom of this guide.'],
+        ],
+    ]);
+});
+
+/* ------------------------------------------------------------------ */
+/* 3C. Travel Guide admin polish (columns + frontend link)            */
+/* ------------------------------------------------------------------ */
+function halong_guide_field($name, $post_id) {
+    return function_exists('get_field') ? get_field($name, $post_id) : get_post_meta($post_id, $name, true);
+}
+
+function halong_guide_frontend_url($post_id) {
+    return halong_frontend_base_url() . '/guides/' . get_post_field('post_name', $post_id);
+}
+
 add_filter('manage_guide_posts_columns', function ($columns) {
     return [
         'cb' => $columns['cb'],
-        'halong_image' => 'Cover',
+        'halong_guide_image' => 'Cover',
         'title' => 'Title',
-        'halong_region' => 'Region',
-        'halong_read_time' => 'Read Time',
-        'halong_frontend' => 'Frontend',
+        'halong_guide_region' => 'Region',
+        'halong_guide_read' => 'Read Time',
+        'halong_guide_frontend' => 'Frontend',
         'date' => $columns['date'] ?? 'Date',
     ];
 });
 
 add_action('manage_guide_posts_custom_column', function ($column, $post_id) {
-    if ($column === 'halong_image') {
-        $image = halong_cruise_field('cover_image_url', $post_id);
-        if (!$image) $image = get_the_post_thumbnail_url($post_id, 'thumbnail');
-        echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:60px;height:40px;object-fit:cover;border-radius:4px">' : '<span aria-hidden="true">—</span>';
-    } elseif ($column === 'halong_region') {
-        echo esc_html(halong_cruise_field('region', $post_id) ?: 'Ha Long Bay');
-    } elseif ($column === 'halong_read_time') {
-        $mins = halong_cruise_field('read_minutes', $post_id);
-        echo esc_html(($mins ?: 5) . ' min');
-    } elseif ($column === 'halong_frontend') {
-        echo '<a class="button button-small" target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post_id)) . '">View Frontend ↗</a>';
+    if ($column === 'halong_guide_image') {
+        $image = halong_guide_field('cover_image_url', $post_id) ?: get_the_post_thumbnail_url($post_id, 'thumbnail');
+        echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:72px;height:48px;object-fit:cover;border-radius:5px">' : '<span aria-hidden="true">—</span>';
+    } elseif ($column === 'halong_guide_region') {
+        echo esc_html(halong_guide_field('region', $post_id) ?: '—');
+    } elseif ($column === 'halong_guide_read') {
+        $minutes = halong_guide_field('read_minutes', $post_id);
+        echo $minutes ? esc_html($minutes . ' min') : '—';
+    } elseif ($column === 'halong_guide_frontend') {
+        echo '<a class="button button-small" target="_blank" rel="noopener" href="' . esc_url(halong_guide_frontend_url($post_id)) . '">View Frontend ↗</a>';
     }
 }, 10, 2);
-
-/* Tour Collections admin list columns */
-add_filter('manage_tour_collection_posts_columns', function ($columns) {
-    return [
-        'cb' => $columns['cb'],
-        'halong_image' => 'Image',
-        'title' => 'Collection Title',
-        'halong_type' => 'Type',
-        'halong_price_range' => 'Price Range',
-        'halong_best_months' => 'Best Months',
-        'date' => $columns['date'] ?? 'Date',
-    ];
-});
-
-add_action('manage_tour_collection_posts_custom_column', function ($column, $post_id) {
-    if ($column === 'halong_image') {
-        $image = halong_cruise_field('hero_image_url', $post_id);
-        if (!$image) $image = get_the_post_thumbnail_url($post_id, 'thumbnail');
-        echo $image ? '<img src="' . esc_url($image) . '" alt="" style="width:60px;height:40px;object-fit:cover;border-radius:4px">' : '<span aria-hidden="true">—</span>';
-    } elseif ($column === 'halong_type') {
-        $type = halong_cruise_field('collection_type', $post_id);
-        echo esc_html($type ? ucfirst($type) : 'Style');
-    } elseif ($column === 'halong_price_range') {
-        echo esc_html(halong_cruise_field('price_range_text', $post_id) ?: '—');
-    } elseif ($column === 'halong_best_months') {
-        echo esc_html(halong_cruise_field('best_months_text', $post_id) ?: '—');
-    }
-}, 10, 2);
-
-add_action('acf/init', function () {
-    if (!function_exists('acf_add_local_field_group')) return;
-
-    acf_add_local_field_group([
-        'key' => 'group_halong_tour_collection_cms',
-        'title' => 'Tour Collection Details',
-        'show_in_rest' => 1,
-        'location' => [[['param' => 'post_type', 'operator' => '==', 'value' => 'tour_collection']]],
-        'fields' => [
-            ['key' => 'field_tour_hero_image_url', 'name' => 'hero_image_url', 'label' => 'Hero Image URL', 'type' => 'url'],
-            ['key' => 'field_tour_eyebrow', 'name' => 'eyebrow', 'label' => 'Eyebrow', 'type' => 'text'],
-            ['key' => 'field_tour_subtitle', 'name' => 'subtitle', 'label' => 'Subtitle / Tagline', 'type' => 'textarea', 'rows' => 2],
-            ['key' => 'field_tour_collection_type', 'name' => 'collection_type', 'label' => 'Collection Type', 'type' => 'select',
-                'choices' => ['style' => 'By Style', 'region' => 'By Region', 'duration' => 'By Duration']],
-            ['key' => 'field_tour_price_range_text', 'name' => 'price_range_text', 'label' => 'Price Range Text', 'type' => 'text'],
-            ['key' => 'field_tour_best_months_text', 'name' => 'best_months_text', 'label' => 'Best Months Text', 'type' => 'text'],
-            ['key' => 'field_tour_key_highlights', 'name' => 'key_highlights', 'label' => 'Key Highlights (1 per line)', 'type' => 'textarea', 'rows' => 3],
-            ['key' => 'field_tour_expert_advice', 'name' => 'expert_advice', 'label' => 'Expert Advice', 'type' => 'textarea', 'rows' => 2],
-        ],
-    ]);
-});
 
 add_filter('post_row_actions', function ($actions, $post) {
-    if (in_array($post->post_type, ['cruise', 'guide', 'tour_collection'], true)) {
-        $actions['halong_frontend'] = '<a target="_blank" rel="noopener" href="' . esc_url(halong_cruise_frontend_url($post->ID)) . '">View Frontend ↗</a>';
+    if ($post->post_type === 'guide') {
+        $actions['halong_guide_frontend'] = '<a target="_blank" rel="noopener" href="' . esc_url(halong_guide_frontend_url($post->ID)) . '">View Frontend</a>';
     }
     return $actions;
 }, 10, 2);
 
-add_action('add_meta_boxes', function () {
-    add_meta_box(
-        'halong_cruise_category_meta',
-        '🚢 Cruise Category / Style (Phân loại tàu)',
-        function ($post) {
-            wp_nonce_field('halong_cruise_category_nonce', 'halong_cruise_category_nonce');
-            $selected_categories = wp_get_post_terms($post->ID, 'cruise_category', ['fields' => 'ids']);
-            $all_terms = get_terms(['taxonomy' => 'cruise_category', 'hide_empty' => false]);
-            $acf_tags = halong_cruise_field('tags', $post->ID);
-            
-            echo '<div style="margin-bottom:8px;font-size:12px;color:#50575e;">Chọn phân loại cho tàu (hiển thị trên các ô danh mục ở trang chủ):</div>';
-            echo '<div style="display:flex;flex-wrap:wrap;gap:6px 12px;background:#f9f9f9;padding:10px;border:1px solid #ccd0d4;border-radius:6px;">';
-            if (!empty($all_terms) && !is_wp_error($all_terms)) {
-                foreach ($all_terms as $term) {
-                    $checked = in_array($term->term_id, $selected_categories, true) ? 'checked' : '';
-                    echo '<label style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:13px;font-weight:500;">';
-                    echo '<input type="checkbox" name="halong_cruise_categories[]" value="' . esc_attr($term->term_id) . '" ' . $checked . '>';
-                    echo esc_html($term->name);
-                    echo '</label>';
+add_action('post_submitbox_misc_actions', function ($post) {
+    if (!$post || $post->post_type !== 'guide' || !$post->ID) return;
+    echo '<div class="misc-pub-section"><span class="dashicons dashicons-external" style="margin-right:6px"></span><a target="_blank" rel="noopener" href="' . esc_url(halong_guide_frontend_url($post->ID)) . '"><strong>View this guide on frontend</strong></a></div>';
+});
+
+add_action('admin_head-edit.php', function () {
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if ($screen && $screen->post_type === 'guide') echo '<style>.column-halong_guide_image{width:88px}.column-halong_guide_region,.column-halong_guide_read{width:110px}.column-halong_guide_frontend{width:135px}</style>';
+});
+
+/* ------------------------------------------------------------------ */
+/* 4. REST API Endpoints & Order Handlers                             */
+/* ------------------------------------------------------------------ */
+add_action('rest_api_init', function () {
+    register_rest_route('halong/v1', '/frontend-page', [
+        'methods' => 'GET',
+        'permission_callback' => '__return_true',
+        'callback' => function (WP_REST_Request $req) {
+            $route = '/' . ltrim(sanitize_text_field($req->get_param('route') ?: ''), '/');
+            $posts = get_posts(['post_type' => 'frontend_page', 'post_status' => 'publish', 'numberposts' => -1]);
+            foreach ($posts as $post) {
+                if ('/' . ltrim((string) get_field('route', $post->ID), '/') !== $route) continue;
+                $sections = [];
+                foreach ((array) get_field('sections', $post->ID) as $section) {
+                    $sections[] = [
+                        'title' => $section['title'] ?? '',
+                        'text' => $section['text'] ?? '',
+                        'image' => $section['image_url'] ?? '',
+                    ];
                 }
+                return new WP_REST_Response([
+                    'route' => $route,
+                    'eyebrow' => get_field('eyebrow', $post->ID) ?: '',
+                    'heroTitle' => get_field('hero_title', $post->ID) ?: get_the_title($post),
+                    'heroSubtitle' => get_field('hero_subtitle', $post->ID) ?: '',
+                    'heroImage' => get_field('hero_image_url', $post->ID) ?: '',
+                    'contentHtml' => get_field('content_html', $post->ID) ?: apply_filters('the_content', $post->post_content),
+                    'sections' => $sections,
+                    'metaTitle' => get_field('meta_title', $post->ID) ?: '',
+                    'metaDescription' => get_field('meta_description', $post->ID) ?: '',
+                ], 200);
             }
-            echo '</div>';
-            echo '<div style="margin-top:10px;"><label style="font-weight:600;display:block;margin-bottom:3px;font-size:12px;">Custom Tags (Mỗi từ 1 dòng):</label>';
-            echo '<textarea name="halong_cruise_tags" rows="2" style="width:100%;font-family:monospace;font-size:12px;" placeholder="luxury&#10;best&#10;family">' . esc_textarea(is_string($acf_tags) ? $acf_tags : implode("\n", (array)$acf_tags)) . '</textarea></div>';
+            return new WP_Error('halong_page_not_found', 'Frontend page not found', ['status' => 404]);
         },
-        'cruise',
-        'side',
-        'default'
-    );
-
-    add_meta_box(
-        'halong_guide_details_meta',
-        '📖 Guide Details (Thông tin Cẩm nang)',
-        function ($post) {
-            wp_nonce_field('halong_guide_meta_nonce', 'halong_guide_meta_nonce');
-            $cover = halong_cruise_field('cover_image_url', $post->ID);
-            $excerpt = halong_cruise_field('excerpt', $post->ID);
-            $region = halong_cruise_field('region', $post->ID) ?: 'Ha Long Bay';
-            $read_time = halong_cruise_field('read_minutes', $post->ID) ?: 5;
-            
-            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Cover Image URL (Đường dẫn ảnh bìa):</label>';
-            echo '<input type="url" name="halong_guide_cover_image_url" value="' . esc_attr($cover) . '" style="width:100%;padding:6px;" placeholder="https://..."></div>';
-
-            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Excerpt / Subtitle (Mô tả ngắn):</label>';
-            echo '<textarea name="halong_guide_excerpt" rows="2" style="width:100%;padding:6px;" placeholder="Mô tả tóm tắt bài viết...">' . esc_textarea($excerpt) . '</textarea></div>';
-
-            echo '<div style="display:flex;gap:15px;margin-bottom:6px;">';
-            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Region (Khu vực):</label>';
-            echo '<select name="halong_guide_region" style="width:100%;padding:5px;">';
-            foreach (['Ha Long Bay', 'Lan Ha Bay', 'Bai Tu Long Bay', 'Ha Long Bay & Lan Ha Bay'] as $r) {
-                $sel = ($r === $region) ? 'selected' : '';
-                echo '<option value="' . esc_attr($r) . '" ' . $sel . '>' . esc_html($r) . '</option>';
-            }
-            echo '</select></div>';
-
-            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Read Time (Số phút đọc):</label>';
-            echo '<input type="number" name="halong_guide_read_minutes" value="' . esc_attr($read_time) . '" style="width:100%;padding:5px;"></div>';
-            echo '</div>';
-        },
-        'guide',
-        'normal',
-        'high'
-    );
-
-    add_meta_box(
-        'halong_tour_collection_details_meta',
-        '🗺️ Tour Collection Details (Thông tin Bộ sưu tập Tour / Hành trình)',
-        function ($post) {
-            wp_nonce_field('halong_tour_meta_nonce', 'halong_tour_meta_nonce');
-            $hero_image = halong_cruise_field('hero_image_url', $post->ID);
-            $eyebrow = halong_cruise_field('eyebrow', $post->ID);
-            $subtitle = halong_cruise_field('subtitle', $post->ID);
-            $type = halong_cruise_field('collection_type', $post->ID) ?: 'style';
-            $price_range = halong_cruise_field('price_range_text', $post->ID);
-            $best_months = halong_cruise_field('best_months_text', $post->ID);
-            $highlights = halong_cruise_field('key_highlights', $post->ID);
-            $expert_advice = halong_cruise_field('expert_advice', $post->ID);
-
-            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Hero Image URL (Đường dẫn ảnh bìa / Banner):</label>';
-            echo '<input type="url" name="halong_tour_hero_image_url" value="' . esc_attr($hero_image) . '" style="width:100%;padding:6px;" placeholder="https://..."></div>';
-
-            echo '<div style="display:flex;gap:15px;margin-bottom:12px;">';
-            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Eyebrow (Tiêu đề phụ nhỏ):</label>';
-            echo '<input type="text" name="halong_tour_eyebrow" value="' . esc_attr($eyebrow) . '" style="width:100%;padding:6px;" placeholder="Curated Sailings"></div>';
-            
-            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Collection Type (Phân loại):</label>';
-            echo '<select name="halong_tour_collection_type" style="width:100%;padding:6px;">';
-            foreach (['style' => 'By Style (Luxury, Family, Honeymoon)', 'region' => 'By Region (Ha Long, Lan Ha, Bai Tu Long)', 'duration' => 'By Duration (Day Trips, 2D1N, 3D2N)'] as $val => $lbl) {
-                $sel = ($val === $type) ? 'selected' : '';
-                echo '<option value="' . esc_attr($val) . '" ' . $sel . '>' . esc_html($lbl) . '</option>';
-            }
-            echo '</select></div>';
-            echo '</div>';
-
-            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Subtitle / Tagline (Mô tả tóm tắt):</label>';
-            echo '<textarea name="halong_tour_subtitle" rows="2" style="width:100%;padding:6px;" placeholder="Mô tả ngắn về bộ sưu tập này...">' . esc_textarea($subtitle) . '</textarea></div>';
-
-            echo '<div style="display:flex;gap:15px;margin-bottom:12px;">';
-            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Price Range Text (Khoảng giá):</label>';
-            echo '<input type="text" name="halong_tour_price_range_text" value="' . esc_attr($price_range) . '" style="width:100%;padding:6px;" placeholder="$150 – $450 / person"></div>';
-            
-            echo '<div style="flex:1;"><label style="font-weight:600;display:block;margin-bottom:4px;">Best Months Text (Thời điểm đẹp nhất):</label>';
-            echo '<input type="text" name="halong_tour_best_months_text" value="' . esc_attr($best_months) . '" style="width:100%;padding:6px;" placeholder="October to April"></div>';
-            echo '</div>';
-
-            echo '<div style="margin-bottom:12px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Key Highlights (Điểm nổi bật - Mỗi điểm 1 dòng):</label>';
-            echo '<textarea name="halong_tour_key_highlights" rows="3" style="width:100%;padding:6px;" placeholder="Kayaking through hidden caves&#10;Private balcony in every cabin&#10;Gourmet seafood dinners">' . esc_textarea(is_string($highlights) ? $highlights : implode("\n", (array)$highlights)) . '</textarea></div>';
-
-            echo '<div style="margin-bottom:6px;"><label style="font-weight:600;display:block;margin-bottom:4px;">Expert Advice / Tips (Lời khuyên của chuyên gia):</label>';
-            echo '<textarea name="halong_tour_expert_advice" rows="2" style="width:100%;padding:6px;" placeholder="Lời khuyên khi chọn hành trình này...">' . esc_textarea($expert_advice) . '</textarea></div>';
-        },
-        'tour_collection',
-        'normal',
-        'high'
-    );
-});
-
-add_action('save_post_tour_collection', function ($post_id) {
-    if (!isset($_POST['halong_tour_meta_nonce']) || !wp_verify_nonce($_POST['halong_tour_meta_nonce'], 'halong_tour_meta_nonce')) return;
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!current_user_can('edit_post', $post_id)) return;
-
-    if (isset($_POST['halong_tour_hero_image_url'])) {
-        update_post_meta($post_id, 'hero_image_url', esc_url_raw($_POST['halong_tour_hero_image_url']));
-    }
-    if (isset($_POST['halong_tour_eyebrow'])) {
-        update_post_meta($post_id, 'eyebrow', sanitize_text_field($_POST['halong_tour_eyebrow']));
-    }
-    if (isset($_POST['halong_tour_collection_type'])) {
-        update_post_meta($post_id, 'collection_type', sanitize_text_field($_POST['halong_tour_collection_type']));
-    }
-    if (isset($_POST['halong_tour_subtitle'])) {
-        update_post_meta($post_id, 'subtitle', sanitize_textarea_field($_POST['halong_tour_subtitle']));
-    }
-    if (isset($_POST['halong_tour_price_range_text'])) {
-        update_post_meta($post_id, 'price_range_text', sanitize_text_field($_POST['halong_tour_price_range_text']));
-    }
-    if (isset($_POST['halong_tour_best_months_text'])) {
-        update_post_meta($post_id, 'best_months_text', sanitize_text_field($_POST['halong_tour_best_months_text']));
-    }
-    if (isset($_POST['halong_tour_key_highlights'])) {
-        update_post_meta($post_id, 'key_highlights', sanitize_textarea_field($_POST['halong_tour_key_highlights']));
-    }
-    if (isset($_POST['halong_tour_expert_advice'])) {
-        update_post_meta($post_id, 'expert_advice', sanitize_textarea_field($_POST['halong_tour_expert_advice']));
-    }
-});
-
-add_action('save_post_cruise', function ($post_id) {
-    if (!isset($_POST['halong_cruise_category_nonce']) || !wp_verify_nonce($_POST['halong_cruise_category_nonce'], 'halong_cruise_category_nonce')) return;
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!current_user_can('edit_post', $post_id)) return;
-
-    $cat_ids = isset($_POST['halong_cruise_categories']) ? array_map('intval', $_POST['halong_cruise_categories']) : [];
-    wp_set_object_terms($post_id, $cat_ids, 'cruise_category');
-
-    if (isset($_POST['halong_cruise_tags'])) {
-        update_post_meta($post_id, 'tags', sanitize_textarea_field($_POST['halong_cruise_tags']));
-    }
-});
-
-add_action('save_post_guide', function ($post_id) {
-    if (!isset($_POST['halong_guide_meta_nonce']) || !wp_verify_nonce($_POST['halong_guide_meta_nonce'], 'halong_guide_meta_nonce')) return;
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!current_user_can('edit_post', $post_id)) return;
-
-    if (isset($_POST['halong_guide_cover_image_url'])) {
-        update_post_meta($post_id, 'cover_image_url', esc_url_raw($_POST['halong_guide_cover_image_url']));
-    }
-    if (isset($_POST['halong_guide_excerpt'])) {
-        update_post_meta($post_id, 'excerpt', sanitize_textarea_field($_POST['halong_guide_excerpt']));
-    }
-    if (isset($_POST['halong_guide_region'])) {
-        update_post_meta($post_id, 'region', sanitize_text_field($_POST['halong_guide_region']));
-    }
-    if (isset($_POST['halong_guide_read_minutes'])) {
-        update_post_meta($post_id, 'read_minutes', intval($_POST['halong_guide_read_minutes']));
-    }
-});
-
-/* Instant Next.js Revalidation Trigger on Save/Publish */
-add_action('save_post', function ($post_id, $post, $update) {
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (wp_is_post_revision($post_id)) return;
-    if (!$post || !in_array($post->post_type, ['cruise', 'guide', 'frontend_page', 'tour_collection', 'homepage_content', 'post'], true)) return;
-
-    $frontend_url = halong_frontend_base_url();
-    $slug = $post->post_name;
-    if ($slug === 'asia-shore-excursions' || strpos($slug, 'halong-bay-cruises-shore-excursions') !== false) {
-        $path = '/' . $slug;
-    } else {
-        $path = '/' . ($post->post_type === 'guide' || $post->post_type === 'post' ? 'guides/' : ($post->post_type === 'cruise' ? 'cruises/' : '')) . $slug;
-    }
-    
-    wp_remote_get($frontend_url . '/api/revalidate?secret=halong_secret_123&path=' . urlencode($path), [
-        'blocking' => false,
-        'timeout' => 5,
     ]);
-}, 10, 3);
 
+    register_rest_route('halong/v1', '/inquiries', [
+        'methods' => 'POST',
+        'permission_callback' => '__return_true',
+        'callback' => function (WP_REST_Request $req) {
+            $data = $req->get_json_params();
+            $name = sanitize_text_field($data['name'] ?? 'Guest');
+            $email = sanitize_email($data['email'] ?? '');
+            $phone = sanitize_text_field($data['phone'] ?? '');
+            $cruise = sanitize_text_field($data['cruise'] ?? 'Cruise consultation');
+            $notes = sanitize_textarea_field($data['notes'] ?? '');
+
+            $post_id = wp_insert_post([
+                'post_type' => 'inquiry',
+                'post_title' => "Cruise inquiry: {$name} - {$cruise}",
+                'post_content' => "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nCruise: {$cruise}\nNotes: {$notes}",
+                'post_status' => 'publish',
+            ]);
+
+            if ($post_id) {
+                return new WP_REST_Response(['status' => 'success', 'id' => $post_id], 200);
+            }
+            return new WP_REST_Response(['status' => 'error'], 500);
+        },
+    ]);
+    
+    register_rest_route('halong/v1', '/site-options', [
+        'methods' => 'GET',
+        'permission_callback' => '__return_true',
+        'callback' => function () {
+            return new WP_REST_Response([
+                'home_hero_title' => get_option('home_hero_title', 'Every budget. Every travel style. One bay you\'ll never forget.'),
+                'home_hero_subtitle' => get_option('home_hero_subtitle', '64 handpicked cruises — day trips to 3-night voyages — across Ha Long, Lan Ha & Bai Tu Long Bay.'),
+                'home_hero_image' => get_option('home_hero_image', 'https://www.halongbestcruises.com/wp-content/uploads/2026/08/cruise-ship-heritage-cruise-binh-chuan-2-336163417-1.jpg'),
+                'site_whatsapp' => get_option('site_whatsapp', '+84905999888'),
+                'site_email' => get_option('site_email', 'hello@halongbestcruises.com'),
+                'tour_day_title' => get_option('tour_day_title', 'Ha Long Bay Day Cruises'),
+                'tour_2d1n_title' => get_option('tour_2d1n_title', '2 Day 1 Night Ha Long Bay Cruises'),
+                'tour_3d2n_title' => get_option('tour_3d2n_title', '3 Day 2 Night Ha Long Bay Cruises'),
+                'tour_halong_title' => get_option('tour_halong_title', 'Ha Long Bay Cruises'),
+                'tour_lanha_title' => get_option('tour_lanha_title', 'Lan Ha Bay Cruises'),
+                'tour_baitulong_title' => get_option('tour_baitulong_title', 'Bai Tu Long Bay Cruises'),
+            ], 200);
+        },
+    ]);
+});
